@@ -1,0 +1,38 @@
+﻿  DeltaEngine.cpp
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(96,33): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(99,63): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(109,32): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(112,62): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(150,60): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(150,44): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(222,43): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(222,29): warning C4244: 'argument' : conversion de 'double' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(320,45): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\Code\DeltaEngine.cpp(331,51): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+winmm.lib(WINMM.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR déjà défini dans opengl32.lib(OPENGL32.dll) ; seconde définition ignorée
+gdi32.lib(GDI32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR déjà défini dans opengl32.lib(OPENGL32.dll) ; seconde définition ignorée
+openal32.lib(OpenAL32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR déjà défini dans opengl32.lib(OPENGL32.dll) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_init déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_setup_managed déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_setup_vbr déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_init_vbr déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_setup_init déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+vorbis.lib(vorbisenc.obj) : warning LNK4006: vorbis_encode_ctl déjà défini dans vorbisenc.lib(vorbisenc.obj) ; seconde définition ignorée
+ws2_32.lib(WS2_32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR déjà défini dans opengl32.lib(OPENGL32.dll) ; seconde définition ignorée
+  DeltaEngine.vcxproj -> C:\Users\Utilisateur\Documents\Prog\C++\StaticDeltaEngine\x64\Debug\DeltaEngine.lib

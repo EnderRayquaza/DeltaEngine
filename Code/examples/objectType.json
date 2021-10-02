@@ -1,0 +1,9 @@
+{
+    "id" : 0,
+    "name" : "foo",
+    "nb_part" : 2,
+    "parts" : [
+        "part1.json",
+        "part2.json"
+    ]
+}
