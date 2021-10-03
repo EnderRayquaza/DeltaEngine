@@ -86,6 +86,7 @@ namespace DeltaEngine
 		int get_nb_vtx();
 		sf::ConvexShape& get_shape();
 		sf::Texture& get_texture();
+		bool get_shapeTex();
 		bool get_textureOn();
 		b2Body* get_body();
 		sf::Vector2f get_pos(bool inPx=true);
@@ -97,6 +98,7 @@ namespace DeltaEngine
 		int m_nb_vtx;
 		sf::ConvexShape m_shape;
 		sf::Texture m_tex;
+		bool m_shapeTex;
 		bool m_tex_load;
 		b2Body* m_body;
 	};

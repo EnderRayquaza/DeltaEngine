@@ -100,15 +100,20 @@ namespace DeltaEngine //Game
 		{
 			if (vPartObj[i].get_textureOn() || m_prj.get_debug())
 			{
-				/*
-				sprite.setTexture(vPartObj[i].get_texture());
-				sprite.setPosition(vPartObj[i].get_pos());
-				sprite.setRotation(vPartObj[i].get_angle());
-				m_win.draw(sprite);*/
-				vPartObj[i].get_shape().setTexture(&vPartObj[i].get_texture());
-				vPartObj[i].get_shape().setPosition(vPartObj[i].get_pos());
-				vPartObj[i].get_shape().setRotation(vPartObj[i].get_angle());
-				m_win.draw(vPartObj[i].get_shape());
+				if (vPartObj[i].get_shapeTex())
+				{
+					vPartObj[i].get_shape().setTexture(&vPartObj[i].get_texture());
+					vPartObj[i].get_shape().setPosition(vPartObj[i].get_pos());
+					vPartObj[i].get_shape().setRotation(vPartObj[i].get_angle());
+					m_win.draw(vPartObj[i].get_shape());
+				}
+				else
+				{
+					sprite.setTexture(vPartObj[i].get_texture());
+					sprite.setPosition(vPartObj[i].get_pos());
+					sprite.setRotation(vPartObj[i].get_angle());
+					m_win.draw(sprite);
+				}
 			}
 			if (!vPartObj[i].get_textureOn() || m_prj.get_debug())
 			{
@@ -126,15 +131,35 @@ namespace DeltaEngine //Game
 		}
 		for (unsigned int i{ 0 }; i < vPartEnt.size(); i++)
 		{
-			for (unsigned int j{ 0 }; j < vPartEnt[i].get_nb_vtx(); j++)
+			if (vPartEnt[i].get_textureOn() || m_prj.get_debug())
 			{
-				vPartEnt[i].get_shape().setPosition(vPartEnt[i].get_pos());
-				vPartEnt[i].get_shape().setRotation(vPartEnt[i].get_angle());
-				vPartEnt[i].get_shape().setOutlineColor(sf::Color::Red);
-				vPartEnt[i].get_shape().setFillColor(sf::Color::Transparent);
-				vPartEnt[i].get_shape().setOutlineThickness(2.f);
+				if (vPartEnt[i].get_shapeTex())
+				{
+					vPartEnt[i].get_shape().setTexture(&vPartEnt[i].get_texture());
+					vPartEnt[i].get_shape().setPosition(vPartEnt[i].get_pos());
+					vPartEnt[i].get_shape().setRotation(vPartEnt[i].get_angle());
+					m_win.draw(vPartEnt[i].get_shape());
+				}
+				else
+				{
+					sprite.setTexture(vPartEnt[i].get_texture());
+					sprite.setPosition(vPartEnt[i].get_pos());
+					sprite.setRotation(vPartEnt[i].get_angle());
+					m_win.draw(sprite);
+				}
 			}
-			m_win.draw(vPartEnt[i].get_shape());
+			if (!vPartEnt[i].get_textureOn() || m_prj.get_debug())
+			{
+				for (unsigned int j{ 0 }; j < vPartEnt[i].get_nb_vtx(); j++)
+				{
+					vPartEnt[i].get_shape().setPosition(vPartEnt[i].get_pos());
+					vPartEnt[i].get_shape().setRotation(vPartEnt[i].get_angle());
+					vPartEnt[i].get_shape().setOutlineColor(sf::Color::Blue);
+					vPartEnt[i].get_shape().setFillColor(sf::Color::Transparent);
+					vPartEnt[i].get_shape().setOutlineThickness(2.f);
+				}
+				m_win.draw(vPartEnt[i].get_shape());
+			}
 		}
 	}
 
@@ -150,7 +175,7 @@ namespace DeltaEngine //Game
 
 }
 
-namespace DeltaEngine
+namespace DeltaEngine //Part
 {
 	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f pos)
 	{
@@ -169,6 +194,7 @@ namespace DeltaEngine
 			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1];
 			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef));
 		}
+		m_shapeTex = j["shapeTex"];
 		m_tex_load = m_tex.loadFromFile(j["texPath"]);
 		///m_shape.setTexture(&m_tex);
 		//Set the vertices to their own pos.
@@ -233,6 +259,11 @@ namespace DeltaEngine
 	sf::Texture& Part::get_texture()
 	{
 		return m_tex;
+	}
+
+	bool Part::get_shapeTex()
+	{
+		return m_shapeTex;
 	}
 
 	bool Part::get_textureOn()
