@@ -35,7 +35,7 @@ namespace DeltaEngine
 
 
 	void print(std::string str, std::string end="none");
-	json returnJson(std::string jsonPath);
+	json returnJson(std::string jsonPath); //Return a json from a .json file.
 
 	class Project
 	{
@@ -45,9 +45,9 @@ namespace DeltaEngine
 		bool get_debug();
 	protected:
 		std::string m_name;
-		int m_ver_M;
-		int m_ver_m;
-		bool m_debug;
+		int m_ver_M; //Version major.
+		int m_ver_m; //Version minor.
+		bool m_debug; //If the project is in debug mode.
 		std::string m_ico;
 	};
 
@@ -61,15 +61,15 @@ namespace DeltaEngine
 		int32 get_velIt();
 		int32 get_posIt();
 
-		void draw();
-		void addObj(Object& obj);
-		void addEnt(Entity& ent);
+		void draw(); //Draws all Objects and Entities in the game.
+		void addObj(Object& obj); //Adds an Object to the game.
+		void addEnt(Entity& ent); //Idem for Entities.
 
 	protected:
 		Project m_prj;
 		sf::RenderWindow m_win;
-		std::vector<Object> m_vObj;
-		std::vector<Entity> m_vEnt;
+		std::vector<Object> m_vObj; //A vector with all Objects of the game.
+		std::vector<Entity> m_vEnt; //Idem for Entities.
 		b2Vec2 m_gravity;
 		b2World m_world;
 		float m_timeStep;
@@ -92,15 +92,15 @@ namespace DeltaEngine
 		sf::Vector2f get_pos(bool inPx=true);
 		double get_angle(bool inDeg = true);
 	protected:
-		double m_coef;
-		int m_priority;
-		int m_type;
-		int m_nb_vtx;
-		sf::ConvexShape m_shape;
-		sf::Texture m_tex;
-		bool m_shapeTex;
-		bool m_tex_load;
-		b2Body* m_body;
+		double m_coef; //To convert px (for SFML) & meters (for Box2D).
+		int m_priority; //To draw the part in a special order.
+		int m_type; //The type of the body (Static, Kinematic or Dynamic).
+		int m_nb_vtx; //The number of vertices.
+		sf::ConvexShape m_shape; //The shape (SFML).
+		sf::Texture m_tex; //The texture (SFML).
+		bool m_shapeTex; //If true, the texture will be shaped by the shape.
+		bool m_tex_load; //Contains the value returned by loadFromFile().
+		b2Body* m_body; //The body (Box2D).
 	};
 
 	class Object
@@ -112,8 +112,8 @@ namespace DeltaEngine
 	protected:
 		int m_id;
 		std::string m_name;
-		int m_nb_part;
-		std::vector<Part> m_Vpart;
+		int m_nb_part; //The number of Parts.
+		std::vector<Part> m_Vpart; //A vector with the Parts of the Object.
 	};
 
 	class Entity : public Object
@@ -123,9 +123,9 @@ namespace DeltaEngine
 		bool verifyIfAlive();
 		void damage(double val);
 		void heal(double val);
-		void move(int dir, double val, double drag = 0.98, double acc = 0.1);
+		void move(int dir, double val, double drag = 0.98, double acc = 0.1); //Moves the Entity on x axis.
 		void jump(double val);
-		void tp(b2Vec2 pos);
+		void tp(b2Vec2 pos); //Teleports the Entity
 	protected:
 		double m_hpMax;
 		double m_hp;
