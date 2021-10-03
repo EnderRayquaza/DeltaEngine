@@ -24,6 +24,17 @@
 
 #define TEXTURE_ON true
 
+enum _partCategory
+{
+	NOTHING = 0x0000,
+	DECOR = 0x0001,
+	GROUND = 0x0002,
+	PLAYER = 0x0004,
+	PNJ = 0x0006,
+	ENEMY = 0x0008,
+	BULLET = 0x0010,
+};
+
 using json = nlohmann::json;
 
 namespace DeltaEngine
@@ -94,7 +105,8 @@ namespace DeltaEngine
 	protected:
 		double m_coef; //To convert px (for SFML) & meters (for Box2D).
 		int m_priority; //To draw the part in a special order.
-		int m_type; //The type of the body (Static, Kinematic or Dynamic).
+		uint16 m_type; //The type of the Part (see enum _partCategory above).
+		int m_bodyType; //The type of the body (Static, Kinematic or Dynamic).
 		int m_nb_vtx; //The number of vertices.
 		sf::ConvexShape m_shape; //The shape (SFML).
 		sf::Texture m_tex; //The texture (SFML).

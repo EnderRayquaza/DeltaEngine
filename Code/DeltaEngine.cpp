@@ -180,14 +180,15 @@ namespace DeltaEngine //Part
 	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f pos)
 	{
 		//---JSON---
-		json j{ returnJson(jsonPath) }; //Collect data from json.
+		json j{ returnJson(jsonPath) }; //Collects data from json.
 		//---Class---
-		m_coef = j["coef"];
+		m_coef = j["coef"]; //Defines the members vars with the json file.
 		m_priority = j["priority"];
-		m_type = j["typeBody"]; //Define the type of body (Static/Kinematic/Dynamic).
-		m_nb_vtx = j["nb_vtx"]; //Define the nb of vertices.
+		m_type = j["type"];
+		m_bodyType = j["bodyType"];
+		m_nb_vtx = j["nb_vtx"];
 		//---SFML---
-		m_shape = sf::ConvexShape(m_nb_vtx); //Make a shape with [nb_vtx] vertices.
+		m_shape = sf::ConvexShape(m_nb_vtx); //Makes a shape with [nb_vtx] vertices.
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
 		for (int i{ 0 }; i < m_nb_vtx; i++)
 		{
@@ -196,7 +197,7 @@ namespace DeltaEngine //Part
 		}
 		m_shapeTex = j["shapeTex"];
 		m_tex_load = m_tex.loadFromFile(j["texPath"]);
-		///m_shape.setTexture(&m_tex);
+		////m_shape.setTexture(&m_tex);
 		//Set the vertices to their own pos.
 		//---Box2D---
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Create an array of vertices.
@@ -215,8 +216,8 @@ namespace DeltaEngine //Part
 		b2BodyDef bodyDef; //Create a BodyDef.
 		float posX{ j["pos"][0] + pos.x }, posY{ j["pos"][1] + pos.y };
 		bodyDef.position.Set(posX, posY);
-		//print(std::to_string(posX) + "/" + std::to_string(posY));
-		switch (m_type)
+
+		switch (m_bodyType)
 		{
 		case STATICBODY:
 			bodyDef.type = b2_staticBody;
@@ -227,6 +228,30 @@ namespace DeltaEngine //Part
 		case DYNAMICBODY:
 			bodyDef.type = b2_dynamicBody;
 			bodyDef.fixedRotation = true;
+			break;
+		default:
+			break;
+		}
+		fixtureDef.filter.categoryBits = m_type;
+		switch (m_type)
+		{
+		case DECOR:
+			fixtureDef.filter.maskBits = NOTHING;
+			break;
+		case GROUND:
+			fixtureDef.filter.maskBits = PLAYER | PNJ | ENEMY | BULLET;
+			break;
+		case PLAYER:
+			fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+			break;
+		case PNJ:
+			fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+			break;
+		case ENEMY:
+			fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY | BULLET;
+			break;
+		case BULLET:
+			fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY;
 			break;
 		default:
 			break;
