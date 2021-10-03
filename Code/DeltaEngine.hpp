@@ -22,6 +22,8 @@
 #define KINEMATICBODY 1
 #define DYNAMICBODY 2
 
+#define TEXTURE_ON true
+
 using json = nlohmann::json;
 
 namespace DeltaEngine
@@ -40,6 +42,7 @@ namespace DeltaEngine
 	public:
 		Project(std::string name, int version_Major, int version_minor, bool debug, std::string icon);
 		std::string get_title();
+		bool get_debug();
 	protected:
 		std::string m_name;
 		int m_ver_M;
@@ -94,6 +97,7 @@ namespace DeltaEngine
 		int m_nb_vtx;
 		sf::ConvexShape m_shape;
 		sf::Texture m_tex;
+		bool m_tex_load;
 		b2Body* m_body;
 	};
 

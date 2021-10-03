@@ -36,6 +36,11 @@ namespace DeltaEngine //Project
 		return title;
 	}
 
+	bool Project::get_debug()
+	{
+		return m_debug;
+	}
+
 }
 
 namespace DeltaEngine //Game
@@ -81,6 +86,7 @@ namespace DeltaEngine //Game
 				vPartObj.push_back(m_vObj[i].get_Vpart()[j]);
 			}
 		}
+		//Add all object to vPartObj
 		for (unsigned int i{ 0 }; i < m_vEnt.size(); i++)
 		{
 			for (int j{ 0 }; j < m_vEnt[i].get_nb_part(); j++)
@@ -88,10 +94,23 @@ namespace DeltaEngine //Game
 				vPartEnt.push_back(m_vEnt[i].get_Vpart()[j]);
 			}
 		}
+		//Idem for Entity
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
-			if (!vPartObj[i].get_textureOn())
+			if (vPartObj[i].get_textureOn() || m_prj.get_debug())
+			{
+				/*
+				sprite.setTexture(vPartObj[i].get_texture());
+				sprite.setPosition(vPartObj[i].get_pos());
+				sprite.setRotation(vPartObj[i].get_angle());
+				m_win.draw(sprite);*/
+				vPartObj[i].get_shape().setTexture(&vPartObj[i].get_texture());
+				vPartObj[i].get_shape().setPosition(vPartObj[i].get_pos());
+				vPartObj[i].get_shape().setRotation(vPartObj[i].get_angle());
+				m_win.draw(vPartObj[i].get_shape());
+			}
+			if (!vPartObj[i].get_textureOn() || m_prj.get_debug())
 			{
 				for (unsigned int j{ 0 }; j < vPartObj[i].get_nb_vtx(); j++)
 				{
@@ -101,8 +120,9 @@ namespace DeltaEngine //Game
 					vPartObj[i].get_shape().setFillColor(sf::Color::Transparent);
 					vPartObj[i].get_shape().setOutlineThickness(2.f);
 				}
+				m_win.draw(vPartObj[i].get_shape());
 			}
-			m_win.draw(vPartObj[i].get_shape());
+			
 		}
 		for (unsigned int i{ 0 }; i < vPartEnt.size(); i++)
 		{
@@ -149,8 +169,8 @@ namespace DeltaEngine
 			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1];
 			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef));
 		}
-		m_tex.loadFromFile(j["texPath"]);
-		m_shape.setTexture(&m_tex);
+		m_tex_load = m_tex.loadFromFile(j["texPath"]);
+		///m_shape.setTexture(&m_tex);
 		//Set the vertices to their own pos.
 		//---Box2D---
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Create an array of vertices.
@@ -208,6 +228,19 @@ namespace DeltaEngine
 	sf::ConvexShape& Part::get_shape()
 	{
 		return m_shape;
+	}
+
+	sf::Texture& Part::get_texture()
+	{
+		return m_tex;
+	}
+
+	bool Part::get_textureOn()
+	{
+		if (m_tex_load)
+			return TEXTURE_ON;
+		else
+			return false;
 	}
 
 	b2Body* Part::get_body()
