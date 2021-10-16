@@ -451,11 +451,12 @@ namespace DeltaEngine //Light
 	{
 		m_vtxArr = sf::VertexArray(sf::TriangleFan, 21);
 		m_vtxArr[0].position = pos;
-		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z);
-		for (int i{ 0 }; i < vtx - 1; i++)
+		std::cout << "pos_0 : " << pos.x << '/' << pos.y << std::endl;
+		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255);
+		for (int i{ 1 }; i < vtx; i++)
 		{
-			double angle{ 2 * i * b2_pi / vtx };
-			m_vtxArr[i].position = sf::Vector2f(cos(angle), sin(angle));
+			double angle{ 2 * i * b2_pi / (vtx-2) };
+			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*rad, pos.y + sin(angle)*rad);
 			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/rad);
 		}
 		
