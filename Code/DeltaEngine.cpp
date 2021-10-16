@@ -86,7 +86,7 @@ namespace DeltaEngine //Game
 				vPartObj.push_back(m_vObj[i].get_Vpart()[j]);
 			}
 		}
-		//Add all object to vPartObj
+		//Add all Parts to vPartObj
 		for (unsigned int i{ 0 }; i < m_vEnt.size(); i++)
 		{
 			for (int j{ 0 }; j < m_vEnt[i].get_nb_part(); j++)
@@ -98,7 +98,7 @@ namespace DeltaEngine //Game
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
-			if (vPartObj[i].get_textureOn() || m_prj.get_debug())
+			if (vPartObj[i].get_textureOn())
 			{
 				if (vPartObj[i].get_shapeTex())
 				{
@@ -129,6 +129,7 @@ namespace DeltaEngine //Game
 			}
 			
 		}
+		//Gets textures and draw them.
 		for (unsigned int i{ 0 }; i < vPartEnt.size(); i++)
 		{
 			if (vPartEnt[i].get_textureOn() || m_prj.get_debug())
@@ -161,6 +162,12 @@ namespace DeltaEngine //Game
 				m_win.draw(vPartEnt[i].get_shape());
 			}
 		}
+		//Idem for Entities.
+		
+		for (unsigned int i{ 0 }; i < m_vLgh.size(); i++)
+		{
+			m_win.draw(m_vLgh[i].get_vtxArr());
+		}
 	}
 
 	void Game::addObj(Object& obj)
@@ -171,6 +178,11 @@ namespace DeltaEngine //Game
 	void Game::addEnt(Entity& ent)
 	{
 		m_vEnt.push_back(ent);
+	}
+
+	void Game::addLgh(Light& lgh)
+	{
+		m_vLgh.push_back(lgh);
 	}
 
 }
@@ -430,5 +442,27 @@ namespace DeltaEngine //Entity
 		{
 			m_Vpart[i].get_body();
 		}
+	}
+}
+
+namespace DeltaEngine //Light
+{
+	Light::Light(Game& game, sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
+	{
+		m_vtxArr = sf::VertexArray(sf::TriangleFan, 21);
+		m_vtxArr[0].position = pos;
+		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z);
+		for (int i{ 0 }; i < vtx - 1; i++)
+		{
+			double angle{ 2 * i * b2_pi / vtx };
+			m_vtxArr[i].position = sf::Vector2f(cos(angle), sin(angle));
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/rad);
+		}
+		
+	}
+
+	sf::VertexArray& Light::get_vtxArr()
+	{
+		return m_vtxArr;
 	}
 }

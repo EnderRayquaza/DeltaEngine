@@ -43,6 +43,7 @@ namespace DeltaEngine
 	class Game;
 	class Object;
 	class Entity;
+	class Light;
 
 
 	void print(std::string str, std::string end="none");
@@ -75,12 +76,14 @@ namespace DeltaEngine
 		void draw(); //Draws all Objects and Entities in the game.
 		void addObj(Object& obj); //Adds an Object to the game.
 		void addEnt(Entity& ent); //Idem for Entities.
+		void addLgh(Light& lgh); //Idem for Lights.
 
 	protected:
 		Project m_prj;
 		sf::RenderWindow m_win;
 		std::vector<Object> m_vObj; //A vector with all Objects of the game.
 		std::vector<Entity> m_vEnt; //Idem for Entities.
+		std::vector<Light> m_vLgh; //Idem for Light.
 		b2Vec2 m_gravity;
 		b2World m_world;
 		float m_timeStep;
@@ -142,5 +145,14 @@ namespace DeltaEngine
 		double m_hpMax;
 		double m_hp;
 		bool m_isAlive;
+	};
+
+	class Light
+	{
+	public:
+		Light(Game& game, sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255));
+		sf::VertexArray& get_vtxArr();
+	protected:
+		sf::VertexArray m_vtxArr;
 	};
 }
