@@ -45,8 +45,8 @@ namespace DeltaEngine //Project
 
 namespace DeltaEngine //Game
 {
-	Game::Game(Project& prj, b2Vec2& gravity, float timeStep, int32 velIt, int32 posIt) :
-		m_prj(prj), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default),
+	Game::Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
+		m_prj(prj), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
 		m_gravity(gravity), m_world(m_gravity), m_timeStep(timeStep), m_velIt(velIt), m_posIt(posIt)
 	{}
 
@@ -84,7 +84,7 @@ namespace DeltaEngine //Game
 		lghTex.create(800, 600);
 
 		m_win.clear();
-		lghTex.clear();
+		lghTex.clear(m_bgColor);
 		
 		for (unsigned int i{ 0 }; i < m_vObj.size(); i++)
 		{	

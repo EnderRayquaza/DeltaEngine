@@ -66,7 +66,7 @@ namespace DeltaEngine
 	class Game
 	{
 	public:
-		Game(Project& prj, b2Vec2& gravity, float timeStep = 1.f/60.f, int32 velIt = 6, int32 posIt = 3);
+		Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f/60.f, int32 velIt = 6, int32 posIt = 3);
 		sf::RenderWindow& get_win();
 		b2World& get_world();
 		float get_timeStep();
@@ -81,6 +81,7 @@ namespace DeltaEngine
 	protected:
 		Project m_prj;
 		sf::RenderWindow m_win;
+		sf::Color m_bgColor;
 		std::vector<Object> m_vObj; //A vector with all Objects of the game.
 		std::vector<Entity> m_vEnt; //Idem for Entities.
 		std::vector<Light> m_vLgh; //Idem for Light.
