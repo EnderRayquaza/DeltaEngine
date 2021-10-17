@@ -77,8 +77,15 @@ namespace DeltaEngine //Game
 
 	void Game::draw()
 	{
+		//Init
 		std::vector<Part> vPartObj, vPartEnt;
 		sf::Sprite sprite;
+		sf::RenderTexture lghTex;
+		lghTex.create(800, 600);
+
+		m_win.clear();
+		lghTex.clear();
+		
 		for (unsigned int i{ 0 }; i < m_vObj.size(); i++)
 		{	
 			for (int j{ 0 }; j < m_vObj[i].get_nb_part(); j++)
@@ -166,8 +173,15 @@ namespace DeltaEngine //Game
 		
 		for (unsigned int i{ 0 }; i < m_vLgh.size(); i++)
 		{
-			m_win.draw(m_vLgh[i].get_vtxArr());
+			lghTex.draw(m_vLgh[i].get_vtxArr());
 		}
+		//Draws Lights on lghTex
+
+		lghTex.display();
+		sf::Sprite lghSpr(lghTex.getTexture());
+		m_win.draw(lghSpr, sf::BlendMultiply);
+
+		m_win.display();
 	}
 
 	void Game::addObj(Object& obj)
@@ -449,7 +463,7 @@ namespace DeltaEngine //Light
 {
 	Light::Light(Game& game, sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
 	{
-		m_vtxArr = sf::VertexArray(sf::TriangleFan, 21);
+		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx);
 		m_vtxArr[0].position = pos;
 		std::cout << "pos_0 : " << pos.x << '/' << pos.y << std::endl;
 		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255);
@@ -457,6 +471,7 @@ namespace DeltaEngine //Light
 		{
 			double angle{ 2 * i * b2_pi / (vtx-2) };
 			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*rad, pos.y + sin(angle)*rad);
+			//std::cout << "pos_" << i << " : " << pos.x + cos(angle) * rad << '/' << pos.y + sin(angle) * rad << std::endl;
 			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/rad);
 		}
 		
