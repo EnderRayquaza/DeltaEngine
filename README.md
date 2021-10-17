@@ -3,7 +3,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) an
 
 Todo :
 - [ ] Set priority in Game::Draw
-- [ ] Make shadows
+- [x] Make shadows
 - [ ] Add Light to Parts
 - [ ] Improve Jump
 
