@@ -85,6 +85,7 @@ namespace DeltaEngine
 		std::vector<Object> m_vObj; //A vector with all Objects of the game.
 		std::vector<Entity> m_vEnt; //Idem for Entities.
 		std::vector<Light> m_vLgh; //Idem for Light.
+		std::vector<Light> m_vPartLgh; //A vector with all Lights of all the Parts.
 		b2Vec2 m_gravity;
 		b2World m_world;
 		float m_timeStep;
@@ -106,6 +107,7 @@ namespace DeltaEngine
 		b2Body* get_body();
 		sf::Vector2f get_pos(bool inPx=true);
 		double get_angle(bool inDeg = true);
+		std::vector<Light>& get_vLgh();
 	protected:
 		double m_coef; //To convert px (for SFML) & meters (for Box2D).
 		int m_priority; //To draw the part in a special order.
@@ -117,6 +119,7 @@ namespace DeltaEngine
 		bool m_shapeTex; //If true, the texture will be shaped by the shape.
 		bool m_tex_load; //Contains the value returned by loadFromFile().
 		b2Body* m_body; //The body (Box2D).
+		std::vector<Light> m_vLgh; //A vector with light which follow the part.
 	};
 
 	class Object
@@ -151,9 +154,12 @@ namespace DeltaEngine
 	class Light
 	{
 	public:
-		Light(Game& game, sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255));
+		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255));
 		sf::VertexArray& get_vtxArr();
+		void set_pos(sf::Vector2f pos);
 	protected:
+		double m_rad; //In px.
 		sf::VertexArray m_vtxArr;
+		sf::Vector2f m_pos; //In px.
 	};
 }

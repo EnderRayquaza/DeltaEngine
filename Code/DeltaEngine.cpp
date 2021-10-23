@@ -102,6 +102,7 @@ namespace DeltaEngine //Game
 			}
 		}
 		//Idem for Entity
+		std::cout << "draw -> " << m_vEnt[0].get_Vpart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
@@ -133,6 +134,11 @@ namespace DeltaEngine //Game
 					vPartObj[i].get_shape().setOutlineThickness(2.f);
 				}
 				m_win.draw(vPartObj[i].get_shape());
+			}
+
+			for (unsigned int j{ 0 }; j < vPartObj[i].get_vLgh().size(); j++)
+			{
+				m_vPartLgh.push_back(vPartObj[i].get_vLgh()[j]);
 			}
 			
 		}
@@ -168,6 +174,12 @@ namespace DeltaEngine //Game
 				}
 				m_win.draw(vPartEnt[i].get_shape());
 			}
+
+			for (unsigned int j{ 0 }; j < vPartEnt[i].get_vLgh().size(); j++)
+			{
+				m_vPartLgh.push_back(vPartEnt[i].get_vLgh()[j]);
+			}
+			//Adds Lights from Parts to Game.
 		}
 		//Idem for Entities.
 		
@@ -175,6 +187,12 @@ namespace DeltaEngine //Game
 		{
 			lghTex.draw(m_vLgh[i].get_vtxArr());
 		}
+		//print("size-light : " + std::to_string(m_vPartLgh.size()));
+		for (unsigned int i{ 0 }; i < m_vPartLgh.size(); i++)
+		{
+			lghTex.draw(m_vPartLgh[i].get_vtxArr());
+		}
+		m_vPartLgh.clear();
 		//Draws Lights on lghTex
 
 		lghTex.display();
@@ -285,6 +303,15 @@ namespace DeltaEngine //Part
 		//Set the type of the part.
 		m_body = world.CreateBody(&bodyDef); //Create the part.
 		m_body->CreateFixture(&fixtureDef); //Set the fixture to the part.
+
+		//---Light--
+		for (unsigned int i{ 0 }; i < j["nbLgh"]; i++)
+		{
+			m_vLgh.push_back(Light(sf::Vector2f((float)j["lights"][i]["lPos"][0], (float)j["lights"][i]["lPos"][1]),
+				j["lights"][i]["lRad"], j["lights"][i]["lVtx"], sf::Vector3f(j["lights"][i]["lColor"][0],
+					j["lights"][i]["lColor"][1], j["lights"][i]["lColor"][2])));
+			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0]*m_coef, j["pos"][1]*m_coef));
+		}
 	}
 
 	double Part::get_coef()
@@ -345,6 +372,11 @@ namespace DeltaEngine //Part
 			return m_body->GetAngle() * RAD2DEG;
 		else
 			return m_body->GetAngle();
+	}
+
+	std::vector<Light>& Part::get_vLgh()
+	{
+		return m_vLgh;
 	}
 }
 
@@ -433,6 +465,12 @@ namespace DeltaEngine //Entity
 		{
 			force = m_Vpart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
 			m_Vpart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_Vpart[i].get_body()->GetWorldCenter(), true);
+
+			sf::Vector2f pos{ m_Vpart[i].get_body()->GetPosition().x, m_Vpart[i].get_body()->GetPosition().y };
+			for (unsigned int j{ 0 }; j < m_Vpart[i].get_vLgh().size(); j++)
+			{
+				m_Vpart[i].get_vLgh()[j].set_pos(sf::Vector2f(0, 0));
+			}
 		}
 	}
 
@@ -461,8 +499,9 @@ namespace DeltaEngine //Entity
 
 namespace DeltaEngine //Light
 {
-	Light::Light(Game& game, sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
+	Light::Light(sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
 	{
+		m_rad = rad;
 		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx);
 		m_vtxArr[0].position = pos;
 		std::cout << "pos_0 : " << pos.x << '/' << pos.y << std::endl;
@@ -470,15 +509,28 @@ namespace DeltaEngine //Light
 		for (int i{ 1 }; i < vtx; i++)
 		{
 			double angle{ 2 * i * b2_pi / (vtx-2) };
-			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*rad, pos.y + sin(angle)*rad);
+			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*m_rad, pos.y + sin(angle)*m_rad);
 			//std::cout << "pos_" << i << " : " << pos.x + cos(angle) * rad << '/' << pos.y + sin(angle) * rad << std::endl;
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/rad);
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/m_rad);
 		}
+		m_pos = pos;
 		
 	}
 
 	sf::VertexArray& Light::get_vtxArr()
 	{
 		return m_vtxArr;
+	}
+
+	void Light::set_pos(sf::Vector2f pos)
+	{
+		m_vtxArr[0].position = pos+m_pos;
+		for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
+		{
+			double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
+			sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
+			m_vtxArr[i].position = pos + m_pos + vAngle;
+			print("pos -> " + std::to_string((int)m_vtxArr[i].position.x) + "/" + std::to_string((int)m_vtxArr[i].position.y));
+		}
 	}
 }
