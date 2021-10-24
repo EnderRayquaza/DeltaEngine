@@ -453,11 +453,11 @@ namespace DeltaEngine //Entity
 
 	void Entity::updateLight()
 	{
-		for (auto part : m_vPart)
+		for (auto& part : m_vPart)
 		{
 			sf::Vector2f pos{ part.get_body()->GetPosition().x * (float)part.get_coef(),
 				part.get_body()->GetPosition().y * (float)part.get_coef() }; //Gets the pos of the Part
-			for (auto lgh : part.get_vLgh())
+			for (auto& lgh : part.get_vLgh())
 			{
 				lgh.set_pos(pos); //Sets the pos of the Light.
 			}
@@ -522,7 +522,6 @@ namespace DeltaEngine //Light
 		{
 			double angle{ 2 * i * b2_pi / (vtx-2) };
 			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*m_rad, pos.y + sin(angle)*m_rad);
-			//std::cout << "pos_" << i << " : " << pos.x + cos(angle) * rad << '/' << pos.y + sin(angle) * rad << std::endl;
 			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/m_rad);
 		}
 		m_pos = pos;
