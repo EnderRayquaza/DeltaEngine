@@ -55,6 +55,21 @@ namespace DeltaEngine //Game
 		return m_win;
 	}
 
+	std::vector<Object>& Game::get_vObj() 
+	{
+		return m_vObj;
+	}
+
+	std::vector<Entity>& Game::get_vEnt() 
+	{
+		return m_vEnt;
+	}
+
+	std::vector<Light>& Game::get_vLgh() 
+	{
+		return m_vLgh;
+	}
+
 	b2World& Game::get_world()
 	{
 		return m_world;
@@ -80,10 +95,12 @@ namespace DeltaEngine //Game
 		//Init
 		std::vector<Part> vPartObj, vPartEnt;
 		sf::Sprite sprite;
-		sf::RenderTexture lghTex;
+		sf::RenderTexture debTex, lghTex;
+		debTex.create(800, 600);
 		lghTex.create(800, 600);
 
 		m_win.clear();
+		debTex.clear();
 		lghTex.clear(m_bgColor);
 		
 		for (unsigned int i{ 0 }; i < m_vObj.size(); i++)
@@ -102,7 +119,7 @@ namespace DeltaEngine //Game
 			}
 		}
 		//Idem for Entity
-		std::cout << "draw -> " << m_vEnt[0].get_vPart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
+		//std::cout << "draw -> " << m_vEnt[0].get_vPart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
@@ -133,7 +150,7 @@ namespace DeltaEngine //Game
 					vPartObj[i].get_shape().setFillColor(sf::Color::Transparent);
 					vPartObj[i].get_shape().setOutlineThickness(2.f);
 				}
-				m_win.draw(vPartObj[i].get_shape());
+				debTex.draw(vPartObj[i].get_shape());
 			}
 
 			for (unsigned int j{ 0 }; j < vPartObj[i].get_vLgh().size(); j++)
@@ -172,7 +189,7 @@ namespace DeltaEngine //Game
 					vPartEnt[i].get_shape().setFillColor(sf::Color::Transparent);
 					vPartEnt[i].get_shape().setOutlineThickness(2.f);
 				}
-				m_win.draw(vPartEnt[i].get_shape());
+				debTex.draw(vPartEnt[i].get_shape());
 			}
 
 			for (unsigned int j{ 0 }; j < vPartEnt[i].get_vLgh().size(); j++)
@@ -195,9 +212,11 @@ namespace DeltaEngine //Game
 		m_vPartLgh.clear();
 		//Draws Lights on lghTex
 
+		debTex.display();
 		lghTex.display();
-		sf::Sprite lghSpr(lghTex.getTexture());
+		sf::Sprite lghSpr(lghTex.getTexture()), debSpr(debTex.getTexture());
 		m_win.draw(lghSpr, sf::BlendMultiply);
+		m_win.draw(debSpr, sf::BlendAdd);
 
 		m_win.display();
 	}
@@ -469,7 +488,7 @@ namespace DeltaEngine //Entity
 			sf::Vector2f pos{ m_vPart[i].get_body()->GetPosition().x, m_vPart[i].get_body()->GetPosition().y };
 			for (unsigned int j{ 0 }; j < m_vPart[i].get_vLgh().size(); j++)
 			{
-				m_vPart[i].get_vLgh()[j].set_pos(sf::Vector2f(0, 0));
+				m_vPart[i].get_vLgh()[j].set_pos(pos);
 			}
 		}
 	}
@@ -530,7 +549,7 @@ namespace DeltaEngine //Light
 			double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
 			sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
 			m_vtxArr[i].position = pos + m_pos + vAngle;
-			print("pos -> " + std::to_string((int)m_vtxArr[i].position.x) + "/" + std::to_string((int)m_vtxArr[i].position.y));
+			//print("pos -> " + std::to_string((int)m_vtxArr[i].position.x) + "/" + std::to_string((int)m_vtxArr[i].position.y));
 		}
 	}
 }
