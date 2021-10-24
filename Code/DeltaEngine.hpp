@@ -167,3 +167,4 @@ namespace DeltaEngine
 		sf::Vector2f m_pos; //In px.
 	};
 }
+
