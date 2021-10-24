@@ -143,12 +143,12 @@ namespace DeltaEngine
 	{
 	public:
 		Entity(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0));
-		bool verifyIfAlive();
-		void damage(double val);
-		void heal(double val);
+		bool verifyIfAlive(); //Verifies if the Entity is sill alive.
+		void updateLight(); //Updates the position of Lights.
+		void damage(double val); //Reduces his HP.
+		void heal(double val); //Increases his HP.
 		void move(int dir, double val, double drag = 0.98, double acc = 0.1); //Moves the Entity on x axis.
-		void jump(double val);
-		void tp(b2Vec2 pos); //Teleports the Entity
+		void tp(b2Vec2 pos); //Teleports the Entity.
 	protected:
 		double m_hpMax;
 		double m_hp;
@@ -167,4 +167,3 @@ namespace DeltaEngine
 		sf::Vector2f m_pos; //In px.
 	};
 }
-

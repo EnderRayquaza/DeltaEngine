@@ -113,13 +113,13 @@ namespace DeltaEngine //Game
 		//Add all Parts to vPartObj
 		for (unsigned int i{ 0 }; i < m_vEnt.size(); i++)
 		{
+			m_vEnt[i].updateLight();
 			for (int j{ 0 }; j < m_vEnt[i].get_nb_part(); j++)
 			{
 				vPartEnt.push_back(m_vEnt[i].get_vPart()[j]);
 			}
 		}
 		//Idem for Entity
-		//std::cout << "draw -> " << m_vEnt[0].get_vPart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
@@ -451,6 +451,19 @@ namespace DeltaEngine //Entity
 		return m_isAlive;
 	}
 
+	void Entity::updateLight()
+	{
+		for (auto part : m_vPart)
+		{
+			sf::Vector2f pos{ part.get_body()->GetPosition().x * (float)part.get_coef(),
+				part.get_body()->GetPosition().y * (float)part.get_coef() }; //Gets the pos of the Part
+			for (auto lgh : part.get_vLgh())
+			{
+				lgh.set_pos(pos); //Sets the pos of the Light.
+			}
+		}
+	}
+
 	void Entity::damage(double val)
 	{
 		m_hp -= val;
@@ -484,27 +497,6 @@ namespace DeltaEngine //Entity
 		{
 			force = m_vPart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
 			m_vPart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_vPart[i].get_body()->GetWorldCenter(), true);
-
-			sf::Vector2f pos{ m_vPart[i].get_body()->GetPosition().x * (float)m_vPart[i].get_coef(),
-				m_vPart[i].get_body()->GetPosition().y * (float)m_vPart[i].get_coef() };
-			for (unsigned int j{ 0 }; j < m_vPart[i].get_vLgh().size(); j++)
-			{
-				m_vPart[i].get_vLgh()[j].set_pos(pos);
-			}
-		}
-	}
-
-	void Entity::jump(double val)
-	{
-		float force{ 0 };
-		for (int k{ 0 }; k < val; k++)
-		{
-			for (int i{ 0 }; i < m_nb_part; i++)
-			{
-				force = m_vPart[i].get_body()->GetMass() * 10 / (1 / 60.0); //f = mv/t
-				force /= 6.0;
-				m_vPart[i].get_body()->ApplyForce(b2Vec2(0, force), m_vPart[i].get_body()->GetWorldCenter(), true);
-			}
 		}
 	}
 
@@ -550,7 +542,6 @@ namespace DeltaEngine //Light
 			double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
 			sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
 			m_vtxArr[i].position = pos + m_pos + vAngle;
-			//print("pos -> " + std::to_string((int)m_vtxArr[i].position.x) + "/" + std::to_string((int)m_vtxArr[i].position.y));
 		}
 	}
 }
