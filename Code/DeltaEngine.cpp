@@ -105,6 +105,7 @@ namespace DeltaEngine //Game
 		
 		for (auto obj : m_vObj)
 		{	
+			obj.updateLight(); //Updates the Lights position.
 			for (auto part : obj.get_vPart())
 			{
 				vPartObj.push_back(part);
@@ -252,9 +253,9 @@ namespace DeltaEngine //Part
 		//---SFML---
 		m_shape = sf::ConvexShape(m_nb_vtx); //Makes a shape with [nb_vtx] vertices.
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
-		for (auto jVtxPos : j["vtxPos"])
+		for (unsigned int i{ 0 }; i<j["nb_vtx"]; i++)
 		{
-			vtxPosX = jVtxPos[0]; vtxPosY = jVtxPos[1]; //Collects the position from the .json file.
+			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1]; //Collects the position from the .json file.
 			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef)); //Sets vertices to their pos(which converted from meters to px).
 		}
 		m_shapeTex = j["shapeTex"];
@@ -422,6 +423,19 @@ namespace DeltaEngine //Object
 		return m_vPart;
 	}
 
+	void Object::updateLight()
+	{
+		for (auto& part : m_vPart)
+		{
+			sf::Vector2f pos{ part.get_body()->GetPosition().x * (float)part.get_coef(),
+				part.get_body()->GetPosition().y * (float)part.get_coef() }; //Gets the pos of the Part
+			for (auto& lgh : part.get_vLgh())
+			{
+				lgh.set_pos(pos); //Sets the pos of the Light.
+			}
+		}
+	}
+
 }
 
 namespace DeltaEngine //Entity
@@ -447,19 +461,6 @@ namespace DeltaEngine //Entity
 			m_isAlive = true;
 		}
 		return m_isAlive;
-	}
-
-	void Entity::updateLight()
-	{
-		for (auto& part : m_vPart)
-		{
-			sf::Vector2f pos{ part.get_body()->GetPosition().x * (float)part.get_coef(),
-				part.get_body()->GetPosition().y * (float)part.get_coef() }; //Gets the pos of the Part
-			for (auto& lgh : part.get_vLgh())
-			{
-				lgh.set_pos(pos); //Sets the pos of the Light.
-			}
-		}
 	}
 
 	void Entity::damage(double val)
