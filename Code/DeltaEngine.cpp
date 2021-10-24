@@ -485,7 +485,8 @@ namespace DeltaEngine //Entity
 			force = m_vPart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
 			m_vPart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_vPart[i].get_body()->GetWorldCenter(), true);
 
-			sf::Vector2f pos{ m_vPart[i].get_body()->GetPosition().x, m_vPart[i].get_body()->GetPosition().y };
+			sf::Vector2f pos{ m_vPart[i].get_body()->GetPosition().x * (float)m_vPart[i].get_coef(),
+				m_vPart[i].get_body()->GetPosition().y * (float)m_vPart[i].get_coef() };
 			for (unsigned int j{ 0 }; j < m_vPart[i].get_vLgh().size(); j++)
 			{
 				m_vPart[i].get_vLgh()[j].set_pos(pos);
