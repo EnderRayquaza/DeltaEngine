@@ -90,7 +90,7 @@ namespace DeltaEngine //Game
 		{	
 			for (int j{ 0 }; j < m_vObj[i].get_nb_part(); j++)
 			{
-				vPartObj.push_back(m_vObj[i].get_Vpart()[j]);
+				vPartObj.push_back(m_vObj[i].get_vPart()[j]);
 			}
 		}
 		//Add all Parts to vPartObj
@@ -98,11 +98,11 @@ namespace DeltaEngine //Game
 		{
 			for (int j{ 0 }; j < m_vEnt[i].get_nb_part(); j++)
 			{
-				vPartEnt.push_back(m_vEnt[i].get_Vpart()[j]);
+				vPartEnt.push_back(m_vEnt[i].get_vPart()[j]);
 			}
 		}
 		//Idem for Entity
-		std::cout << "draw -> " << m_vEnt[0].get_Vpart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
+		std::cout << "draw -> " << m_vEnt[0].get_vPart()[0].get_vLgh()[0].get_vtxArr()[2].position.x << std::endl;
 
 		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
 		{
@@ -390,7 +390,7 @@ namespace DeltaEngine //Object
 		m_nb_part = j["nb_part"]; //...
 		for (int i{ 0 }; i < m_nb_part; i++)
 		{
-			m_Vpart.push_back(Part(j["parts"][i], world, pos));
+			m_vPart.push_back(Part(j["parts"][i], world, pos));
 		}
 		//Create and add part to the object.
 	}
@@ -400,9 +400,9 @@ namespace DeltaEngine //Object
 		return m_nb_part;
 	}
 
-	std::vector<Part> Object::get_Vpart()
+	std::vector<Part>& Object::get_vPart()
 	{
-		return m_Vpart;
+		return m_vPart;
 	}
 
 }
@@ -450,7 +450,7 @@ namespace DeltaEngine //Entity
 		b2Vec2 vel{ 0.f, 0.f };
 		for (int i{ 0 }; i < m_nb_part; i++)
 		{
-			vel += m_Vpart[i].get_body()->GetLinearVelocity();
+			vel += m_vPart[i].get_body()->GetLinearVelocity();
 		}
 		double desiredVel = 0;
 		switch (dir)
@@ -463,13 +463,13 @@ namespace DeltaEngine //Entity
 		double force{ 0 };
 		for (int i{ 0 }; i < m_nb_part; i++)
 		{
-			force = m_Vpart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
-			m_Vpart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_Vpart[i].get_body()->GetWorldCenter(), true);
+			force = m_vPart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
+			m_vPart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_vPart[i].get_body()->GetWorldCenter(), true);
 
-			sf::Vector2f pos{ m_Vpart[i].get_body()->GetPosition().x, m_Vpart[i].get_body()->GetPosition().y };
-			for (unsigned int j{ 0 }; j < m_Vpart[i].get_vLgh().size(); j++)
+			sf::Vector2f pos{ m_vPart[i].get_body()->GetPosition().x, m_vPart[i].get_body()->GetPosition().y };
+			for (unsigned int j{ 0 }; j < m_vPart[i].get_vLgh().size(); j++)
 			{
-				m_Vpart[i].get_vLgh()[j].set_pos(sf::Vector2f(0, 0));
+				m_vPart[i].get_vLgh()[j].set_pos(sf::Vector2f(0, 0));
 			}
 		}
 	}
@@ -481,9 +481,9 @@ namespace DeltaEngine //Entity
 		{
 			for (int i{ 0 }; i < m_nb_part; i++)
 			{
-				force = m_Vpart[i].get_body()->GetMass() * 10 / (1 / 60.0); //f = mv/t
+				force = m_vPart[i].get_body()->GetMass() * 10 / (1 / 60.0); //f = mv/t
 				force /= 6.0;
-				m_Vpart[i].get_body()->ApplyForce(b2Vec2(0, force), m_Vpart[i].get_body()->GetWorldCenter(), true);
+				m_vPart[i].get_body()->ApplyForce(b2Vec2(0, force), m_vPart[i].get_body()->GetWorldCenter(), true);
 			}
 		}
 	}
@@ -492,7 +492,7 @@ namespace DeltaEngine //Entity
 	{
 		for (int i{ 0 }; i < m_nb_part; i++)
 		{
-			m_Vpart[i].get_body();
+			m_vPart[i].get_body();
 		}
 	}
 }

@@ -127,12 +127,12 @@ namespace DeltaEngine
 	public:
 		Object(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0));
 		int get_nb_part();
-		std::vector<Part> get_Vpart();
+		std::vector<Part>& get_vPart();
 	protected:
 		int m_id;
 		std::string m_name;
 		int m_nb_part; //The number of Parts.
-		std::vector<Part> m_Vpart; //A vector with the Parts of the Object.
+		std::vector<Part> m_vPart; //A vector with the Parts of the Object.
 	};
 
 	class Entity : public Object
@@ -156,10 +156,10 @@ namespace DeltaEngine
 	public:
 		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255));
 		sf::VertexArray& get_vtxArr();
-		void set_pos(sf::Vector2f pos);
+		void set_pos(sf::Vector2f pos); //Doesn't work very well...
 	protected:
 		double m_rad; //In px.
-		sf::VertexArray m_vtxArr;
+		sf::VertexArray m_vtxArr; //An Array with all the vertices of the Light.
 		sf::Vector2f m_pos; //In px.
 	};
 }
