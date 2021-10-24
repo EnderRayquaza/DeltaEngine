@@ -13,12 +13,12 @@ namespace DeltaEngine //Func
 
 	json returnJson(std::string jsonPath)
 	{
-		std::ifstream file(jsonPath);
-		if (!file)
+		std::ifstream file(jsonPath); //Opens the file.
+		if (!file) //Returns an error if it can't.
 			std::cout << "Erreur : File not open (" << jsonPath << ")" << std::endl;
-		json j{};
-		file >> j;
-		return j;
+		json j{}; //Creates a json variable.
+		file >> j; //Puts the data from the file in the json var.
+		return j; //Returns it.
 	}
 }
 
@@ -30,10 +30,10 @@ namespace DeltaEngine //Project
 
 	std::string Project::get_title()
 	{
-		std::string title{ m_name };
-		if (m_debug)
-			title += " v." + std::to_string(m_ver_M) + "." + std::to_string(m_ver_m);
-		return title;
+		std::string title{ m_name }; //Sets the name for title.
+		if (m_debug) //If we're in debug mode, we show the version.
+			title += " v." + std::to_string(m_ver_M) + "." + std::to_string(m_ver_m); //Adds the version to the title.
+		return title; //Returns the title.
 	}
 
 	bool Project::get_debug()
@@ -93,132 +93,131 @@ namespace DeltaEngine //Game
 	void Game::draw()
 	{
 		//Init
-		std::vector<Part> vPartObj, vPartEnt;
-		sf::Sprite sprite;
-		sf::RenderTexture debTex, lghTex;
-		debTex.create(800, 600);
-		lghTex.create(800, 600);
+		std::vector<Part> vPartObj, vPartEnt; //Creates vectors to contain Parts.
+		sf::Sprite sprite; //Creates a sprite to show the Parts.
+		sf::RenderTexture debTex, lghTex; //Creates RenderTexture to draw on it debug hitboxes and Lights.
+		debTex.create(800, 600); //Inits the debTex by the size of the window.
+		lghTex.create(800, 600); //Idem for lghTex.
 
-		m_win.clear();
-		debTex.clear();
-		lghTex.clear(m_bgColor);
+		m_win.clear(); //Clears the RenderWindow.
+		debTex.clear(); //Idem.
+		lghTex.clear(m_bgColor); //Idem with the color of bgColor.
 		
-		for (unsigned int i{ 0 }; i < m_vObj.size(); i++)
+		for (auto obj : m_vObj)
 		{	
-			for (int j{ 0 }; j < m_vObj[i].get_nb_part(); j++)
+			for (auto part : obj.get_vPart())
 			{
-				vPartObj.push_back(m_vObj[i].get_vPart()[j]);
+				vPartObj.push_back(part);
 			}
 		}
 		//Add all Parts to vPartObj
-		for (unsigned int i{ 0 }; i < m_vEnt.size(); i++)
+		for (auto ent : m_vEnt)
 		{
-			m_vEnt[i].updateLight();
-			for (int j{ 0 }; j < m_vEnt[i].get_nb_part(); j++)
+			ent.updateLight(); //Updates the Lights position.
+			for (auto part : ent.get_vPart())
 			{
-				vPartEnt.push_back(m_vEnt[i].get_vPart()[j]);
+				vPartEnt.push_back(part);
 			}
 		}
 		//Idem for Entity
 
-		for (unsigned int i{ 0 }; i < vPartObj.size(); i++)
+		for (auto part : vPartObj)
 		{
-			if (vPartObj[i].get_textureOn())
+			if (part.get_textureOn()) //If the textures are enabled.
 			{
-				if (vPartObj[i].get_shapeTex())
+				if (part.get_shapeTex()) //If the Part shapes/cuts the Texture with the Shape.
 				{
-					vPartObj[i].get_shape().setTexture(&vPartObj[i].get_texture());
-					vPartObj[i].get_shape().setPosition(vPartObj[i].get_pos());
-					vPartObj[i].get_shape().setRotation(vPartObj[i].get_angle());
-					m_win.draw(vPartObj[i].get_shape());
+					part.get_shape().setTexture(&part.get_texture()); //Puts the Tex in the shape.
+					part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
+					part.get_shape().setRotation(part.get_angle()); //Rotates it.
+					m_win.draw(part.get_shape()); //Draws it to the RenderWindow.
 				}
-				else
+				else // /!\ The texture can be out of the Shape ! /!\ 
 				{
-					sprite.setTexture(vPartObj[i].get_texture());
-					sprite.setPosition(vPartObj[i].get_pos());
-					sprite.setRotation(vPartObj[i].get_angle());
-					m_win.draw(sprite);
+					sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
+					sprite.setPosition(part.get_pos()); //Sets to its pos.
+					sprite.setRotation(part.get_angle()); //Rotates it.
+					m_win.draw(sprite); //Draws to the RenderWindow.
 				}
 			}
-			if (!vPartObj[i].get_textureOn() || m_prj.get_debug())
+			if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
 			{
-				for (unsigned int j{ 0 }; j < vPartObj[i].get_nb_vtx(); j++)
+				for (unsigned int i{ 0 }; i < part.get_nb_vtx(); i++)
 				{
-					vPartObj[i].get_shape().setPosition(vPartObj[i].get_pos());
-					vPartObj[i].get_shape().setRotation(vPartObj[i].get_angle());
-					vPartObj[i].get_shape().setOutlineColor(sf::Color::Blue);
-					vPartObj[i].get_shape().setFillColor(sf::Color::Transparent);
-					vPartObj[i].get_shape().setOutlineThickness(2.f);
+					part.get_shape().setPosition(part.get_pos()); //Sets the Shape to its position.
+					part.get_shape().setRotation(part.get_angle()); //Rotates it.
+					part.get_shape().setOutlineColor(sf::Color::Blue); //Colors it.
+					part.get_shape().setFillColor(sf::Color::Transparent); //Idem
+					part.get_shape().setOutlineThickness(2.f);
 				}
-				debTex.draw(vPartObj[i].get_shape());
+				debTex.draw(part.get_shape()); //Draws the Shape to the debug Texture.
 			}
 
-			for (unsigned int j{ 0 }; j < vPartObj[i].get_vLgh().size(); j++)
+			for (auto lgh : part.get_vLgh())
 			{
-				m_vPartLgh.push_back(vPartObj[i].get_vLgh()[j]);
+				m_vPartLgh.push_back(lgh);
 			}
 			
 		}
 		//Gets textures and draw them.
-		for (unsigned int i{ 0 }; i < vPartEnt.size(); i++)
+		for (auto part : vPartEnt)
 		{
-			if (vPartEnt[i].get_textureOn() || m_prj.get_debug())
+			if (part.get_textureOn() || m_prj.get_debug())
 			{
-				if (vPartEnt[i].get_shapeTex())
+				if (part.get_shapeTex())
 				{
-					vPartEnt[i].get_shape().setTexture(&vPartEnt[i].get_texture());
-					vPartEnt[i].get_shape().setPosition(vPartEnt[i].get_pos());
-					vPartEnt[i].get_shape().setRotation(vPartEnt[i].get_angle());
-					m_win.draw(vPartEnt[i].get_shape());
+					part.get_shape().setTexture(&part.get_texture());
+					part.get_shape().setPosition(part.get_pos());
+					part.get_shape().setRotation(part.get_angle());
+					m_win.draw(part.get_shape());
 				}
 				else
 				{
-					sprite.setTexture(vPartEnt[i].get_texture());
-					sprite.setPosition(vPartEnt[i].get_pos());
-					sprite.setRotation(vPartEnt[i].get_angle());
+					sprite.setTexture(part.get_texture());
+					sprite.setPosition(part.get_pos());
+					sprite.setRotation(part.get_angle());
 					m_win.draw(sprite);
 				}
 			}
-			if (!vPartEnt[i].get_textureOn() || m_prj.get_debug())
+			if (!part.get_textureOn() || m_prj.get_debug())
 			{
-				for (unsigned int j{ 0 }; j < vPartEnt[i].get_nb_vtx(); j++)
+				for (unsigned int j{ 0 }; j < part.get_nb_vtx(); j++)
 				{
-					vPartEnt[i].get_shape().setPosition(vPartEnt[i].get_pos());
-					vPartEnt[i].get_shape().setRotation(vPartEnt[i].get_angle());
-					vPartEnt[i].get_shape().setOutlineColor(sf::Color::Blue);
-					vPartEnt[i].get_shape().setFillColor(sf::Color::Transparent);
-					vPartEnt[i].get_shape().setOutlineThickness(2.f);
+					part.get_shape().setPosition(part.get_pos());
+					part.get_shape().setRotation(part.get_angle());
+					part.get_shape().setOutlineColor(sf::Color::Blue);
+					part.get_shape().setFillColor(sf::Color::Transparent);
+					part.get_shape().setOutlineThickness(2.f);
 				}
-				debTex.draw(vPartEnt[i].get_shape());
+				debTex.draw(part.get_shape());
 			}
 
-			for (unsigned int j{ 0 }; j < vPartEnt[i].get_vLgh().size(); j++)
+			for (auto lgh : part.get_vLgh())
 			{
-				m_vPartLgh.push_back(vPartEnt[i].get_vLgh()[j]);
+				m_vPartLgh.push_back(lgh);
 			}
 			//Adds Lights from Parts to Game.
 		}
 		//Idem for Entities.
 		
-		for (unsigned int i{ 0 }; i < m_vLgh.size(); i++)
+		for (auto lgh : m_vLgh)
 		{
-			lghTex.draw(m_vLgh[i].get_vtxArr());
+			lghTex.draw(lgh.get_vtxArr());
 		}
-		//print("size-light : " + std::to_string(m_vPartLgh.size()));
-		for (unsigned int i{ 0 }; i < m_vPartLgh.size(); i++)
+		for (auto lgh : m_vPartLgh)
 		{
-			lghTex.draw(m_vPartLgh[i].get_vtxArr());
+			lghTex.draw(lgh.get_vtxArr());
 		}
-		m_vPartLgh.clear();
 		//Draws Lights on lghTex
+		m_vPartLgh.clear(); //Clear vPartLgh to avoid duplication.
 
-		debTex.display();
-		lghTex.display();
-		sf::Sprite lghSpr(lghTex.getTexture()), debSpr(debTex.getTexture());
-		m_win.draw(lghSpr, sf::BlendMultiply);
-		m_win.draw(debSpr, sf::BlendAdd);
+		debTex.display(); //Displays the debug Texture.
+		lghTex.display(); //Idem for Light Texture.
+		sf::Sprite lghSpr(lghTex.getTexture()), debSpr(debTex.getTexture()); //Creates Sprites with the RenderTextures.
+		m_win.draw(lghSpr, sf::BlendMultiply); //Draws the Light Texture on the RenderWindow.
+		m_win.draw(debSpr, sf::BlendAdd); //Draws the debug Texture on the RenderWindow.
 
-		m_win.display();
+		m_win.display(); //Displays the RenderWindow.
 	}
 
 	void Game::addObj(Object& obj)
@@ -253,14 +252,13 @@ namespace DeltaEngine //Part
 		//---SFML---
 		m_shape = sf::ConvexShape(m_nb_vtx); //Makes a shape with [nb_vtx] vertices.
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
-		for (int i{ 0 }; i < m_nb_vtx; i++)
+		for (auto jVtxPos : j["vtxPos"])
 		{
-			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1];
-			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef));
+			vtxPosX = jVtxPos[0]; vtxPosY = jVtxPos[1]; //Collects the position from the .json file.
+			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef)); //Sets vertices to their pos(which converted from meters to px).
 		}
 		m_shapeTex = j["shapeTex"];
 		m_tex_load = m_tex.loadFromFile(j["texPath"]);
-		////m_shape.setTexture(&m_tex);
 		//Set the vertices to their own pos.
 		//---Box2D---
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Create an array of vertices.
@@ -324,11 +322,11 @@ namespace DeltaEngine //Part
 		m_body->CreateFixture(&fixtureDef); //Set the fixture to the part.
 
 		//---Light--
-		for (unsigned int i{ 0 }; i < j["nbLgh"]; i++)
+		for (auto jLights : j["lights"])
 		{
-			m_vLgh.push_back(Light(sf::Vector2f((float)j["lights"][i]["lPos"][0], (float)j["lights"][i]["lPos"][1]),
-				j["lights"][i]["lRad"], j["lights"][i]["lVtx"], sf::Vector3f(j["lights"][i]["lColor"][0],
-					j["lights"][i]["lColor"][1], j["lights"][i]["lColor"][2])));
+			m_vLgh.push_back(Light(sf::Vector2f((float)jLights["lPos"][0], (float)jLights["lPos"][1]),
+				jLights["lRad"], jLights["lVtx"], sf::Vector3f(jLights["lColor"][0], jLights["lColor"][1],
+					jLights["lColor"][2])));
 			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0]*m_coef, j["pos"][1]*m_coef));
 		}
 	}
@@ -403,11 +401,11 @@ namespace DeltaEngine //Object
 {
 	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f pos)
 	{
-		json j{ returnJson(jsonPath) }; //Collect data from json.
-		m_id = j["id"]; //Set the id.
+		json j{ returnJson(jsonPath) }; //Collects data from json.
+		m_id = j["id"]; //Sets the id.
 		m_name = j["name"]; //...
 		m_nb_part = j["nb_part"]; //...
-		for (int i{ 0 }; i < m_nb_part; i++)
+		for (unsigned int i{ 0 }; i < m_nb_part; i++)
 		{
 			m_vPart.push_back(Part(j["parts"][i], world, pos));
 		}
@@ -480,7 +478,7 @@ namespace DeltaEngine //Entity
 	void Entity::move(int dir, double val, double drag, double acc)
 	{
 		b2Vec2 vel{ 0.f, 0.f };
-		for (int i{ 0 }; i < m_nb_part; i++)
+		for (unsigned int i{ 0 }; i < m_nb_part; i++)
 		{
 			vel += m_vPart[i].get_body()->GetLinearVelocity();
 		}
@@ -502,10 +500,6 @@ namespace DeltaEngine //Entity
 
 	void Entity::tp(b2Vec2 pos)
 	{
-		for (int i{ 0 }; i < m_nb_part; i++)
-		{
-			m_vPart[i].get_body();
-		}
 	}
 }
 
@@ -513,18 +507,17 @@ namespace DeltaEngine //Light
 {
 	Light::Light(sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
 	{
-		m_rad = rad;
-		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx);
-		m_vtxArr[0].position = pos;
-		std::cout << "pos_0 : " << pos.x << '/' << pos.y << std::endl;
-		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255);
-		for (int i{ 1 }; i < vtx; i++)
+		m_rad = rad; //Sets the radius.
+		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx); //Creates a VertexArray with the TriangleFan model.
+		m_vtxArr[0].position = pos; //Sets the center of the circle.
+		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
+		for (unsigned int i{ 1 }; i < vtx; i++)
 		{
-			double angle{ 2 * i * b2_pi / (vtx-2) };
-			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*m_rad, pos.y + sin(angle)*m_rad);
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/m_rad);
+			double angle{ 2 * i * b2_pi / (vtx-2) }; //Calculates the angle of the vertex.
+			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*m_rad, pos.y + sin(angle)*m_rad); //Sets it to its pos.
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/m_rad); //Colors it to make a shade.
 		}
-		m_pos = pos;
+		m_pos = pos; //Sets the pos.
 		
 	}
 

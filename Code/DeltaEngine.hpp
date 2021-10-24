@@ -46,28 +46,28 @@ namespace DeltaEngine
 	class Light;
 
 
-	void print(std::string str, std::string end="none");
-	json returnJson(std::string jsonPath); //Return a json from a .json file.
+	void print(std::string str, std::string end="none"); //Like the fonction std::cout.
+	json returnJson(std::string jsonPath); //Returns a json from a .json file.
 
 	class Project
 	{
 	public:
-		Project(std::string name, int version_Major, int version_minor, bool debug, std::string icon);
-		std::string get_title();
+		Project(std::string name, int version_Major, int version_minor, bool debug, std::string icon); //Constructor.
+		std::string get_title(); //Returns the name + the version.
 		bool get_debug();
 	protected:
-		std::string m_name;
+		std::string m_name; //The name of the Project.
 		int m_ver_M; //Version major.
 		int m_ver_m; //Version minor.
 		bool m_debug; //If the project is in debug mode.
-		std::string m_ico;
+		std::string m_ico; //The path of the icon.
 	};
 
 	class Game
 	{
 	public:
 		Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f/60.f,
-			int32 velIt = 6, int32 posIt = 3);
+			int32 velIt = 6, int32 posIt = 3); //Constructor.
 		sf::RenderWindow& get_win();
 		std::vector<Object>& get_vObj();
 		std::vector<Entity>& get_vEnt();
@@ -83,24 +83,26 @@ namespace DeltaEngine
 		void addLgh(Light& lgh); //Idem for Lights.
 
 	protected:
-		Project m_prj;
-		sf::RenderWindow m_win;
-		sf::Color m_bgColor;
+		Project m_prj; //The Project linked with the Game.
+
+		sf::RenderWindow m_win; //A RenderWindow to draw and show the Game.
+		sf::Color m_bgColor; //The color of the background.
 		std::vector<Object> m_vObj; //A vector with all Objects of the game.
 		std::vector<Entity> m_vEnt; //Idem for Entities.
 		std::vector<Light> m_vLgh; //Idem for Light.
 		std::vector<Light> m_vPartLgh; //A vector with all Lights of all the Parts.
-		b2Vec2 m_gravity;
-		b2World m_world;
-		float m_timeStep;
-		int32 m_velIt;
-		int32 m_posIt;
+
+		b2Vec2 m_gravity; //A vector defining the gravity.
+		b2World m_world; //The World where the Bodies move.
+		float m_timeStep; //The time step for b2box.
+		int32 m_velIt; //Param for b2box.
+		int32 m_posIt; //Idem.
 	};
 
 	class Part
 	{
 	public:
-		Part(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0));
+		Part(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0)); //Constructor.
 		double get_coef();
 		int get_priority();
 		int get_nb_vtx();
@@ -129,12 +131,12 @@ namespace DeltaEngine
 	class Object
 	{
 	public:
-		Object(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0));
+		Object(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0)); //Constructor.
 		int get_nb_part();
 		std::vector<Part>& get_vPart();
 	protected:
-		int m_id;
-		std::string m_name;
+		int m_id; //The id of the Object.
+		std::string m_name; //The name of the Object.
 		int m_nb_part; //The number of Parts.
 		std::vector<Part> m_vPart; //A vector with the Parts of the Object.
 	};
@@ -142,7 +144,7 @@ namespace DeltaEngine
 	class Entity : public Object
 	{
 	public:
-		Entity(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0));
+		Entity(std::string jsonPath, b2World& world, sf::Vector2f pos = sf::Vector2f(0, 0)); //Constructor.
 		bool verifyIfAlive(); //Verifies if the Entity is sill alive.
 		void updateLight(); //Updates the position of Lights.
 		void damage(double val); //Reduces his HP.
@@ -150,20 +152,22 @@ namespace DeltaEngine
 		void move(int dir, double val, double drag = 0.98, double acc = 0.1); //Moves the Entity on x axis.
 		void tp(b2Vec2 pos); //Teleports the Entity.
 	protected:
-		double m_hpMax;
-		double m_hp;
-		bool m_isAlive;
+		double m_hpMax; //Its health points maximum.
+		double m_hp; //Its actual health points.
+		bool m_isAlive; //True if m_hp>0, else False.
 	};
 
 	class Light
 	{
 	public:
-		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255));
+		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255)); //Constructor.
+
 		sf::VertexArray& get_vtxArr();
+
 		void set_pos(sf::Vector2f pos); //Doesn't work very well...
 	protected:
-		double m_rad; //In px.
+		double m_rad; //Its radius in px.
 		sf::VertexArray m_vtxArr; //An Array with all the vertices of the Light.
-		sf::Vector2f m_pos; //In px.
+		sf::Vector2f m_pos; //Its positon in px.
 	};
 }
