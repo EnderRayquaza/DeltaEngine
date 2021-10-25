@@ -41,6 +41,11 @@ namespace DeltaEngine //Project
 		return m_debug;
 	}
 
+	void Project::set_debug(bool val)
+	{
+		m_debug = val;
+	}
+
 }
 
 namespace DeltaEngine //Game
@@ -49,6 +54,11 @@ namespace DeltaEngine //Game
 		m_prj(prj), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
 		m_gravity(gravity), m_world(m_gravity), m_timeStep(timeStep), m_velIt(velIt), m_posIt(posIt)
 	{}
+
+	Project& Game::get_project()
+	{
+		return m_prj;
+	}
 
 	sf::RenderWindow& Game::get_win()
 	{
@@ -93,7 +103,7 @@ namespace DeltaEngine //Game
 	void Game::draw()
 	{
 		//Init
-		std::vector<Part> vPartObj, vPartEnt; //Creates vectors to contain Parts.
+		std::vector<Part> vPart; //Creates a vector to contain Parts.
 		sf::Sprite sprite; //Creates a sprite to show the Parts.
 		sf::RenderTexture debTex, lghTex; //Creates RenderTexture to draw on it debug hitboxes and Lights.
 		debTex.create(800, 600); //Inits the debTex by the size of the window.
@@ -108,7 +118,7 @@ namespace DeltaEngine //Game
 			obj.updateLight(); //Updates the Lights position.
 			for (auto part : obj.get_vPart())
 			{
-				vPartObj.push_back(part);
+				vPart.push_back(part);
 			}
 		}
 		//Add all Parts to vPartObj
@@ -117,89 +127,56 @@ namespace DeltaEngine //Game
 			ent.updateLight(); //Updates the Lights position.
 			for (auto part : ent.get_vPart())
 			{
-				vPartEnt.push_back(part);
+				vPart.push_back(part);
 			}
 		}
 		//Idem for Entity
 
-		for (auto part : vPartObj)
+		for (unsigned int i{ 0 }; i < 5; i++)
 		{
-			if (part.get_textureOn()) //If the textures are enabled.
+			for (auto part : vPart)
 			{
-				if (part.get_shapeTex()) //If the Part shapes/cuts the Texture with the Shape.
+				if (part.get_priority() == i)
 				{
-					part.get_shape().setTexture(&part.get_texture()); //Puts the Tex in the shape.
-					part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
-					part.get_shape().setRotation(part.get_angle()); //Rotates it.
-					m_win.draw(part.get_shape()); //Draws it to the RenderWindow.
-				}
-				else // /!\ The texture can be out of the Shape ! /!\ 
-				{
-					sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
-					sprite.setPosition(part.get_pos()); //Sets to its pos.
-					sprite.setRotation(part.get_angle()); //Rotates it.
-					m_win.draw(sprite); //Draws to the RenderWindow.
-				}
-			}
-			if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
-			{
-				for (unsigned int i{ 0 }; i < part.get_nb_vtx(); i++)
-				{
-					part.get_shape().setPosition(part.get_pos()); //Sets the Shape to its position.
-					part.get_shape().setRotation(part.get_angle()); //Rotates it.
-					part.get_shape().setOutlineColor(sf::Color::Blue); //Colors it.
-					part.get_shape().setFillColor(sf::Color::Transparent); //Idem
-					part.get_shape().setOutlineThickness(2.f);
-				}
-				debTex.draw(part.get_shape()); //Draws the Shape to the debug Texture.
-			}
+					if (part.get_textureOn()) //If the textures are enabled.
+					{
+						if (part.get_shapeTex()) //If the Part shapes/cuts the Texture with the Shape.
+						{
+							part.get_shape().setTexture(&part.get_texture()); //Puts the Tex in the shape.
+							part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
+							part.get_shape().setRotation(part.get_angle()); //Rotates it.
+							m_win.draw(part.get_shape()); //Draws it to the RenderWindow.
+						}
+						else // /!\ The texture can be out of the Shape ! /!\ 
+						{
+							sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
+							sprite.setPosition(part.get_pos()); //Sets to its pos.
+							sprite.setRotation(part.get_angle()); //Rotates it.
+							m_win.draw(sprite); //Draws to the RenderWindow.
+						}
+					}
+					if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
+					{
+						for (unsigned int i{ 0 }; i < part.get_nb_vtx(); i++)
+						{
+							part.get_shape().setPosition(part.get_pos()); //Sets the Shape to its position.
+							part.get_shape().setRotation(part.get_angle()); //Rotates it.
+							part.get_shape().setOutlineColor(sf::Color::Blue); //Colors it.
+							part.get_shape().setFillColor(sf::Color::Transparent); //Idem
+							part.get_shape().setOutlineThickness(2.f);
+						}
+						debTex.draw(part.get_shape()); //Draws the Shape to the debug Texture.
+					}
 
-			for (auto lgh : part.get_vLgh())
-			{
-				m_vPartLgh.push_back(lgh);
+					for (auto lgh : part.get_vLgh())
+					{
+						m_vPartLgh.push_back(lgh);
+					}
+				}
 			}
-			
 		}
 		//Gets textures and draw them.
-		for (auto part : vPartEnt)
-		{
-			if (part.get_textureOn() || m_prj.get_debug())
-			{
-				if (part.get_shapeTex())
-				{
-					part.get_shape().setTexture(&part.get_texture());
-					part.get_shape().setPosition(part.get_pos());
-					part.get_shape().setRotation(part.get_angle());
-					m_win.draw(part.get_shape());
-				}
-				else
-				{
-					sprite.setTexture(part.get_texture());
-					sprite.setPosition(part.get_pos());
-					sprite.setRotation(part.get_angle());
-					m_win.draw(sprite);
-				}
-			}
-			if (!part.get_textureOn() || m_prj.get_debug())
-			{
-				for (unsigned int j{ 0 }; j < part.get_nb_vtx(); j++)
-				{
-					part.get_shape().setPosition(part.get_pos());
-					part.get_shape().setRotation(part.get_angle());
-					part.get_shape().setOutlineColor(sf::Color::Blue);
-					part.get_shape().setFillColor(sf::Color::Transparent);
-					part.get_shape().setOutlineThickness(2.f);
-				}
-				debTex.draw(part.get_shape());
-			}
 
-			for (auto lgh : part.get_vLgh())
-			{
-				m_vPartLgh.push_back(lgh);
-			}
-			//Adds Lights from Parts to Game.
-		}
-		//Idem for Entities.
 		
 		for (auto lgh : m_vLgh)
 		{

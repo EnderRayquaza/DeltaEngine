@@ -53,8 +53,11 @@ namespace DeltaEngine
 	{
 	public:
 		Project(std::string name, int version_Major, int version_minor, bool debug, std::string icon); //Constructor.
+
 		std::string get_title(); //Returns the name + the version.
 		bool get_debug();
+
+		void set_debug(bool val); //Switchs between debug and realese.
 	protected:
 		std::string m_name; //The name of the Project.
 		int m_ver_M; //Version major.
@@ -68,6 +71,7 @@ namespace DeltaEngine
 	public:
 		Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f/60.f,
 			int32 velIt = 6, int32 posIt = 3); //Constructor.
+		Project& get_project();
 		sf::RenderWindow& get_win();
 		std::vector<Object>& get_vObj();
 		std::vector<Entity>& get_vEnt();
