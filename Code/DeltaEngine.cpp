@@ -453,26 +453,41 @@ namespace DeltaEngine //Entity
 			m_hp = m_hpMax;
 	}
 
-	void Entity::move(int dir, double val, double drag, double acc)
+	void Entity::move(float dir, float val, double drag, float acc)
 	{
-		b2Vec2 vel{ 0.f, 0.f };
-		for (unsigned int i{ 0 }; i < m_nb_part; i++)
+		float t{ 1 / 60.0 }, m{ 0 };
+		b2Vec2 vmax{ cos(dir) * val, sin(dir) * val }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
+		for (auto part : m_vPart)
 		{
-			vel += m_vPart[i].get_body()->GetLinearVelocity();
+			v0 += part.get_body()->GetLinearVelocity();
 		}
-		double desiredVel = 0;
-		switch (dir)
+		/*dv = vmax - v;
+		a = b2Vec2{ vmax.x*acc / t, vmax.y*acc / t };
+		for (auto part : m_vPart)
 		{
-		case -1:  desiredVel = b2Min(vel.x - acc, -val); break;
-		case 0:  desiredVel = vel.x * drag; break;
-		case 1: desiredVel = b2Max(vel.x + acc, val); break;
-		}
-		double velChange{ desiredVel - vel.x };
-		double force{ 0 };
-		for (int i{ 0 }; i < m_nb_part; i++)
+			m = part.get_body()->GetMass();
+			f = b2Vec2{a.x*m, a.y*m};
+			part.get_body()->ApplyForceToCenter(f, true);
+		}*/
+
+		b2Vec2 v_{ 0, 0 };
+		std::cout << "dir : " << dir << std::endl;
+		if (0 <= dir && dir < (b2_pi / 2))
+			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Max(v0.y + acc, vmax.y) };
+		else if (b2_pi / 2 <= dir && dir < b2_pi)
+			v_ = b2Vec2{ b2Min(v0.x - acc, vmax.x), b2Max(v0.y + acc, vmax.y) };
+		else if (b2_pi <= dir && dir < 1.5 * b2_pi)
+			v_ = b2Vec2{ b2Min(v0.x - acc, vmax.x), b2Min(v0.y - acc, vmax.y) };
+		else if (1.5 * b2_pi <= dir && dir < 2 * b2_pi)
+			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Min(v0.y - acc, vmax.y) };
+		else
+			print("dir must be in [0, 2pi]");
+		b2Vec2 a_{ (v_.x - v0.x)/t, (v_.y - v0.y)/t }, f_{ 0, 0 };
+		for (auto part : m_vPart)
 		{
-			force = m_vPart[i].get_body()->GetMass() * velChange / (1 / 60.0); //f = mv/t
-			m_vPart[i].get_body()->ApplyForce(b2Vec2(force, 0), m_vPart[i].get_body()->GetWorldCenter(), true);
+			m = part.get_body()->GetMass();
+			f_ = b2Vec2{ a_.x * m, a_.y * m }; //f = ma
+			part.get_body()->ApplyForce(f_, part.get_body()->GetWorldCenter(), true);
 		}
 	}
 

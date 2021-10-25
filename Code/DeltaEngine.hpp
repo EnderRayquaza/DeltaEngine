@@ -153,7 +153,7 @@ namespace DeltaEngine
 		bool verifyIfAlive(); //Verifies if the Entity is sill alive.
 		void damage(double val); //Reduces his HP.
 		void heal(double val); //Increases his HP.
-		void move(int dir, double val, double drag = 0.98, double acc = 0.1); //Moves the Entity on x axis.
+		void move(float dir, float val, double drag = 0.98, float acc = 0.1); //Moves the Entity.
 		void tp(b2Vec2 pos); //Teleports the Entity.
 	protected:
 		double m_hpMax; //Its health points maximum.
