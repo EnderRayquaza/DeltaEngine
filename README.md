@@ -4,7 +4,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) an
 Todo :
 - [x] Make animation.
 - [ ] Improve *Light* (shadows, unidirectional light, ...).
-- [ ] Improve *Entity::move*.
+- [x] Improve *Entity::move*.
 - [ ] Add Shader.
 
 *In building...*
