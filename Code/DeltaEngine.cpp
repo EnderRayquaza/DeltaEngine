@@ -20,15 +20,6 @@ namespace DeltaEngine //Func
 		file >> j; //Puts the data from the file in the json var.
 		return j; //Returns it.
 	}
-
-	sf::Texture findSpr_texSheet(sf::Texture tex, sf::Vector2i sizeSpr, sf::Vector2i posSpr)
-	{
-		sf::Sprite spr{};
-		spr.setTexture(tex);
-		sf::Vector2i pos{ posSpr.x * sizeSpr.x, posSpr.y * sizeSpr.y };
-		spr.setTextureRect(sf::IntRect(pos.x, pos.y, pos.x+sizeSpr.x, pos.y+sizeSpr.y));
-		return *spr.getTexture();
-	}
 }
 
 namespace DeltaEngine //Project
@@ -59,8 +50,8 @@ namespace DeltaEngine //Project
 
 namespace DeltaEngine //Game
 {
-	Game::Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
-		m_prj(prj), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
+	Game::Game(Project& prj, ShaderManager& shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
+		m_prj(prj), m_shdMgn(&shdMgn), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
 		m_gravity(gravity), m_world(m_gravity), m_timeStep(timeStep), m_velIt(velIt), m_posIt(posIt)
 	{}
 
@@ -156,18 +147,16 @@ namespace DeltaEngine //Game
 								part.get_shape().setTextureRect(part.get_currSprRect());
 							part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
 							part.get_shape().setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(part.get_shape()); //Draws it to the RenderWindow.
+							m_win.draw(part.get_shape(), &m_shdMgn->get_shd(part.get_shdIdx())); //Draws it to the RenderWindow.
 						}
 						else // /!\ The texture can be out of the Shape ! /!\ 
 						{
 							sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
 							if (part.get_animated())
-								//std::cout << "gcSR : " << part.get_currSprRect().top << "/" << part.get_currSprRect().left << std::endl;
-							if (part.get_animated())
 								sprite.setTextureRect(part.get_currSprRect());
 							sprite.setPosition(part.get_pos()); //Sets to its pos.
 							sprite.setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(sprite); //Draws to the RenderWindow.
+							m_win.draw(sprite, &m_shdMgn->get_shd(part.get_shdIdx())); //Draws to the RenderWindow.
 						}
 					}
 					if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
@@ -254,17 +243,17 @@ namespace DeltaEngine //Part
 		m_animated = j["animated"];
 		m_sizeSpr = sf::Vector2i(j["sizeSpr"][0], j["sizeSpr"][1]);
 		m_currentSprPos = sf::Vector2i(j["startSprPos"][0], j["startSprPos"][1]);
-		//Set the vertices to their own pos.
+		m_shdIdx = j["shdIdx"];
 		//---Box2D---
-		b2Vec2 vertices[b2_maxPolygonVertices]; //Create an array of vertices.
+		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
 		for (int i{ 0 }; i < m_nb_vtx; i++)
 		{
 			vertices[i].Set(j["vtxPos"][i][0], j["vtxPos"][i][1]);
 		}
-		//Set the vertices to their own pos.
-		b2PolygonShape partShape; //Create a shape for the part.
-		partShape.Set(vertices, m_nb_vtx); //Set the vertices for the shape.
-		b2FixtureDef fixtureDef; //Create a FixtureDef.
+		//Sets the vertices to their own pos.
+		b2PolygonShape partShape; //Creates a shape for the part.
+		partShape.Set(vertices, m_nb_vtx); //Sets the vertices for the shape.
+		b2FixtureDef fixtureDef; //Creates a FixtureDef.
 		fixtureDef.shape = &partShape; //Set the shape to the FixtureDef.
 		fixtureDef.density = j["density"]; //Set the density of the part.
 		fixtureDef.friction = j["friction"]; //Set the friction of the part.
@@ -384,6 +373,11 @@ namespace DeltaEngine //Part
 		//std::cout << "<>> " << m_currentSprPos.y << std::endl;
 		sf::Vector2i currSprPos{ m_currentSprPos.x * m_sizeSpr.x, m_currentSprPos.y * m_sizeSpr.y };
 		return sf::IntRect(currSprPos, m_sizeSpr);
+	}
+
+	int Part::get_shdIdx()
+	{
+		return m_shdIdx;
 	}
 
 	b2Body* Part::get_body()
@@ -573,4 +567,33 @@ namespace DeltaEngine //Light
 			m_vtxArr[i].position = pos + m_pos + vAngle;
 		}
 	}
+}
+
+namespace DeltaEngine //ShaderManager
+{
+	ShaderManager::ShaderManager(std::string listPath)
+	{
+		json j{ returnJson(listPath) };
+		for (auto e : j["vert"])
+		{
+			m_vShd.push_back(sf::Shader());
+			m_vShd.back().loadFromFile(e, sf::Shader::Type::Vertex);
+		}
+		for (auto e : j["frag"])
+		{
+			m_vShd.push_back(sf::Shader());
+			m_vShd.back().loadFromFile(e, sf::Shader::Type::Fragment);
+		}
+		for (auto e : j["vert+frag"])
+		{
+			m_vShd.push_back(sf::Shader());
+			m_vShd.back().loadFromFile(e[0], (std::string)e[0]);
+		}
+	}
+
+	sf::Shader& ShaderManager::get_shd(int index)
+	{
+		return m_vShd[index];
+	}
+
 }

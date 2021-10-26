@@ -44,11 +44,11 @@ namespace DeltaEngine
 	class Object;
 	class Entity;
 	class Light;
+	class ShaderManager;
 
 
 	void print(std::string str, std::string end="none"); //Like the fonction std::cout.
 	json returnJson(std::string jsonPath); //Returns a json from a .json file.
-	sf::Texture findSpr_texSheet(sf::Texture tex, sf::Vector2i sizeSpr, sf::Vector2i posSpr);
 
 	class Project
 	{
@@ -70,7 +70,7 @@ namespace DeltaEngine
 	class Game
 	{
 	public:
-		Game(Project& prj, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f/60.f,
+		Game(Project& prj, ShaderManager& shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f / 60.f,
 			int32 velIt = 6, int32 posIt = 3); //Constructor.
 		Project& get_project();
 		sf::RenderWindow& get_win();
@@ -89,6 +89,7 @@ namespace DeltaEngine
 
 	protected:
 		Project m_prj; //The Project linked with the Game.
+		ShaderManager* m_shdMgn;
 
 		sf::RenderWindow m_win; //A RenderWindow to draw and show the Game.
 		sf::Color m_bgColor; //The color of the background.
@@ -119,6 +120,7 @@ namespace DeltaEngine
 		sf::Vector2i get_sizeSpr();
 		sf::Vector2i get_currentSprPos();
 		sf::IntRect get_currSprRect();
+		int get_shdIdx();
 		b2Body* get_body();
 		sf::Vector2f get_pos(bool inPx=true);
 		double get_angle(bool inDeg = true);
@@ -140,6 +142,7 @@ namespace DeltaEngine
 		bool m_animated; //If true, it has an animated texture.
 		sf::Vector2i m_sizeSpr; //The size of one sprite in the sheet.
 		sf::Vector2i m_currentSprPos; //The position of the current sprite in the sheet.
+		int m_shdIdx;
 		b2Body* m_body; //The body (Box2D).
 		std::vector<Light> m_vLgh; //A vector with light which follow the part.
 	};
@@ -180,10 +183,21 @@ namespace DeltaEngine
 
 		sf::VertexArray& get_vtxArr();
 
-		void set_pos(sf::Vector2f pos); //Doesn't work very well...
+		void set_pos(sf::Vector2f pos);
 	protected:
 		double m_rad; //Its radius in px.
 		sf::VertexArray m_vtxArr; //An Array with all the vertices of the Light.
 		sf::Vector2f m_pos; //Its positon in px.
+	};
+
+	class ShaderManager
+	{
+	public:
+		ShaderManager(std::string listPath);
+
+		sf::Shader& get_shd(int index);
+
+	protected:
+		std::vector<sf::Shader> m_vShd;
 	};
 }
