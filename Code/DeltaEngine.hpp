@@ -123,6 +123,9 @@ namespace DeltaEngine
 		sf::Vector2f get_pos(bool inPx=true);
 		double get_angle(bool inDeg = true);
 		std::vector<Light>& get_vLgh();
+
+		void set_currentSprPos(sf::Vector2i pos);
+		void set_currentSprPos(unsigned int posx, unsigned int posy);
 	protected:
 		double m_coef; //To convert px (for SFML) & meters (for Box2D).
 		int m_priority; //To draw the part in a special order.

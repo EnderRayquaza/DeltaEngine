@@ -162,6 +162,8 @@ namespace DeltaEngine //Game
 						{
 							sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
 							if (part.get_animated())
+								//std::cout << "gcSR : " << part.get_currSprRect().top << "/" << part.get_currSprRect().left << std::endl;
+							if (part.get_animated())
 								sprite.setTextureRect(part.get_currSprRect());
 							sprite.setPosition(part.get_pos()); //Sets to its pos.
 							sprite.setRotation(part.get_angle()); //Rotates it.
@@ -379,7 +381,8 @@ namespace DeltaEngine //Part
 
 	sf::IntRect Part::get_currSprRect()
 	{
-		sf::Vector2i currSprPos{ m_currentSprPos.x * m_sizeSpr.x, m_currentSprPos.x * m_sizeSpr.x };
+		//std::cout << "<>> " << m_currentSprPos.y << std::endl;
+		sf::Vector2i currSprPos{ m_currentSprPos.x * m_sizeSpr.x, m_currentSprPos.y * m_sizeSpr.y };
 		return sf::IntRect(currSprPos, m_sizeSpr);
 	}
 
@@ -408,6 +411,16 @@ namespace DeltaEngine //Part
 	std::vector<Light>& Part::get_vLgh()
 	{
 		return m_vLgh;
+	}
+
+	void Part::set_currentSprPos(sf::Vector2i pos)
+	{
+		m_currentSprPos = pos;
+	}
+
+	void Part::set_currentSprPos(unsigned int posx, unsigned int posy)
+	{
+		m_currentSprPos = sf::Vector2i(posx, posy);
 	}
 }
 
@@ -509,6 +522,10 @@ namespace DeltaEngine //Entity
 			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Min(v0.y - acc, vmax.y) };
 		else
 			print("dir must be in [0, 2pi]");
+		if (vmax.x == 0)
+			v_.x = 0;
+		if (vmax.y == 0)
+			v_.y = 0;
 		b2Vec2 a_{ (v_.x - v0.x)/t, (v_.y - v0.y)/t }, f_{ 0, 0 };
 		for (auto part : m_vPart)
 		{
