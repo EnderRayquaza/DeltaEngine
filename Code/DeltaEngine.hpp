@@ -70,7 +70,7 @@ namespace DeltaEngine
 	class Game
 	{
 	public:
-		Game(Project& prj, ShaderManager& shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f / 60.f,
+		Game(Project& prj, ShaderManager* shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep = 1.f / 60.f,
 			int32 velIt = 6, int32 posIt = 3); //Constructor.
 		Project& get_project();
 		sf::RenderWindow& get_win();
@@ -195,9 +195,9 @@ namespace DeltaEngine
 	public:
 		ShaderManager(std::string listPath);
 
-		sf::Shader& get_shd(int index);
+		sf::Shader* get_shd(int index);
 
 	protected:
-		std::vector<sf::Shader> m_vShd;
+		std::vector<sf::Shader*> m_vShd;
 	};
 }

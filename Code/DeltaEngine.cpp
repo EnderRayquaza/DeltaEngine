@@ -50,8 +50,8 @@ namespace DeltaEngine //Project
 
 namespace DeltaEngine //Game
 {
-	Game::Game(Project& prj, ShaderManager& shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
-		m_prj(prj), m_shdMgn(&shdMgn), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
+	Game::Game(Project& prj, ShaderManager* shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
+		m_prj(prj), m_shdMgn(shdMgn), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
 		m_gravity(gravity), m_world(m_gravity), m_timeStep(timeStep), m_velIt(velIt), m_posIt(posIt)
 	{}
 
@@ -147,7 +147,7 @@ namespace DeltaEngine //Game
 								part.get_shape().setTextureRect(part.get_currSprRect());
 							part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
 							part.get_shape().setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(part.get_shape(), &m_shdMgn->get_shd(part.get_shdIdx())); //Draws it to the RenderWindow.
+							m_win.draw(part.get_shape(), m_shdMgn->get_shd(part.get_shdIdx())); //Draws it to the RenderWindow.
 						}
 						else // /!\ The texture can be out of the Shape ! /!\ 
 						{
@@ -156,7 +156,7 @@ namespace DeltaEngine //Game
 								sprite.setTextureRect(part.get_currSprRect());
 							sprite.setPosition(part.get_pos()); //Sets to its pos.
 							sprite.setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(sprite, &m_shdMgn->get_shd(part.get_shdIdx())); //Draws to the RenderWindow.
+							m_win.draw(sprite, m_shdMgn->get_shd(part.get_shdIdx())); //Draws to the RenderWindow.
 						}
 					}
 					if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
@@ -576,24 +576,29 @@ namespace DeltaEngine //ShaderManager
 		json j{ returnJson(listPath) };
 		for (auto e : j["vert"])
 		{
-			m_vShd.push_back(sf::Shader());
-			m_vShd.back().loadFromFile(e, sf::Shader::Type::Vertex);
+			sf::Shader* shader = new sf::Shader();
+			shader->loadFromFile(e, sf::Shader::Type::Vertex);
+			m_vShd.push_back(shader);
 		}
+		std::cout << m_vShd.size() << std::endl;
 		for (auto e : j["frag"])
 		{
-			m_vShd.push_back(sf::Shader());
-			m_vShd.back().loadFromFile(e, sf::Shader::Type::Fragment);
+			sf::Shader* shader = new sf::Shader();
+			shader->loadFromFile(e, sf::Shader::Type::Fragment);
+			m_vShd.push_back(shader);
 		}
+		std::cout << m_vShd.size() << std::endl;
 		for (auto e : j["vert+frag"])
 		{
-			m_vShd.push_back(sf::Shader());
-			m_vShd.back().loadFromFile(e[0], (std::string)e[0]);
+			sf::Shader* shader = new sf::Shader();
+			shader->loadFromFile(e[0], (std::string)e[0]);
+			m_vShd.push_back(shader);
 		}
+		std::cout << m_vShd.size() << std::endl;
 	}
 
-	sf::Shader& ShaderManager::get_shd(int index)
+	sf::Shader* ShaderManager::get_shd(int index)
 	{
 		return m_vShd[index];
 	}
-
 }
