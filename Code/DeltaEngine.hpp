@@ -48,6 +48,7 @@ namespace DeltaEngine
 
 	void print(std::string str, std::string end="none"); //Like the fonction std::cout.
 	json returnJson(std::string jsonPath); //Returns a json from a .json file.
+	sf::Texture findSpr_texSheet(sf::Texture tex, sf::Vector2i sizeSpr, sf::Vector2i posSpr);
 
 	class Project
 	{
@@ -114,6 +115,10 @@ namespace DeltaEngine
 		sf::Texture& get_texture();
 		bool get_shapeTex();
 		bool get_textureOn();
+		bool get_animated();
+		sf::Vector2i get_sizeSpr();
+		sf::Vector2i get_currentSprPos();
+		sf::IntRect get_currSprRect();
 		b2Body* get_body();
 		sf::Vector2f get_pos(bool inPx=true);
 		double get_angle(bool inDeg = true);
@@ -126,8 +131,12 @@ namespace DeltaEngine
 		int m_nb_vtx; //The number of vertices.
 		sf::ConvexShape m_shape; //The shape (SFML).
 		sf::Texture m_tex; //The texture (SFML).
+		sf::Texture m_currTex; //The current texture (SFML).
 		bool m_shapeTex; //If true, the texture will be shaped by the shape.
 		bool m_tex_load; //Contains the value returned by loadFromFile().
+		bool m_animated; //If true, it has an animated texture.
+		sf::Vector2i m_sizeSpr; //The size of one sprite in the sheet.
+		sf::Vector2i m_currentSprPos; //The position of the current sprite in the sheet.
 		b2Body* m_body; //The body (Box2D).
 		std::vector<Light> m_vLgh; //A vector with light which follow the part.
 	};

@@ -20,6 +20,15 @@ namespace DeltaEngine //Func
 		file >> j; //Puts the data from the file in the json var.
 		return j; //Returns it.
 	}
+
+	sf::Texture findSpr_texSheet(sf::Texture tex, sf::Vector2i sizeSpr, sf::Vector2i posSpr)
+	{
+		sf::Sprite spr{};
+		spr.setTexture(tex);
+		sf::Vector2i pos{ posSpr.x * sizeSpr.x, posSpr.y * sizeSpr.y };
+		spr.setTextureRect(sf::IntRect(pos.x, pos.y, pos.x+sizeSpr.x, pos.y+sizeSpr.y));
+		return *spr.getTexture();
+	}
 }
 
 namespace DeltaEngine //Project
@@ -143,6 +152,8 @@ namespace DeltaEngine //Game
 						if (part.get_shapeTex()) //If the Part shapes/cuts the Texture with the Shape.
 						{
 							part.get_shape().setTexture(&part.get_texture()); //Puts the Tex in the shape.
+							if (part.get_animated())
+								part.get_shape().setTextureRect(part.get_currSprRect());
 							part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
 							part.get_shape().setRotation(part.get_angle()); //Rotates it.
 							m_win.draw(part.get_shape()); //Draws it to the RenderWindow.
@@ -150,6 +161,8 @@ namespace DeltaEngine //Game
 						else // /!\ The texture can be out of the Shape ! /!\ 
 						{
 							sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
+							if (part.get_animated())
+								sprite.setTextureRect(part.get_currSprRect());
 							sprite.setPosition(part.get_pos()); //Sets to its pos.
 							sprite.setRotation(part.get_angle()); //Rotates it.
 							m_win.draw(sprite); //Draws to the RenderWindow.
@@ -177,7 +190,6 @@ namespace DeltaEngine //Game
 		}
 		//Gets textures and draw them.
 
-		
 		for (auto lgh : m_vLgh)
 		{
 			lghTex.draw(lgh.get_vtxArr());
@@ -237,6 +249,9 @@ namespace DeltaEngine //Part
 		}
 		m_shapeTex = j["shapeTex"];
 		m_tex_load = m_tex.loadFromFile(j["texPath"]);
+		m_animated = j["animated"];
+		m_sizeSpr = sf::Vector2i(j["sizeSpr"][0], j["sizeSpr"][1]);
+		m_currentSprPos = sf::Vector2i(j["startSprPos"][0], j["startSprPos"][1]);
 		//Set the vertices to their own pos.
 		//---Box2D---
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Create an array of vertices.
@@ -345,6 +360,27 @@ namespace DeltaEngine //Part
 			return TEXTURE_ON;
 		else
 			return false;
+	}
+
+	bool Part::get_animated()
+	{
+		return m_animated;
+	}
+
+	sf::Vector2i Part::get_sizeSpr()
+	{
+		return m_sizeSpr;
+	}
+
+	sf::Vector2i Part::get_currentSprPos()
+	{
+		return m_currentSprPos;
+	}
+
+	sf::IntRect Part::get_currSprRect()
+	{
+		sf::Vector2i currSprPos{ m_currentSprPos.x * m_sizeSpr.x, m_currentSprPos.x * m_sizeSpr.x };
+		return sf::IntRect(currSprPos, m_sizeSpr);
 	}
 
 	b2Body* Part::get_body()
@@ -461,17 +497,8 @@ namespace DeltaEngine //Entity
 		{
 			v0 += part.get_body()->GetLinearVelocity();
 		}
-		/*dv = vmax - v;
-		a = b2Vec2{ vmax.x*acc / t, vmax.y*acc / t };
-		for (auto part : m_vPart)
-		{
-			m = part.get_body()->GetMass();
-			f = b2Vec2{a.x*m, a.y*m};
-			part.get_body()->ApplyForceToCenter(f, true);
-		}*/
 
 		b2Vec2 v_{ 0, 0 };
-		std::cout << "dir : " << dir << std::endl;
 		if (0 <= dir && dir < (b2_pi / 2))
 			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Max(v0.y + acc, vmax.y) };
 		else if (b2_pi / 2 <= dir && dir < b2_pi)
