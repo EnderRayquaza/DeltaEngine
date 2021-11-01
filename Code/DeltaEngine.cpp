@@ -594,7 +594,6 @@ namespace DeltaEngine //ShaderManager
 			shader->loadFromFile(e[0], (std::string)e[0]);
 			m_vShd.push_back(shader);
 		}
-		std::cout << m_vShd.size() << std::endl;
 	}
 
 	sf::Shader* ShaderManager::get_shd(int index)
