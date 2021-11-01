@@ -3,6 +3,8 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) an
 
 Todo :
 - [ ] Improve *Light* (shadows, unidirectional light, ...).
-- [x] Add a class for kinematic objects.
+- [ ] Improve the ~~test~~ *move*.
+- [ ] Rewrite the code.
+- [ ] Complete the README
 
 *In building...*
