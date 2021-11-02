@@ -39,7 +39,7 @@ using json = nlohmann::json;
 
 namespace DeltaEngine
 {
-    class Project;
+	class Project;
 	class Game;
 	class Object;
 	class Entity;
@@ -47,7 +47,7 @@ namespace DeltaEngine
 	class ShaderManager;
 
 
-	void print(std::string str, std::string end="none"); //Like the fonction std::cout.
+	void print(std::string str, std::string end = "none"); //Like the fonction std::cout.
 	json returnJson(std::string jsonPath); //Returns a json from a .json file.
 
 	class Project
@@ -122,7 +122,7 @@ namespace DeltaEngine
 		sf::IntRect get_currSprRect();
 		int get_shdIdx();
 		b2Body* get_body();
-		sf::Vector2f get_pos(bool inPx=true);
+		sf::Vector2f get_pos(bool inPx = true);
 		double get_angle(bool inDeg = true);
 		std::vector<Light>& get_vLgh();
 
@@ -168,7 +168,7 @@ namespace DeltaEngine
 		bool verifyIfAlive(); //Verifies if the Entity is sill alive.
 		void damage(double val); //Reduces his HP.
 		void heal(double val); //Increases his HP.
-		void move(float dir, float val, double drag = 0.98, float acc = 0.1); //Moves the Entity.
+		void move(float dir, float val, float acc = 0.1); //Moves the Entity.
 		void tp(b2Vec2 pos); //Teleports the Entity.
 	protected:
 		double m_hpMax; //Its health points maximum.

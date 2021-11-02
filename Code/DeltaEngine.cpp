@@ -65,17 +65,17 @@ namespace DeltaEngine //Game
 		return m_win;
 	}
 
-	std::vector<Object>& Game::get_vObj() 
+	std::vector<Object>& Game::get_vObj()
 	{
 		return m_vObj;
 	}
 
-	std::vector<Entity>& Game::get_vEnt() 
+	std::vector<Entity>& Game::get_vEnt()
 	{
 		return m_vEnt;
 	}
 
-	std::vector<Light>& Game::get_vLgh() 
+	std::vector<Light>& Game::get_vLgh()
 	{
 		return m_vLgh;
 	}
@@ -112,9 +112,9 @@ namespace DeltaEngine //Game
 		m_win.clear(); //Clears the RenderWindow.
 		debTex.clear(); //Idem.
 		lghTex.clear(m_bgColor); //Idem with the color of bgColor.
-		
+
 		for (auto obj : m_vObj)
-		{	
+		{
 			obj.updateLight(); //Updates the Lights position.
 			for (auto part : obj.get_vPart())
 			{
@@ -233,10 +233,10 @@ namespace DeltaEngine //Part
 		//---SFML---
 		m_shape = sf::ConvexShape(m_nb_vtx); //Makes a shape with [nb_vtx] vertices.
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
-		for (unsigned int i{ 0 }; i<j["nb_vtx"]; i++)
+		for (unsigned int i{ 0 }; i < j["nb_vtx"]; i++)
 		{
 			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1]; //Collects the position from the .json file.
-			m_shape.setPoint(i, sf::Vector2f(vtxPosX*m_coef, vtxPosY*m_coef)); //Sets vertices to their pos(which converted from meters to px).
+			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices to their pos(which converted from meters to px).
 		}
 		m_shapeTex = j["shapeTex"];
 		m_tex_load = m_tex.loadFromFile(j["texPath"]);
@@ -311,7 +311,7 @@ namespace DeltaEngine //Part
 			m_vLgh.push_back(Light(sf::Vector2f((float)jLights["lPos"][0], (float)jLights["lPos"][1]),
 				jLights["lRad"], jLights["lVtx"], sf::Vector3f(jLights["lColor"][0], jLights["lColor"][1],
 					jLights["lColor"][2])));
-			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0]*m_coef, j["pos"][1]*m_coef));
+			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
 		}
 	}
 
@@ -388,8 +388,8 @@ namespace DeltaEngine //Part
 	sf::Vector2f Part::get_pos(bool inPx)
 	{
 		b2Vec2 pos{ m_body->GetPosition() };
-		if(inPx)
-			return sf::Vector2f(pos.x*m_coef, pos.y*m_coef);
+		if (inPx)
+			return sf::Vector2f(pos.x * m_coef, pos.y * m_coef);
 		else
 			return sf::Vector2f(pos.x, pos.y);
 	}
@@ -460,9 +460,9 @@ namespace DeltaEngine //Object
 
 namespace DeltaEngine //Entity
 {
-	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f pos):Object::Object(jsonPath, world, pos)
+	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f pos) :Object::Object(jsonPath, world, pos)
 	{
-		json j{returnJson(jsonPath)};
+		json j{ returnJson(jsonPath) };
 		m_hpMax = j["hp"];
 		m_hp = j["hp"];
 		m_isAlive = true;
@@ -496,31 +496,15 @@ namespace DeltaEngine //Entity
 			m_hp = m_hpMax;
 	}
 
-	void Entity::move(float dir, float val, double drag, float acc)
+	void Entity::move(float dir, float val, float acc)
 	{
 		float t{ 1 / 60.0 }, m{ 0 };
-		b2Vec2 vmax{ cos(dir) * val, sin(dir) * val }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
+		b2Vec2 v_{ cos(dir) * val, sin(dir) * val }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
 		for (auto part : m_vPart)
 		{
 			v0 += part.get_body()->GetLinearVelocity();
 		}
-
-		b2Vec2 v_{ 0, 0 };
-		if (0 <= dir && dir < (b2_pi / 2))
-			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Max(v0.y + acc, vmax.y) };
-		else if (b2_pi / 2 <= dir && dir < b2_pi)
-			v_ = b2Vec2{ b2Min(v0.x - acc, vmax.x), b2Max(v0.y + acc, vmax.y) };
-		else if (b2_pi <= dir && dir < 1.5 * b2_pi)
-			v_ = b2Vec2{ b2Min(v0.x - acc, vmax.x), b2Min(v0.y - acc, vmax.y) };
-		else if (1.5 * b2_pi <= dir && dir < 2 * b2_pi)
-			v_ = b2Vec2{ b2Max(v0.x + acc, vmax.x), b2Min(v0.y - acc, vmax.y) };
-		else
-			print("dir must be in [0, 2pi]");
-		if (vmax.x == 0)
-			v_.x = 0;
-		if (vmax.y == 0)
-			v_.y = 0;
-		b2Vec2 a_{ (v_.x - v0.x)/t, (v_.y - v0.y)/t }, f_{ 0, 0 };
+		b2Vec2 a_{ (v_.x - v0.x) / t, (v_.y - v0.y) / t }, f_{ 0, 0 };
 		for (auto part : m_vPart)
 		{
 			m = part.get_body()->GetMass();
@@ -544,12 +528,12 @@ namespace DeltaEngine //Light
 		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
 		for (unsigned int i{ 1 }; i < vtx; i++)
 		{
-			double angle{ 2 * i * b2_pi / (vtx-2) }; //Calculates the angle of the vertex.
-			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle)*m_rad, pos.y + sin(angle)*m_rad); //Sets it to its pos.
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255/m_rad); //Colors it to make a shade.
+			double angle{ 2 * i * b2_pi / (vtx - 2) }; //Calculates the angle of the vertex.
+			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle) * m_rad, pos.y + sin(angle) * m_rad); //Sets it to its pos.
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255 / m_rad); //Colors it to make a shade.
 		}
 		m_pos = pos; //Sets the pos.
-		
+
 	}
 
 	sf::VertexArray& Light::get_vtxArr()
@@ -559,7 +543,7 @@ namespace DeltaEngine //Light
 
 	void Light::set_pos(sf::Vector2f pos)
 	{
-		m_vtxArr[0].position = pos+m_pos;
+		m_vtxArr[0].position = pos + m_pos;
 		for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
 		{
 			double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
