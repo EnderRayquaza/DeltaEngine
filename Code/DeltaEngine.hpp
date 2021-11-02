@@ -179,13 +179,18 @@ namespace DeltaEngine
 	class Light
 	{
 	public:
-		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255)); //Constructor.
+		Light(sf::Vector2f pos, double rad, int vtx = 21, sf::Vector3f color = sf::Vector3f(255, 255, 255), double intensity = 255); //Constructor.
+		Light(sf::Vector2f pos, double rad, double a_angle, double o_angle, int vtx = 21,
+			sf::Vector3f color = sf::Vector3f(255, 255, 255), double intensity = 255); //Constructor.
 
 		sf::VertexArray& get_vtxArr();
 
 		void set_pos(sf::Vector2f pos);
 	protected:
 		double m_rad; //Its radius in px.
+		double m_angle;
+		double m_o_angle;
+		bool m_dir;
 		sf::VertexArray m_vtxArr; //An Array with all the vertices of the Light.
 		sf::Vector2f m_pos; //Its positon in px.
 	};

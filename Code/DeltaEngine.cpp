@@ -310,7 +310,15 @@ namespace DeltaEngine //Part
 		{
 			m_vLgh.push_back(Light(sf::Vector2f((float)jLights["lPos"][0], (float)jLights["lPos"][1]),
 				jLights["lRad"], jLights["lVtx"], sf::Vector3f(jLights["lColor"][0], jLights["lColor"][1],
-					jLights["lColor"][2])));
+					jLights["lColor"][2]), jLights["intensity"]));
+			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
+		}
+		for (auto jDirLights : j["dirLights"])
+		{
+			m_vLgh.push_back(Light(sf::Vector2f((float)jDirLights["lPos"][0], (float)jDirLights["lPos"][1]),
+				jDirLights["lRad"], jDirLights["lAngle"], jDirLights["lO_angle"] ,jDirLights["lVtx"],
+				sf::Vector3f(jDirLights["lColor"][0], jDirLights["lColor"][1], jDirLights["lColor"][2]),
+				jDirLights["intensity"]));
 			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
 		}
 	}
@@ -505,6 +513,8 @@ namespace DeltaEngine //Entity
 			v0 += part.get_body()->GetLinearVelocity();
 		}
 		b2Vec2 a_{ (v_.x - v0.x) / t, (v_.y - v0.y) / t }, f_{ 0, 0 };
+		if (v_.x == 0) a_.x = 0;
+		if (v_.y == 0) a_.y = 0;
 		for (auto part : m_vPart)
 		{
 			m = part.get_body()->GetMass();
@@ -520,9 +530,12 @@ namespace DeltaEngine //Entity
 
 namespace DeltaEngine //Light
 {
-	Light::Light(sf::Vector2f pos, double rad, int vtx, sf::Vector3f color)
+	Light::Light(sf::Vector2f pos, double rad, int vtx, sf::Vector3f color, double intensity)
 	{
 		m_rad = rad; //Sets the radius.
+		m_angle = 0;
+		m_o_angle = 0;
+		m_dir = false;
 		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx); //Creates a VertexArray with the TriangleFan model.
 		m_vtxArr[0].position = pos; //Sets the center of the circle.
 		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
@@ -530,10 +543,27 @@ namespace DeltaEngine //Light
 		{
 			double angle{ 2 * i * b2_pi / (vtx - 2) }; //Calculates the angle of the vertex.
 			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle) * m_rad, pos.y + sin(angle) * m_rad); //Sets it to its pos.
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, 255 / m_rad); //Colors it to make a shade.
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, intensity / m_rad); //Colors it to make a shade.
 		}
 		m_pos = pos; //Sets the pos.
+	}
 
+	Light::Light(sf::Vector2f pos, double rad, double a_angle, double o_angle, int vtx, sf::Vector3f color, double intensity)
+	{
+		m_rad = rad;
+		m_angle = a_angle*DEG2RAD;
+		m_o_angle = o_angle*DEG2RAD;
+		m_dir = true;
+		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx); //Creates a VertexArray with the TriangleFan model.
+		m_vtxArr[0].position = pos; //Sets the center of the circle.
+		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
+		for (unsigned i{ 1 }; i < vtx; i++)
+		{
+			double angle{ (i * m_o_angle / (vtx - 2)) + m_angle };
+			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle) * m_rad, pos.y + sin(angle) * m_rad); //Sets it to its pos.
+			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, intensity / m_rad); //Colors it to make a shade.
+		}
+		m_pos = pos;
 	}
 
 	sf::VertexArray& Light::get_vtxArr()
@@ -544,11 +574,23 @@ namespace DeltaEngine //Light
 	void Light::set_pos(sf::Vector2f pos)
 	{
 		m_vtxArr[0].position = pos + m_pos;
-		for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
+		if (!m_dir)
 		{
-			double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
-			sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
-			m_vtxArr[i].position = pos + m_pos + vAngle;
+			for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
+			{
+				double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
+				sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
+				m_vtxArr[i].position = pos + m_pos + vAngle;
+			}
+		}
+		else
+		{
+			for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
+			{
+				double angle{ (i * m_o_angle / (m_vtxArr.getVertexCount() - 2)) + m_angle };
+				sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
+				m_vtxArr[i].position = pos + m_pos + vAngle;
+			}
 		}
 	}
 }
