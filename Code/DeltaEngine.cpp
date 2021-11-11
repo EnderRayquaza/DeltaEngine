@@ -1,16 +1,8 @@
 //DeltaEngine.cpp
 #include "DeltaEngine.hpp"
 
-namespace DeltaEngine //Func
+namespace DeltaEngine //Functions
 {
-	void print(std::string str, std::string end)
-	{
-		if (end == "none")
-			std::cout << str << std::endl;
-		else
-			std::cout << str << end;
-	}
-
 	json returnJson(std::string jsonPath)
 	{
 		std::ifstream file(jsonPath); //Opens the file.
@@ -22,62 +14,52 @@ namespace DeltaEngine //Func
 	}
 }
 
-namespace DeltaEngine //Project
+namespace DeltaEngine //Game
 {
-	Project::Project(std::string name, int version_Major, int version_minor, bool debug, std::string icon) :
-		m_name(name), m_ver_M(version_Major), m_ver_m(version_minor), m_debug(debug), m_ico(icon)
-	{}
+	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
+		std::string icon, ShaderManager* shaderManager, sf::Color& bgColor, b2Vec2& gravity,
+		float timeStep = 1.f / 60.f, int32 velocityIt = 6, int32 positionIt = 3):m_name(name),
+		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), 
+		m_textureOn(textureOn), m_icon(icon), m_shaderManager(shaderManager),
+		m_window(sf::VideoMode(800, 600), ""), m_bgColor(bgColor), m_gravity(gravity),
+		m_world(m_gravity), m_timeStep(timeStep), m_velocityIt(velocityIt),
+		m_positionIt(positionIt)
+	{
+		m_window.setTitle(get_title());
+	}
 
-	std::string Project::get_title()
+	//Getters
+	std::string Game::get_title(bool showVersion)
 	{
 		std::string title{ m_name }; //Sets the name for title.
-		if (m_debug) //If we're in debug mode, we show the version.
-			title += " v." + std::to_string(m_ver_M) + "." + std::to_string(m_ver_m); //Adds the version to the title.
+		if (m_debug || showVersion) //If we're in debug mode, we show the version.
+			title += " v." + std::to_string(m_version_M) + "." + std::to_string(m_version_m); //Adds the version to the title.
 		return title; //Returns the title.
 	}
 
-	bool Project::get_debug()
+	bool Game::get_debug()
 	{
 		return m_debug;
 	}
 
-	void Project::set_debug(bool val)
+	std::vector<Object>& Game::get_vObject()
 	{
-		m_debug = val;
+		return m_vObject;
 	}
 
-}
-
-namespace DeltaEngine //Game
-{
-	Game::Game(Project& prj, ShaderManager* shdMgn, b2Vec2& gravity, sf::Color& bgColor, float timeStep, int32 velIt, int32 posIt) :
-		m_prj(prj), m_shdMgn(shdMgn), m_win(sf::VideoMode(800, 600), prj.get_title(), sf::Style::Default), m_bgColor(bgColor),
-		m_gravity(gravity), m_world(m_gravity), m_timeStep(timeStep), m_velIt(velIt), m_posIt(posIt)
-	{}
-
-	Project& Game::get_project()
+	std::vector<Entity>& Game::get_vEntity()
 	{
-		return m_prj;
+		return m_vEntity;
 	}
 
-	sf::RenderWindow& Game::get_win()
+	std::vector<Light>& Game::get_vLight()
 	{
-		return m_win;
+		return m_vLight;
 	}
 
-	std::vector<Object>& Game::get_vObj()
+	sf::RenderWindow& Game::get_window()
 	{
-		return m_vObj;
-	}
-
-	std::vector<Entity>& Game::get_vEnt()
-	{
-		return m_vEnt;
-	}
-
-	std::vector<Light>& Game::get_vLgh()
-	{
-		return m_vLgh;
+		return m_window;
 	}
 
 	b2World& Game::get_world()
@@ -90,179 +72,261 @@ namespace DeltaEngine //Game
 		return m_timeStep;
 	}
 
-	int32 Game::get_velIt()
+	int32 Game::get_velocityIt()
 	{
-		return m_velIt;
+		return m_velocityIt;
 	}
 
-	int32 Game::get_posIt()
+	int32 Game::get_positionIt()
 	{
-		return m_posIt;
+		return m_positionIt;
 	}
 
+	//Setters
+	void Game::set_debug(bool value)
+	{
+		m_debug = value;
+	}
+
+	void Game::addObject(Object& object)
+	{
+		m_vObject.push_back(object);
+	}
+
+	void Game::addEntity(Entity& entity)
+	{
+		m_vEntity.push_back(entity);
+	}
+
+	void Game::addLight(Light& light)
+	{
+		m_vLight.push_back(light);
+	}
+
+	void Game::removeObject(int index)
+	{
+		m_vObject[index].~Object();
+		auto delElem = m_vObject.begin() + index;
+		if (delElem != m_vObject.end())
+		{
+			m_vObject.erase(delElem);
+		}
+	}
+
+	void Game::removeEntity(int index)
+	{
+		m_vEntity[index].~Entity();
+		auto delElem = m_vEntity.begin() + index;
+		if (delElem != m_vEntity.end())
+		{
+			m_vEntity.erase(delElem);
+		}
+	}
+
+	void Game::removeLight(int index)
+	{
+		m_vLight[index].~Light();
+		auto delElem = m_vLight.begin() + index;
+		if (delElem != m_vLight.end())
+		{
+			m_vLight.erase(delElem);
+		}
+	}
+
+	//Others
 	void Game::draw()
 	{
 		//Init
 		std::vector<Part> vPart; //Creates a vector to contain Parts.
 		sf::Sprite sprite; //Creates a sprite to show the Parts.
-		sf::RenderTexture debTex, lghTex; //Creates RenderTexture to draw on it debug hitboxes and Lights.
+		sf::RenderTexture debTex, lightTex; //Creates RenderTexture to draw on it debug hitboxes 
+											//and Lights.
 		debTex.create(800, 600); //Inits the debTex by the size of the window.
-		lghTex.create(800, 600); //Idem for lghTex.
+		lightTex.create(800, 600); //Idem for lghTex.
 
-		m_win.clear(); //Clears the RenderWindow.
+		m_window.clear(); //Clears the RenderWindow.
 		debTex.clear(); //Idem.
-		lghTex.clear(m_bgColor); //Idem with the color of bgColor.
+		lightTex.clear(m_bgColor); //Idem with the color of bgColor.
 
-		for (auto obj : m_vObj)
+		for (auto& obj : m_vObject)
 		{
 			obj.updateLight(); //Updates the Lights position.
-			for (auto part : obj.get_vPart())
+			for (auto& part : obj.m_vPart)
 			{
 				vPart.push_back(part);
 			}
 		}
 		//Add all Parts to vPartObj
-		for (auto ent : m_vEnt)
+		for (auto& ent : m_vEntity)
 		{
 			ent.updateLight(); //Updates the Lights position.
-			for (auto part : ent.get_vPart())
+			for (auto& part : ent.m_vPart)
 			{
 				vPart.push_back(part);
 			}
 		}
 		//Idem for Entity
 
-		for (unsigned int i{ 0 }; i < 5; i++)
+		for (int i{ 0 }; i < PRIORITIES; i++)
 		{
-			for (auto part : vPart)
+			for (auto& part : vPart)
 			{
-				if (part.get_priority() == i)
+				if (part.m_priority == i)
 				{
-					if (part.get_textureOn()) //If the textures are enabled.
+					if (m_debug)
 					{
-						if (part.get_shapeTex()) //If the Part shapes/cuts the Texture with the Shape.
+						part.m_shape.setTexture(&part.m_texture);
+						part.m_shape.setPosition(part.get_position());
+						part.m_shape.setRotation(part.get_angle());
+						switch (part.m_bodyType)
 						{
-							part.get_shape().setTexture(&part.get_texture()); //Puts the Tex in the shape.
-							if (part.get_animated())
-								part.get_shape().setTextureRect(part.get_currSprRect());
-							part.get_shape().setPosition(part.get_pos()); //Sets to its pos.
-							part.get_shape().setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(part.get_shape(), m_shdMgn->get_shd(part.get_shdIdx())); //Draws it to the RenderWindow.
+						case STATICBODY:
+							part.m_shape.setOutlineColor(sf::Color::Blue);
+							break;
+						case KINEMATICBODY:
+							part.m_shape.setOutlineColor(sf::Color(138, 43, 226)); //Violet
+							break;
+						case DYNAMICBODY:
+							part.m_shape.setOutlineColor(sf::Color::Green);
+							break;
+						default:
+							part.m_shape.setOutlineColor(sf::Color::Red);
+							break;
 						}
-						else // /!\ The texture can be out of the Shape ! /!\ 
-						{
-							sprite.setTexture(part.get_texture()); //Puts the Texture to the Sprite.
-							if (part.get_animated())
-								sprite.setTextureRect(part.get_currSprRect());
-							sprite.setPosition(part.get_pos()); //Sets to its pos.
-							sprite.setRotation(part.get_angle()); //Rotates it.
-							m_win.draw(sprite, m_shdMgn->get_shd(part.get_shdIdx())); //Draws to the RenderWindow.
-						}
+						part.m_shape.setFillColor(sf::Color::Transparent);
+						part.m_shape.setOutlineThickness(2.f);
+						debTex.draw(part.m_shape);
 					}
-					if (!part.get_textureOn() || m_prj.get_debug()) //If the Textures are disabled or the Project is in debug mode.
+					if (m_textureOn)
 					{
-						for (unsigned int i{ 0 }; i < part.get_nb_vtx(); i++)
+						if (part.m_shapeTexture)
 						{
-							part.get_shape().setPosition(part.get_pos()); //Sets the Shape to its position.
-							part.get_shape().setRotation(part.get_angle()); //Rotates it.
-							part.get_shape().setOutlineColor(sf::Color::Blue); //Colors it.
-							part.get_shape().setFillColor(sf::Color::Transparent); //Idem
-							part.get_shape().setOutlineThickness(2.f);
+							part.m_shape.setTexture(&part.m_texture);
+							if (part.m_animated)
+								part.m_shape.setTextureRect(part.get_currentSpriteRect());
+							part.m_shape.setPosition(part.get_position());
+							part.m_shape.setRotation(part.get_angle());
+							m_window.draw(part.m_shape, m_shaderManager->get_shader(part.m_shaderIndexes[0]));
 						}
-						debTex.draw(part.get_shape()); //Draws the Shape to the debug Texture.
-					}
-
-					for (auto lgh : part.get_vLgh())
-					{
-						m_vPartLgh.push_back(lgh);
+						else
+						{
+							sprite.setTexture(part.m_texture);
+							if (part.m_animated)
+								sprite.setTextureRect(part.get_currentSpriteRect());
+							sprite.setPosition(part.get_position());
+							sprite.setRotation(part.get_angle());
+							m_window.draw(sprite, m_shaderManager->get_shader(part.m_shaderIndexes[0]));
+						}
 					}
 				}
 			}
 		}
 		//Gets textures and draw them.
 
-		for (auto lgh : m_vLgh)
+		for (auto& part : vPart)
 		{
-			lghTex.draw(lgh.get_vtxArr());
+			for (auto& light : part.m_vLight)
+			{
+				m_vPartLight.push_back(light);
+			}
 		}
-		for (auto lgh : m_vPartLgh)
+		//Collects the lights linked to the parts.
+
+		for (auto& light : m_vLight)
 		{
-			lghTex.draw(lgh.get_vtxArr());
+			lightTex.draw(light.get_vertexArray());
 		}
-		//Draws Lights on lghTex
-		m_vPartLgh.clear(); //Clear vPartLgh to avoid duplication.
+		for (auto& light : m_vPartLight)
+		{
+			lightTex.draw(light.get_vertexArray());
+		}
+		//Draws Lights on lightTex
+		m_vPartLight.clear(); //Clear vPartLight to avoid duplication.
 
 		debTex.display(); //Displays the debug Texture.
-		lghTex.display(); //Idem for Light Texture.
-		sf::Sprite lghSpr(lghTex.getTexture()), debSpr(debTex.getTexture()); //Creates Sprites with the RenderTextures.
-		m_win.draw(lghSpr, sf::BlendMultiply); //Draws the Light Texture on the RenderWindow.
-		m_win.draw(debSpr, sf::BlendAdd); //Draws the debug Texture on the RenderWindow.
+		lightTex.display(); //Idem for Light Texture.
+		sf::Sprite lightSprite(lightTex.getTexture()), debSprite(debTex.getTexture()); //Creates 
+		//Sprites with the RenderTextures.
+		m_window.draw(lightSprite, sf::BlendMultiply); //Draws the Light Texture on the 
+													   //RenderWindow.
+		m_window.draw(debSprite, sf::BlendAdd); //Draws the debug Texture on the RenderWindow.
 
-		m_win.display(); //Displays the RenderWindow.
+		m_window.display(); //Displays the RenderWindow.
 	}
-
-	void Game::addObj(Object& obj)
-	{
-		m_vObj.push_back(obj);
-	}
-
-	void Game::addEnt(Entity& ent)
-	{
-		m_vEnt.push_back(ent);
-	}
-
-	void Game::addLgh(Light& lgh)
-	{
-		m_vLgh.push_back(lgh);
-	}
-
 }
 
 namespace DeltaEngine //Part
 {
-	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f pos)
+	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
 	{
-		//---JSON---
+		//JSON
 		json j{ returnJson(jsonPath) }; //Collects data from json.
-		//---Class---
-		m_coef = j["coef"]; //Defines the members vars with the json file.
+
+		//Class members
 		m_priority = j["priority"];
+		for (auto jIdx : j["shaderIndexes"])
+		{
+			m_shaderIndexes.push_back(jIdx);
+		}
+		for (auto jL : j["lights"])
+		{
+			m_vLight.push_back(Light(jL["radius"], jL["vertices"], 
+				sf::Vector2f(jL["position"][0], jL["position"][1]), 
+				sf::Color(jL["color"][0],jL["color"][1], jL["color"][2]), jL["intensity"]));
+			m_vLight.back().set_position(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
+		}
+		for (auto jDL : j["lights"])
+		{
+			m_vLight.push_back(Light(jDL["radius"], jDL["vertices"],
+				sf::Vector2f(jDL["position"][0], jDL["position"][1]),
+				jDL["abscissa_angle"], jDL["opening_angle"],
+				sf::Color(jDL["color"][0], jDL["color"][1], jDL["color"][2]), jDL["intensity"]));
+			m_vLight.back().set_position(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
+		}
+
+		m_coef = j["coef"];
+		m_nb_vertices = j["nb_vertices"];
+
+		//Class members (SFML)
+		m_shape = sf::ConvexShape(m_nb_vertices);
+		double vtxPosX{ 0 }, vtxPosY{ 0 };
+		for (int i{ 0 }; i < m_nb_vertices; i++)
+		{
+			vtxPosX = j["vertexPosition"][i][0]; vtxPosY = j["vertexPosition"][i][1];//Collects the
+			//position from the .json file.
+			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices 
+			//to their position (which converted from meters to px).
+		}
+		if (!m_texture.loadFromFile(j["texture"]))
+			std::cout << "Texture not loaded" << std::endl;
+		m_shapeTexture = j["shapeTexture"];
+		m_animated = j["animated"];
+		m_sizeSprite = sf::Vector2i(j["sizeSprite"][0], j["sizeSprite"][1]);
+		m_currentSpritePosition = sf::Vector2i(j["startSpritePosition"][0],
+			j["startSpritePosition"][1]);
+
+		//Class members (Box2d)
 		m_type = j["type"];
 		m_bodyType = j["bodyType"];
-		m_nb_vtx = j["nb_vtx"];
-		//---SFML---
-		m_shape = sf::ConvexShape(m_nb_vtx); //Makes a shape with [nb_vtx] vertices.
-		double vtxPosX{ 0 }, vtxPosY{ 0 };
-		for (unsigned int i{ 0 }; i < j["nb_vtx"]; i++)
-		{
-			vtxPosX = j["vtxPos"][i][0]; vtxPosY = j["vtxPos"][i][1]; //Collects the position from the .json file.
-			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices to their pos(which converted from meters to px).
-		}
-		m_shapeTex = j["shapeTex"];
-		m_tex_load = m_tex.loadFromFile(j["texPath"]);
-		m_animated = j["animated"];
-		m_sizeSpr = sf::Vector2i(j["sizeSpr"][0], j["sizeSpr"][1]);
-		m_currentSprPos = sf::Vector2i(j["startSprPos"][0], j["startSprPos"][1]);
-		m_shdIdx = j["shdIdx"];
-		//---Box2D---
+		//Creation of the body
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
-		for (int i{ 0 }; i < m_nb_vtx; i++)
+		for (int i{ 0 }; i < m_nb_vertices; i++)
 		{
 			vertices[i].Set(j["vtxPos"][i][0], j["vtxPos"][i][1]);
 		}
 		//Sets the vertices to their own pos.
 		b2PolygonShape partShape; //Creates a shape for the part.
-		partShape.Set(vertices, m_nb_vtx); //Sets the vertices for the shape.
+		partShape.Set(vertices, m_nb_vertices); //Sets the vertices for the shape.
 		b2FixtureDef fixtureDef; //Creates a FixtureDef.
 		fixtureDef.shape = &partShape; //Set the shape to the FixtureDef.
 		fixtureDef.density = j["density"]; //Set the density of the part.
 		fixtureDef.friction = j["friction"]; //Set the friction of the part.
 		fixtureDef.restitution = j["restitution"]; //...
 		b2BodyDef bodyDef; //Create a BodyDef.
-		float posX{ j["pos"][0] + pos.x }, posY{ j["pos"][1] + pos.y };
-		bodyDef.position.Set(posX, posY);
-
-		switch (m_bodyType)
+		float posX{ j["position"][0] + position.x }, posY{ j["position"][1] + position.y };
+		//Calculate the position of the part.
+		bodyDef.position.Set(posX, posY); //Sets it.
+		switch (m_bodyType) //Defines the bodyType
 		{
 		case STATICBODY:
 			bodyDef.type = b2_staticBody;
@@ -277,7 +341,7 @@ namespace DeltaEngine //Part
 		default:
 			break;
 		}
-		fixtureDef.filter.categoryBits = m_type;
+		fixtureDef.filter.categoryBits = m_type; //Defines what collides with what.
 		switch (m_type)
 		{
 		case DECOR:
@@ -301,99 +365,19 @@ namespace DeltaEngine //Part
 		default:
 			break;
 		}
-		//Set the type of the part.
-		m_body = world.CreateBody(&bodyDef); //Create the part.
-		m_body->CreateFixture(&fixtureDef); //Set the fixture to the part.
-
-		//---Light--
-		for (auto jLights : j["lights"])
-		{
-			m_vLgh.push_back(Light(sf::Vector2f((float)jLights["lPos"][0], (float)jLights["lPos"][1]),
-				jLights["lRad"], jLights["lVtx"], sf::Vector3f(jLights["lColor"][0], jLights["lColor"][1],
-					jLights["lColor"][2]), jLights["intensity"]));
-			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
-		}
-		for (auto jDirLights : j["dirLights"])
-		{
-			m_vLgh.push_back(Light(sf::Vector2f((float)jDirLights["lPos"][0], (float)jDirLights["lPos"][1]),
-				jDirLights["lRad"], jDirLights["lAngle"], jDirLights["lO_angle"] ,jDirLights["lVtx"],
-				sf::Vector3f(jDirLights["lColor"][0], jDirLights["lColor"][1], jDirLights["lColor"][2]),
-				jDirLights["intensity"]));
-			m_vLgh.back().set_pos(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
-		}
+		m_body = world.CreateBody(&bodyDef); //Create the body.
+		m_body->CreateFixture(&fixtureDef); //Set the fixture to the body.
 	}
 
-	double Part::get_coef()
+	//Getters
+	sf::IntRect Part::get_currentSpriteRect()
 	{
-		return m_coef;
+		sf::Vector2i currSprPos{ m_currentSpritePosition.x * m_sizeSprite.x,
+			 m_currentSpritePosition.y * m_sizeSprite.y };
+		return sf::IntRect(currSprPos, m_sizeSprite);
 	}
 
-	int Part::get_priority()
-	{
-		return m_priority;
-	}
-
-	int Part::get_nb_vtx()
-	{
-		return m_nb_vtx;
-	}
-
-	sf::ConvexShape& Part::get_shape()
-	{
-		return m_shape;
-	}
-
-	sf::Texture& Part::get_texture()
-	{
-		return m_tex;
-	}
-
-	bool Part::get_shapeTex()
-	{
-		return m_shapeTex;
-	}
-
-	bool Part::get_textureOn()
-	{
-		if (m_tex_load)
-			return TEXTURE_ON;
-		else
-			return false;
-	}
-
-	bool Part::get_animated()
-	{
-		return m_animated;
-	}
-
-	sf::Vector2i Part::get_sizeSpr()
-	{
-		return m_sizeSpr;
-	}
-
-	sf::Vector2i Part::get_currentSprPos()
-	{
-		return m_currentSprPos;
-	}
-
-	sf::IntRect Part::get_currSprRect()
-	{
-		//std::cout << "<>> " << m_currentSprPos.y << std::endl;
-		sf::Vector2i currSprPos{ m_currentSprPos.x * m_sizeSpr.x, m_currentSprPos.y * m_sizeSpr.y };
-		return sf::IntRect(currSprPos, m_sizeSpr);
-	}
-
-	int Part::get_shdIdx()
-	{
-		return m_shdIdx;
-	}
-
-	b2Body* Part::get_body()
-	{
-		return m_body;
-	}
-
-	sf::Vector2f Part::get_pos(bool inPx)
+	sf::Vector2f Part::get_position(bool inPx = true)
 	{
 		b2Vec2 pos{ m_body->GetPosition() };
 		if (inPx)
@@ -402,7 +386,7 @@ namespace DeltaEngine //Part
 			return sf::Vector2f(pos.x, pos.y);
 	}
 
-	double Part::get_angle(bool inDeg)
+	double Part::get_angle(bool inDeg = true)
 	{
 		if (inDeg)
 			return m_body->GetAngle() * RAD2DEG;
@@ -410,187 +394,121 @@ namespace DeltaEngine //Part
 			return m_body->GetAngle();
 	}
 
-	std::vector<Light>& Part::get_vLgh()
+	//Setters
+	void Part::set_currentSpritePosition(sf::Vector2i position)
 	{
-		return m_vLgh;
+		m_currentSpritePosition = position;
 	}
 
-	void Part::set_currentSprPos(sf::Vector2i pos)
+	void Part::set_currentSpritePosition(unsigned int positionX, unsigned int positionY)
 	{
-		m_currentSprPos = pos;
-	}
-
-	void Part::set_currentSprPos(unsigned int posx, unsigned int posy)
-	{
-		m_currentSprPos = sf::Vector2i(posx, posy);
+		m_currentSpritePosition = sf::Vector2i(positionX, positionY);
 	}
 }
 
 namespace DeltaEngine //Object
 {
-	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f pos)
+	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
 	{
-		json j{ returnJson(jsonPath) }; //Collects data from json.
-		m_id = j["id"]; //Sets the id.
-		m_name = j["name"]; //...
-		m_nb_part = j["nb_part"]; //...
-		for (unsigned int i{ 0 }; i < m_nb_part; i++)
+		json j{ returnJson(jsonPath) };
+		m_id = j["id"];
+		m_name = j["name"];
+		m_nb_part = j["nb_part"];
+		for (int i{ 0 }; i < m_nb_part; i++)
 		{
-			m_vPart.push_back(Part(j["parts"][i], world, pos));
+			m_vPart.push_back(Part(j["parts"][i], world, position));
 		}
-		//Create and add part to the object.
-	}
-
-	int Object::get_nb_part()
-	{
-		return m_nb_part;
-	}
-
-	std::vector<Part>& Object::get_vPart()
-	{
-		return m_vPart;
 	}
 
 	void Object::updateLight()
 	{
 		for (auto& part : m_vPart)
 		{
-			sf::Vector2f pos{ part.get_body()->GetPosition().x * (float)part.get_coef(),
-				part.get_body()->GetPosition().y * (float)part.get_coef() }; //Gets the pos of the Part
-			for (auto& lgh : part.get_vLgh())
+			sf::Vector2f pos{ part.m_body->GetPosition().x * (float)part.m_coef,
+				part.m_body->GetPosition().y * (float)part.m_coef }; //Gets the pos of the Part
+			for (auto& light : part.m_vLight)
 			{
-				lgh.set_pos(pos); //Sets the pos of the Light.
+				light.set_position(pos); //Sets the pos of the Light.
 			}
 		}
 	}
-
 }
 
 namespace DeltaEngine //Entity
 {
-	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f pos) :Object::Object(jsonPath, world, pos)
-	{
-		json j{ returnJson(jsonPath) };
-		m_hpMax = j["hp"];
-		m_hp = j["hp"];
-		m_isAlive = true;
-	}
+	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
+		:Object::Object(jsonPath, world, position)
+	{}
 
-	bool Entity::verifyIfAlive()
-	{
-		if (m_hp <= 0)
-		{
-			m_hp = 0;
-			print(m_name + "is dead...");
-			m_isAlive = false;
-		}
-		else
-		{
-			m_isAlive = true;
-		}
-		return m_isAlive;
-	}
-
-	void Entity::damage(double val)
-	{
-		m_hp -= val;
-		verifyIfAlive();
-	}
-
-	void Entity::heal(double val)
-	{
-		m_hp += val;
-		if (m_hp > m_hpMax)
-			m_hp = m_hpMax;
-	}
-
-	void Entity::move(float dir, float val, float acc)
+	void Entity::move(float direction, float value, float acceleration = 0.1)
 	{
 		float t{ 1 / 60.0 }, m{ 0 };
-		b2Vec2 v_{ cos(dir) * val, sin(dir) * val }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
+		b2Vec2 v_{ cos(direction) * value, sin(direction) * value }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
 		for (auto part : m_vPart)
 		{
-			v0 += part.get_body()->GetLinearVelocity();
+			v0 += part.m_body->GetLinearVelocity();
 		}
 		b2Vec2 a_{ (v_.x - v0.x) / t, (v_.y - v0.y) / t }, f_{ 0, 0 };
 		if (v_.x == 0) a_.x = 0;
 		if (v_.y == 0) a_.y = 0;
 		for (auto part : m_vPart)
 		{
-			m = part.get_body()->GetMass();
+			m = part.m_body->GetMass();
 			f_ = b2Vec2{ a_.x * m, a_.y * m }; //f = ma
-			part.get_body()->ApplyForce(f_, part.get_body()->GetWorldCenter(), true);
+			part.m_body->ApplyForce(f_, part.m_body->GetWorldCenter(), true);
 		}
-	}
-
-	void Entity::tp(b2Vec2 pos)
-	{
 	}
 }
 
 namespace DeltaEngine //Light
 {
-	Light::Light(sf::Vector2f pos, double rad, int vtx, sf::Vector3f color, double intensity)
+	Light::Light(double radius, int vertices, sf::Vector2f position,
+		sf::Color color = sf::Color(255, 255, 255), double intensity = 255):m_radius(radius),
+		m_vertexArray(sf::TriangleFan, vertices), m_position(position), m_color(color), 
+		m_intensity(intensity), m_directed(false), m_abscissa_angle(0), m_opening_angle(0)
 	{
-		m_rad = rad; //Sets the radius.
-		m_angle = 0;
-		m_o_angle = 0;
-		m_dir = false;
-		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx); //Creates a VertexArray with the TriangleFan model.
-		m_vtxArr[0].position = pos; //Sets the center of the circle.
-		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
-		for (unsigned int i{ 1 }; i < vtx; i++)
-		{
-			double angle{ 2 * i * b2_pi / (vtx - 2) }; //Calculates the angle of the vertex.
-			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle) * m_rad, pos.y + sin(angle) * m_rad); //Sets it to its pos.
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, intensity / m_rad); //Colors it to make a shade.
-		}
-		m_pos = pos; //Sets the pos.
+		generate();
+	}
+	Light::Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
+		double opening_angle, sf::Color color = sf::Color(255, 255, 255),
+		double intensity = 255) : m_radius(radius), m_vertexArray(sf::TriangleFan, vertices),
+		m_position(position), m_color(color), m_intensity(intensity), m_directed(true),
+		m_abscissa_angle(abscissa_angle),m_opening_angle(opening_angle)
+	{
+		generate();
 	}
 
-	Light::Light(sf::Vector2f pos, double rad, double a_angle, double o_angle, int vtx, sf::Vector3f color, double intensity)
+	//Getters
+	sf::VertexArray& Light::get_vertexArray()
 	{
-		m_rad = rad;
-		m_angle = a_angle*DEG2RAD;
-		m_o_angle = o_angle*DEG2RAD;
-		m_dir = true;
-		m_vtxArr = sf::VertexArray(sf::TriangleFan, vtx); //Creates a VertexArray with the TriangleFan model.
-		m_vtxArr[0].position = pos; //Sets the center of the circle.
-		m_vtxArr[0].color = sf::Color(color.x, color.y, color.z, 255); //Sets the color.
-		for (unsigned i{ 1 }; i < vtx; i++)
-		{
-			double angle{ (i * m_o_angle / (vtx - 2)) + m_angle };
-			m_vtxArr[i].position = sf::Vector2f(pos.x + cos(angle) * m_rad, pos.y + sin(angle) * m_rad); //Sets it to its pos.
-			m_vtxArr[i].color = sf::Color(color.x, color.y, color.z, intensity / m_rad); //Colors it to make a shade.
-		}
-		m_pos = pos;
+		return m_vertexArray;
+	}
+	
+	//Setters
+	void Light::set_position(sf::Vector2f position)
+	{
+		m_position = position;
+		generate();
 	}
 
-	sf::VertexArray& Light::get_vtxArr()
+	//Others
+	void Light::generate()
 	{
-		return m_vtxArr;
-	}
-
-	void Light::set_pos(sf::Vector2f pos)
-	{
-		m_vtxArr[0].position = pos + m_pos;
-		if (!m_dir)
+		m_vertexArray[0].position = m_position;
+		m_vertexArray[0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+		double angle{ 0 };
+		for(int i{1}; i<m_vertexArray.getVertexCount(); i++) //The first vertex is already placed.
 		{
-			for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
-			{
-				double angle{ 2 * i * b2_pi / (m_vtxArr.getVertexCount() - 2) };
-				sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
-				m_vtxArr[i].position = pos + m_pos + vAngle;
-			}
-		}
-		else
-		{
-			for (unsigned int i{ 1 }; i < m_vtxArr.getVertexCount(); i++)
-			{
-				double angle{ (i * m_o_angle / (m_vtxArr.getVertexCount() - 2)) + m_angle };
-				sf::Vector2f vAngle(cos(angle) * m_rad, sin(angle) * m_rad);
-				m_vtxArr[i].position = pos + m_pos + vAngle;
-			}
+			if (m_directed)
+				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
+				+ m_abscissa_angle;
+			else
+				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
+				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
+			m_vertexArray[i].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
+				m_position.y + sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
+			m_vertexArray[i].color = sf::Color(m_color.r, m_color.b, m_color.g
+				, m_intensity / m_radius);//More the radius is big, less the intensity will be.
 		}
 	}
 }
@@ -604,26 +522,24 @@ namespace DeltaEngine //ShaderManager
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e, sf::Shader::Type::Vertex);
-			m_vShd.push_back(shader);
+			m_vShader.push_back(shader);
 		}
-		std::cout << m_vShd.size() << std::endl;
 		for (auto e : j["frag"])
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e, sf::Shader::Type::Fragment);
-			m_vShd.push_back(shader);
+			m_vShader.push_back(shader);
 		}
-		std::cout << m_vShd.size() << std::endl;
 		for (auto e : j["vert+frag"])
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e[0], (std::string)e[0]);
-			m_vShd.push_back(shader);
+			m_vShader.push_back(shader);
 		}
 	}
 
-	sf::Shader* ShaderManager::get_shd(int index)
+	sf::Shader* ShaderManager::get_shader(int index)
 	{
-		return m_vShd[index];
+		return m_vShader[index];
 	}
 }
