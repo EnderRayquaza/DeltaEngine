@@ -3,7 +3,6 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) an
 
 Todo :
 - [ ] Complete the README
-- [x] Make a doc
-- [ ] Finish the littles details
+- [x] Finish the littles details
 
 *In building...*
