@@ -18,7 +18,7 @@ namespace DeltaEngine //Game
 {
 	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
 		std::string icon, ShaderManager* shaderManager, sf::Color& bgColor, b2Vec2& gravity,
-		float timeStep = 1.f / 60.f, int32 velocityIt = 6, int32 positionIt = 3):m_name(name),
+		float timeStep, int32 velocityIt, int32 positionIt):m_name(name),
 		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), 
 		m_textureOn(textureOn), m_icon(icon), m_shaderManager(shaderManager),
 		m_window(sf::VideoMode(800, 600), ""), m_bgColor(bgColor), m_gravity(gravity),
@@ -257,7 +257,7 @@ namespace DeltaEngine //Game
 
 namespace DeltaEngine //Part
 {
-	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
+	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position)
 	{
 		//JSON
 		json j{ returnJson(jsonPath) }; //Collects data from json.
@@ -377,7 +377,7 @@ namespace DeltaEngine //Part
 		return sf::IntRect(currSprPos, m_sizeSprite);
 	}
 
-	sf::Vector2f Part::get_position(bool inPx = true)
+	sf::Vector2f Part::get_position(bool inPx)
 	{
 		b2Vec2 pos{ m_body->GetPosition() };
 		if (inPx)
@@ -386,7 +386,7 @@ namespace DeltaEngine //Part
 			return sf::Vector2f(pos.x, pos.y);
 	}
 
-	double Part::get_angle(bool inDeg = true)
+	double Part::get_angle(bool inDeg)
 	{
 		if (inDeg)
 			return m_body->GetAngle() * RAD2DEG;
@@ -408,7 +408,7 @@ namespace DeltaEngine //Part
 
 namespace DeltaEngine //Object
 {
-	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
+	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f position)
 	{
 		json j{ returnJson(jsonPath) };
 		m_id = j["id"];
@@ -436,11 +436,11 @@ namespace DeltaEngine //Object
 
 namespace DeltaEngine //Entity
 {
-	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
+	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f position)
 		:Object::Object(jsonPath, world, position)
 	{}
 
-	void Entity::move(float direction, float value, float acceleration = 0.1)
+	void Entity::move(float direction, float value, float acceleration)
 	{
 		float t{ 1 / 60.0 }, m{ 0 };
 		b2Vec2 v_{ cos(direction) * value, sin(direction) * value }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
@@ -463,15 +463,14 @@ namespace DeltaEngine //Entity
 namespace DeltaEngine //Light
 {
 	Light::Light(double radius, int vertices, sf::Vector2f position,
-		sf::Color color = sf::Color(255, 255, 255), double intensity = 255):m_radius(radius),
+		sf::Color color, double intensity):m_radius(radius),
 		m_vertexArray(sf::TriangleFan, vertices), m_position(position), m_color(color), 
 		m_intensity(intensity), m_directed(false), m_abscissa_angle(0), m_opening_angle(0)
 	{
 		generate();
 	}
 	Light::Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
-		double opening_angle, sf::Color color = sf::Color(255, 255, 255),
-		double intensity = 255) : m_radius(radius), m_vertexArray(sf::TriangleFan, vertices),
+		double opening_angle, sf::Color color, double intensity) : m_radius(radius), m_vertexArray(sf::TriangleFan, vertices),
 		m_position(position), m_color(color), m_intensity(intensity), m_directed(true),
 		m_abscissa_angle(abscissa_angle),m_opening_angle(opening_angle)
 	{
