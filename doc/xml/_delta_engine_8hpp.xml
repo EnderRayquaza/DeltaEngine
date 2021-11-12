@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="_delta_engine_8hpp" kind="file" language="C++">
+    <compoundname>DeltaEngine.hpp</compoundname>
+    <includes local="no">fstream</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">SFML/Window.hpp</includes>
+    <includes local="no">SFML/Graphics.hpp</includes>
+    <includes local="no">box2d/box2d.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="_delta_engine_8cpp" local="yes">C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp</label>
+        <link refid="_delta_engine_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>SFML/Graphics.hpp</label>
+      </node>
+      <node id="6">
+        <label>SFML/Window.hpp</label>
+      </node>
+      <node id="8">
+        <label>box2d/box2d.h</label>
+      </node>
+      <node id="2">
+        <label>fstream</label>
+      </node>
+      <node id="3">
+        <label>iostream</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_delta_engine_1_1_game" prot="public">DeltaEngine::Game</innerclass>
+    <innerclass refid="class_delta_engine_1_1_part" prot="public">DeltaEngine::Part</innerclass>
+    <innerclass refid="class_delta_engine_1_1_object" prot="public">DeltaEngine::Object</innerclass>
+    <innerclass refid="class_delta_engine_1_1_entity" prot="public">DeltaEngine::Entity</innerclass>
+    <innerclass refid="class_delta_engine_1_1_light" prot="public">DeltaEngine::Light</innerclass>
+    <innerclass refid="class_delta_engine_1_1_shader_manager" prot="public">DeltaEngine::ShaderManager</innerclass>
+    <innernamespace refid="namespace_delta_engine">DeltaEngine</innernamespace>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_delta_engine_8hpp_1ac5a945020d3528355cda82d383676736" prot="public" static="no">
+        <name>RAD2DEG</name>
+        <initializer>57.29577951</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="18" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_delta_engine_8hpp_1af7e8592d0a634bd3642e9fd508ea8022" prot="public" static="no">
+        <name>DEG2RAD</name>
+        <initializer>0.01745329252</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="19" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_delta_engine_8hpp_1aec7d70be3f4e0162cb8395b48623e154" prot="public" static="no">
+        <name>PRIORITIES</name>
+        <initializer>5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="21" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_delta_engine_8hpp_1a37e7947f7a92f52c31ee9d83eadd63b2" prot="public" static="no">
+        <name>STATICBODY</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="23" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_delta_engine_8hpp_1a92454fe06a19446a6c38d953dc81a7e5" prot="public" static="no">
+        <name>KINEMATICBODY</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="24" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_delta_engine_8hpp_1a3adbbe5abbbd26c1412e5e9adb49a719" prot="public" static="no">
+        <name>DYNAMICBODY</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="25" column="9" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>_partCategory</name>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9acfe24a7b308a82835c8a9a9a89bc4ca2" prot="public">
+          <name>NOTHING</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9ad3eae749e258b9be499b699b90e9b7ff" prot="public">
+          <name>DECOR</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9a77353523aa43282a05d23c037e67bbda" prot="public">
+          <name>GROUND</name>
+          <initializer>= 0x0002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9ade5dc3e0dbd007d995ed3e37bde5ce7e" prot="public">
+          <name>PLAYER</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9a313346c41d16554ccbeae5ab4c82c88f" prot="public">
+          <name>PNJ</name>
+          <initializer>= 0x0006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9a5ce368bdfc444a87fef6c208b4101571" prot="public">
+          <name>ENEMY</name>
+          <initializer>= 0x0008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_delta_engine_8hpp_1a6278dd1afeb83b4eede95931aaff65d9a4f5f01d53acb849896daaed9fdbae39d" prot="public">
+          <name>BULLET</name>
+          <initializer>= 0x0010</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="28" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="29" bodyend="37"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="_delta_engine_8hpp_1ab701e3ac61a85b337ec5c1abaad6742d" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using json =  nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="39" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//DeltaEngine.hpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//STL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//SFML</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;SFML/Window.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;SFML/Graphics.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//Box2d</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;box2d/box2d.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//Json</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//For<sp/>conversion<sp/>radians<sp/>&lt;-&gt;<sp/>degrees.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>RAD2DEG<sp/>57.29577951</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DEG2RAD<sp/>0.01745329252</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//For<sp/>Game::draw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PRIORITIES<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//For<sp/>bodyType<sp/>(box2d)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>STATICBODY<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>KINEMATICBODY<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DYNAMICBODY<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//For<sp/>collision<sp/>(box2d)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>_partCategory</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>NOTHING<sp/>=<sp/>0x0000,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>DECOR<sp/>=<sp/>0x0001,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>GROUND<sp/>=<sp/>0x0002,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>PLAYER<sp/>=<sp/>0x0004,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>PNJ<sp/>=<sp/>0x0006,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>ENEMY<sp/>=<sp/>0x0008,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>BULLET<sp/>=<sp/>0x0010,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>json<sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_delta_engine" kindref="compound">DeltaEngine</ref></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Game;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Part;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Object;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Entity;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Light;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ShaderManager;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/><ref refid="namespace_delta_engine_1a1239ff6b1b712a6f56060b204995cc8d" kindref="member">returnJson</ref>(std::string<sp/>jsonPath);<sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="class_delta_engine_1_1_game" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Todo<sp/>:<sp/>Doc<sp/>of<sp/>Setters</highlight></codeline>
+<codeline lineno="221" refid="class_delta_engine_1_1_game_1a79a0c184f2178d471b6961fde8da12b4" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_game_1a79a0c184f2178d471b6961fde8da12b4" kindref="member">Game</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_game_1a79a0c184f2178d471b6961fde8da12b4" kindref="member">Game</ref>(std::string<sp/>name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>version_Major,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>version_minor,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>debug,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>textureOn,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>icon,<sp/><ref refid="class_delta_engine_1_1_shader_manager" kindref="compound">ShaderManager</ref>*<sp/>shaderManager,<sp/>sf::Color&amp;<sp/>bgColor,<sp/>b2Vec2&amp;<sp/>gravity,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>timeStep<sp/>=<sp/>1.f<sp/>/<sp/>60.f,<sp/>int32<sp/>velocityIt<sp/>=<sp/>6,<sp/>int32<sp/>positionIt<sp/>=<sp/>3);<sp/></highlight></codeline>
+<codeline lineno="225" refid="class_delta_engine_1_1_game_1ade71f170792f4eb7349896ead6d1dade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_game_1ade71f170792f4eb7349896ead6d1dade" kindref="member">~Game</ref>();<sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_delta_engine_1_1_game_1a7f1b2ae3cd5a5504ae73710988dcd0a8" kindref="member">get_title</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>showVersion<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1ae9d25992fc2d3215ccbe67ba4e822f7f" kindref="member">get_debug</ref>();</highlight></codeline>
+<codeline lineno="230" refid="class_delta_engine_1_1_game_1a7978377efc7cf6d4505dcb36a0b1f621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a7978377efc7cf6d4505dcb36a0b1f621" kindref="member">get_textureOn</ref>();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Object&gt;&amp;<sp/><ref refid="class_delta_engine_1_1_game_1a7ead8082f8d19b3d9775e0765ac499f1" kindref="member">get_vObject</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Entity&gt;&amp;<sp/><ref refid="class_delta_engine_1_1_game_1a9eddca7718d968bb26cae1763e7b8fee" kindref="member">get_vEntity</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Light&gt;&amp;<sp/><ref refid="class_delta_engine_1_1_game_1acb62d5768f507a365433a522b53d2614" kindref="member">get_vLight</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::RenderWindow&amp;<sp/><ref refid="class_delta_engine_1_1_game_1a63cbc931c43d4ac65e348c10238b7468" kindref="member">get_window</ref>();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b2World&amp;<sp/><ref refid="class_delta_engine_1_1_game_1a860ed44814dd9efa5fff61adcdf48e8d" kindref="member">get_world</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1ada6da62fe5b6c9c0ba95a2e498dfae61" kindref="member">get_timeStep</ref>();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32<sp/><ref refid="class_delta_engine_1_1_game_1acc7b4e04752781d6b4e009c59ecd964e" kindref="member">get_velocityIt</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32<sp/><ref refid="class_delta_engine_1_1_game_1a98435fd95bd54defc7633b6c055cf93f" kindref="member">get_positionIt</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Setters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1addbfeb9ef8d706df6d6880ae8be6b509" kindref="member">set_debug</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>value);<sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>set_textureOn(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a0fa16f6ef9965c13dd73d96a9b33e08b" kindref="member">addObject</ref>(<ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>&amp;<sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1ae16b51cba5042f03820f13f78420f4f3" kindref="member">addEntity</ref>(<ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref>&amp;<sp/>entity);<sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1adc9fcc6f5685e7d019fae9a4b0d092d5" kindref="member">addLight</ref>(<ref refid="class_delta_engine_1_1_light" kindref="compound">Light</ref>&amp;<sp/>light);<sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a71e59ccc159fa067b9dc959c40890614" kindref="member">removeObject</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);<sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a489cff06c499a8c0ffc3ae1711ee65cd" kindref="member">removeEntity</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);<sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a12946e113171afd6a0cae4eab1187943" kindref="member">removeLight</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);<sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1ad6b15268791d22c0bce6ce89e9b8cfd7" kindref="member">draw</ref>();<sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Game<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="class_delta_engine_1_1_game_1af431853e69258f257619884984cc1471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_delta_engine_1_1_game_1af431853e69258f257619884984cc1471" kindref="member">m_name</ref>;<sp/></highlight></codeline>
+<codeline lineno="258" refid="class_delta_engine_1_1_game_1a48f756148ae8cd59ed349be0feb990a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a48f756148ae8cd59ed349be0feb990a6" kindref="member">m_version_M</ref>;<sp/></highlight></codeline>
+<codeline lineno="259" refid="class_delta_engine_1_1_game_1abc946fe88a6496ff1ea8cb9d02262eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1abc946fe88a6496ff1ea8cb9d02262eb4" kindref="member">m_version_m</ref>;<sp/></highlight></codeline>
+<codeline lineno="260" refid="class_delta_engine_1_1_game_1aa248dc138a81b023cb68b671c62ac69d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1aa248dc138a81b023cb68b671c62ac69d" kindref="member">m_debug</ref>;<sp/></highlight></codeline>
+<codeline lineno="261" refid="class_delta_engine_1_1_game_1a73fe8220728cece449886dd956864cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a73fe8220728cece449886dd956864cc5" kindref="member">m_textureOn</ref>;<sp/></highlight></codeline>
+<codeline lineno="262" refid="class_delta_engine_1_1_game_1a961574b65b81014650d959d362103287" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_delta_engine_1_1_game_1a961574b65b81014650d959d362103287" kindref="member">m_icon</ref>;<sp/></highlight></codeline>
+<codeline lineno="263" refid="class_delta_engine_1_1_game_1a447efac19c30287b7e1367269d8a66e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Object&gt;<sp/><ref refid="class_delta_engine_1_1_game_1a447efac19c30287b7e1367269d8a66e5" kindref="member">m_vObject</ref>;<sp/></highlight></codeline>
+<codeline lineno="264" refid="class_delta_engine_1_1_game_1a8565a9e376e924e8be4b42db5085fa26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Entity&gt;<sp/><ref refid="class_delta_engine_1_1_game_1a8565a9e376e924e8be4b42db5085fa26" kindref="member">m_vEntity</ref>;<sp/></highlight></codeline>
+<codeline lineno="265" refid="class_delta_engine_1_1_game_1a9f449040c31b1eb144e587d5d0d72e72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Light&gt;<sp/><ref refid="class_delta_engine_1_1_game_1a9f449040c31b1eb144e587d5d0d72e72" kindref="member">m_vLight</ref>;<sp/></highlight></codeline>
+<codeline lineno="266" refid="class_delta_engine_1_1_game_1a316df4ca08438f9c37baa6c6bebadfb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Light&gt;<sp/><ref refid="class_delta_engine_1_1_game_1a316df4ca08438f9c37baa6c6bebadfb3" kindref="member">m_vPartLight</ref>;<sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Game<sp/>members<sp/>(SFML)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="class_delta_engine_1_1_game_1a7c2c7141dbf38aeb0b18ea5f65f3aa7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_shader_manager" kindref="compound">ShaderManager</ref>*<sp/><ref refid="class_delta_engine_1_1_game_1a7c2c7141dbf38aeb0b18ea5f65f3aa7e" kindref="member">m_shaderManager</ref>;<sp/></highlight></codeline>
+<codeline lineno="270" refid="class_delta_engine_1_1_game_1a61e86878be90b835fd10e84a151a322e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::RenderWindow<sp/><ref refid="class_delta_engine_1_1_game_1a61e86878be90b835fd10e84a151a322e" kindref="member">m_window</ref>;<sp/></highlight></codeline>
+<codeline lineno="271" refid="class_delta_engine_1_1_game_1a5e1ad249aea10b174348e81effe9f88c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Color<sp/><ref refid="class_delta_engine_1_1_game_1a5e1ad249aea10b174348e81effe9f88c" kindref="member">m_bgColor</ref>;<sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Game<sp/>members<sp/>(Box2d)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274" refid="class_delta_engine_1_1_game_1a59f8819f19b07e76c3fbfea8da587bdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b2Vec2<sp/><ref refid="class_delta_engine_1_1_game_1a59f8819f19b07e76c3fbfea8da587bdf" kindref="member">m_gravity</ref>;<sp/></highlight></codeline>
+<codeline lineno="275" refid="class_delta_engine_1_1_game_1a7dbe2929943859967dec36b6e5406c3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b2World<sp/><ref refid="class_delta_engine_1_1_game_1a7dbe2929943859967dec36b6e5406c3d" kindref="member">m_world</ref>;<sp/></highlight></codeline>
+<codeline lineno="276" refid="class_delta_engine_1_1_game_1a66c2f7740b1c5d2c3c2c8aad3a3cb3f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game_1a66c2f7740b1c5d2c3c2c8aad3a3cb3f1" kindref="member">m_timeStep</ref>;<sp/></highlight></codeline>
+<codeline lineno="277" refid="class_delta_engine_1_1_game_1a8727830e985f8bf578637a8d76a5eac3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32<sp/><ref refid="class_delta_engine_1_1_game_1a8727830e985f8bf578637a8d76a5eac3" kindref="member">m_velocityIt</ref>;<sp/></highlight></codeline>
+<codeline lineno="278" refid="class_delta_engine_1_1_game_1a59406d775239c76a597422311d13d109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32<sp/><ref refid="class_delta_engine_1_1_game_1a59406d775239c76a597422311d13d109" kindref="member">m_positionIt</ref>;<sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="class_delta_engine_1_1_part" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="324" refid="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" kindref="member">Part</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" kindref="member">Part</ref>(std::string<sp/>jsonPath,<sp/>b2World&amp;<sp/>world,<sp/>sf::Vector2f<sp/>position<sp/>=<sp/>sf::Vector2f(0,<sp/>0));<sp/></highlight></codeline>
+<codeline lineno="327" refid="class_delta_engine_1_1_part_1a11e675d80f56d46997e72bf1bb672713" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_part_1a11e675d80f56d46997e72bf1bb672713" kindref="member">~Part</ref>();<sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref>;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref>;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::IntRect<sp/><ref refid="class_delta_engine_1_1_part_1a903d526b2a1276ff0e4e0ef12b872401" kindref="member">get_currentSpriteRect</ref>();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Vector2f<sp/><ref refid="class_delta_engine_1_1_part_1a04aa758a97fd787dea4338c428417b19" kindref="member">get_position</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inPx<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1a8099d4de3234cc38b06c1c524fb49c33" kindref="member">get_angle</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inDeg<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Setters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1a68015a1331d290c5f12d896b9e341099" kindref="member">set_currentSpritePosition</ref>(sf::Vector2i<sp/>position);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1a68015a1331d290c5f12d896b9e341099" kindref="member">set_currentSpritePosition</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>positionX,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>positionY);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Part<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344" refid="class_delta_engine_1_1_part_1ae101c61a1da1c34a08e3e4dfa26ebafc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1ae101c61a1da1c34a08e3e4dfa26ebafc" kindref="member">m_priority</ref>;<sp/></highlight></codeline>
+<codeline lineno="345" refid="class_delta_engine_1_1_part_1ad80fe2624266a62e354a485045a1344f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="class_delta_engine_1_1_part_1ad80fe2624266a62e354a485045a1344f" kindref="member">m_shaderIndexes</ref>;<sp/></highlight></codeline>
+<codeline lineno="346" refid="class_delta_engine_1_1_part_1ab85da609af687ae9b17917c92bcbe22c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Light&gt;<sp/><ref refid="class_delta_engine_1_1_part_1ab85da609af687ae9b17917c92bcbe22c" kindref="member">m_vLight</ref>;<sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="class_delta_engine_1_1_part_1aae9abadece9417e2700dea4d2bfe77d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1aae9abadece9417e2700dea4d2bfe77d9" kindref="member">m_coef</ref>;<sp/></highlight></codeline>
+<codeline lineno="349" refid="class_delta_engine_1_1_part_1acc00153a57c50e8662f4d12973846155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1acc00153a57c50e8662f4d12973846155" kindref="member">m_nb_vertices</ref>;<sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Part<sp/>members<sp/>(SFML)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="class_delta_engine_1_1_part_1ac61b3cf40d76de379cb898f24fd14411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::ConvexShape<sp/><ref refid="class_delta_engine_1_1_part_1ac61b3cf40d76de379cb898f24fd14411" kindref="member">m_shape</ref>;<sp/></highlight></codeline>
+<codeline lineno="353" refid="class_delta_engine_1_1_part_1a251463e050a59a1056bb53e4fbbd8cec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Texture<sp/><ref refid="class_delta_engine_1_1_part_1a251463e050a59a1056bb53e4fbbd8cec" kindref="member">m_texture</ref>;<sp/></highlight></codeline>
+<codeline lineno="354" refid="class_delta_engine_1_1_part_1ab155a08cb4605bb5d916ba8ec8e0900f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Texture<sp/><ref refid="class_delta_engine_1_1_part_1ab155a08cb4605bb5d916ba8ec8e0900f" kindref="member">m_currentTexture</ref>;<sp/></highlight></codeline>
+<codeline lineno="355" refid="class_delta_engine_1_1_part_1a4007a136e5ee257e750c1eb0166c9baa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1a4007a136e5ee257e750c1eb0166c9baa" kindref="member">m_shapeTexture</ref>;<sp/></highlight></codeline>
+<codeline lineno="356" refid="class_delta_engine_1_1_part_1ac8c13164906d11ed71d8bb421a4002d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1ac8c13164906d11ed71d8bb421a4002d3" kindref="member">m_animated</ref>;<sp/></highlight></codeline>
+<codeline lineno="357" refid="class_delta_engine_1_1_part_1a00d476a6f007defa65cd8034b3fb0835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Vector2i<sp/><ref refid="class_delta_engine_1_1_part_1a00d476a6f007defa65cd8034b3fb0835" kindref="member">m_sizeSprite</ref>;<sp/></highlight></codeline>
+<codeline lineno="358" refid="class_delta_engine_1_1_part_1ac09c107f833187e11aa2f5b330ba1cee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Vector2i<sp/><ref refid="class_delta_engine_1_1_part_1ac09c107f833187e11aa2f5b330ba1cee" kindref="member">m_currentSpritePosition</ref>;<sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Part<sp/>members<sp/>(Box2d)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361" refid="class_delta_engine_1_1_part_1a20bdb7f59828b0d9562c2419cd606c78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16<sp/><ref refid="class_delta_engine_1_1_part_1a20bdb7f59828b0d9562c2419cd606c78" kindref="member">m_type</ref>;<sp/></highlight></codeline>
+<codeline lineno="362" refid="class_delta_engine_1_1_part_1a3056c4c80b70d513d39a741331bc85ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_part_1a3056c4c80b70d513d39a741331bc85ac" kindref="member">m_bodyType</ref>;<sp/></highlight></codeline>
+<codeline lineno="363" refid="class_delta_engine_1_1_part_1a390956a4deda59088eefaa88f58e0011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b2Body*<sp/><ref refid="class_delta_engine_1_1_part_1a390956a4deda59088eefaa88f58e0011" kindref="member">m_body</ref>;<sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366" refid="class_delta_engine_1_1_object" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="390" refid="class_delta_engine_1_1_object_1a944894e704336455a08981ab7155b292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_object_1a944894e704336455a08981ab7155b292" kindref="member">Object</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_object_1a944894e704336455a08981ab7155b292" kindref="member">Object</ref>(std::string<sp/>jsonPath,<sp/>b2World&amp;<sp/>world,<sp/>sf::Vector2f<sp/>position<sp/>=<sp/>sf::Vector2f(0,<sp/>0));</highlight></codeline>
+<codeline lineno="393" refid="class_delta_engine_1_1_object_1a5ef22e625db079b12c4a4d1a95001ee7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_object_1a5ef22e625db079b12c4a4d1a95001ee7" kindref="member">~Object</ref>();<sp/></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref>;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_object_1ab2d19890723d9446f2f06d67946836fe" kindref="member">updateLight</ref>();<sp/></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="401" refid="class_delta_engine_1_1_object_1a6d272d955b320fc1bf3e8954bac75e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_object_1a6d272d955b320fc1bf3e8954bac75e05" kindref="member">m_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="402" refid="class_delta_engine_1_1_object_1a4cca2c75f66eb00b891f25f32fad0612" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_delta_engine_1_1_object_1a4cca2c75f66eb00b891f25f32fad0612" kindref="member">m_name</ref>;<sp/></highlight></codeline>
+<codeline lineno="403" refid="class_delta_engine_1_1_object_1a449481b553a0adb00968834d9a7e5040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_object_1a449481b553a0adb00968834d9a7e5040" kindref="member">m_nb_part</ref>;<sp/></highlight></codeline>
+<codeline lineno="404" refid="class_delta_engine_1_1_object_1ab9c5f285f02610e7432da7fea5e6e2ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Part&gt;<sp/><ref refid="class_delta_engine_1_1_object_1ab9c5f285f02610e7432da7fea5e6e2ae" kindref="member">m_vPart</ref>;<sp/></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407" refid="class_delta_engine_1_1_entity" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="435" refid="class_delta_engine_1_1_entity_1a351ea3001af8559e187e8a7372bfb3b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_entity_1a351ea3001af8559e187e8a7372bfb3b2" kindref="member">Entity</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_entity_1a351ea3001af8559e187e8a7372bfb3b2" kindref="member">Entity</ref>(std::string<sp/>jsonPath,<sp/>b2World&amp;<sp/>world,<sp/>sf::Vector2f<sp/>position<sp/>=<sp/>sf::Vector2f(0,<sp/>0));</highlight></codeline>
+<codeline lineno="438" refid="class_delta_engine_1_1_entity_1afb1b26e40631fb0915fc05fcdc95c076" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_entity_1afb1b26e40631fb0915fc05fcdc95c076" kindref="member">~Entity</ref>();<sp/></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_entity_1a48bc7ab87db1fbda405424f0782e33cb" kindref="member">move</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>direction,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>acceleration<sp/>=<sp/>0.1);<sp/></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446" refid="class_delta_engine_1_1_light" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_light" kindref="compound">Light</ref></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/>:</highlight></codeline>
+<codeline lineno="491" refid="class_delta_engine_1_1_light_1a4a514d2b6f87b4a4e5cdcc801ecd163f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_light_1a4a514d2b6f87b4a4e5cdcc801ecd163f" kindref="member">Light</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_light_1a4a514d2b6f87b4a4e5cdcc801ecd163f" kindref="member">Light</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>radius,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>vertices,<sp/>sf::Vector2f<sp/>position,</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Color<sp/>color<sp/>=<sp/>sf::Color(255,<sp/>255,<sp/>255),<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>intensity<sp/>=<sp/>255);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_light_1a4a514d2b6f87b4a4e5cdcc801ecd163f" kindref="member">Light</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>radius,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>vertices,<sp/>sf::Vector2f<sp/>position,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>abscissa_angle,</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>opening_angle,<sp/>sf::Color<sp/>color<sp/>=<sp/>sf::Color(255,<sp/>255,<sp/>255),</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>intensity<sp/>=<sp/>255);<sp/></highlight></codeline>
+<codeline lineno="497" refid="class_delta_engine_1_1_light_1af5063384becbc45d8df9361f0daa7888" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_light_1af5063384becbc45d8df9361f0daa7888" kindref="member">~Light</ref>();<sp/></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref>;</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::VertexArray&amp;<sp/><ref refid="class_delta_engine_1_1_light_1a0164ae8a310689433a1279835f7d233c" kindref="member">get_vertexArray</ref>();</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Setters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1aa6af9ac3a2d650189ae872fd6198e39f" kindref="member">set_position</ref>(sf::Vector2f<sp/>position);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Others</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1af67ac480447a82ce1ede97912d44a0ff" kindref="member">generate</ref>();<sp/></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Light<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512" refid="class_delta_engine_1_1_light_1acfced0710c813a848091ede706695df4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1acfced0710c813a848091ede706695df4" kindref="member">m_radius</ref>;<sp/></highlight></codeline>
+<codeline lineno="513" refid="class_delta_engine_1_1_light_1ab0652ec5c1a4b209fd4e78b58cd37d3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::VertexArray<sp/><ref refid="class_delta_engine_1_1_light_1ab0652ec5c1a4b209fd4e78b58cd37d3a" kindref="member">m_vertexArray</ref>;<sp/></highlight></codeline>
+<codeline lineno="514" refid="class_delta_engine_1_1_light_1ac28279cfc35ce7d2ccf8b01a273eca57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Vector2f<sp/><ref refid="class_delta_engine_1_1_light_1ac28279cfc35ce7d2ccf8b01a273eca57" kindref="member">m_position</ref>;<sp/></highlight></codeline>
+<codeline lineno="515" refid="class_delta_engine_1_1_light_1a40d9df2c826f7ce0ea20d6cfb015a524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Color<sp/><ref refid="class_delta_engine_1_1_light_1a40d9df2c826f7ce0ea20d6cfb015a524" kindref="member">m_color</ref>;<sp/></highlight></codeline>
+<codeline lineno="516" refid="class_delta_engine_1_1_light_1aab425e8b17a3380a6f229f862ed11b91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1aab425e8b17a3380a6f229f862ed11b91" kindref="member">m_intensity</ref>;<sp/></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518" refid="class_delta_engine_1_1_light_1af0edeba9fd8b70f6d7319114aadbdbae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1af0edeba9fd8b70f6d7319114aadbdbae" kindref="member">m_directed</ref>;<sp/></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Directed<sp/>Light<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="521" refid="class_delta_engine_1_1_light_1a48338cbc371ac9631473344eb1aa598b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1a48338cbc371ac9631473344eb1aa598b" kindref="member">m_abscissa_angle</ref>;<sp/></highlight></codeline>
+<codeline lineno="522" refid="class_delta_engine_1_1_light_1a1077b81e40b6c5dbefff4f510e47d070" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_delta_engine_1_1_light_1a1077b81e40b6c5dbefff4f510e47d070" kindref="member">m_opening_angle</ref>;<sp/></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525" refid="class_delta_engine_1_1_shader_manager" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_delta_engine_1_1_shader_manager" kindref="compound">ShaderManager</ref></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="545" refid="class_delta_engine_1_1_shader_manager_1ac0a962f43e00c3de5380827899a28a2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_shader_manager_1ac0a962f43e00c3de5380827899a28a2e" kindref="member">ShaderManager</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_shader_manager_1ac0a962f43e00c3de5380827899a28a2e" kindref="member">ShaderManager</ref>(std::string<sp/>jsonPath);<sp/></highlight></codeline>
+<codeline lineno="547" refid="class_delta_engine_1_1_shader_manager_1aa85a16e1a16a5ab1e00ad824a447688a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_delta_engine_1_1_shader_manager_1aa85a16e1a16a5ab1e00ad824a447688a" kindref="member">~ShaderManager</ref>();<sp/></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Getters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf::Shader*<sp/><ref refid="class_delta_engine_1_1_shader_manager_1a0e61cd46a8ee9fff28c9427f1cdc4762" kindref="member">get_shader</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);<sp/></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="553" refid="class_delta_engine_1_1_shader_manager_1a72a2e6ecad241662e5b4fb63b9aa8329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;sf::Shader*&gt;<sp/><ref refid="class_delta_engine_1_1_shader_manager_1a72a2e6ecad241662e5b4fb63b9aa8329" kindref="member">m_vShader</ref>;<sp/></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="555"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp"/>
+  </compounddef>
+</doxygen>

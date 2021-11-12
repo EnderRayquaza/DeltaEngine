@@ -1,0 +1,169 @@
+\hypertarget{class_delta_engine_1_1_light}{}\doxysection{Delta\+Engine\+::Light Class Reference}
+\label{class_delta_engine_1_1_light}\index{DeltaEngine::Light@{DeltaEngine::Light}}
+
+
+A class that enlights the \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}}. There\textquotesingle{}re circles \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} and directional \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}.  
+
+
+
+
+{\ttfamily \#include $<$Delta\+Engine.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}{Light}} ()=delete
+\begin{DoxyCompactList}\small\item\em Deleted Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_delta_engine_1_1_light_a1d629510af6119dbe9692326ee3745da}{Light}} (double radius, int vertices, sf\+::\+Vector2f position, sf\+::\+Color color=sf\+::\+Color(255, 255, 255), double intensity=255)
+\begin{DoxyCompactList}\small\item\em Constructor for classic Lights. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_delta_engine_1_1_light_a69f1b1f44385658331038fcc30c38b4d}{Light}} (double radius, int vertices, sf\+::\+Vector2f position, double abscissa\+\_\+angle, double opening\+\_\+angle, sf\+::\+Color color=sf\+::\+Color(255, 255, 255), double intensity=255)
+\begin{DoxyCompactList}\small\item\em Constructor for directed Lights. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_delta_engine_1_1_light_af5063384becbc45d8df9361f0daa7888}{$\sim$\+Light}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+sf\+::\+Vertex\+Array \& \mbox{\hyperlink{class_delta_engine_1_1_light_a0164ae8a310689433a1279835f7d233c}{get\+\_\+vertex\+Array}} ()
+\item 
+void \mbox{\hyperlink{class_delta_engine_1_1_light_aa6af9ac3a2d650189ae872fd6198e39f}{set\+\_\+position}} (sf\+::\+Vector2f position)
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_af67ac480447a82ce1ede97912d44a0ff}\label{class_delta_engine_1_1_light_af67ac480447a82ce1ede97912d44a0ff}} 
+void {\bfseries generate} ()
+\begin{DoxyCompactList}\small\item\em Calculate the render of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a93efcd6af15f89ca4b223605362bf6aa}\label{class_delta_engine_1_1_light_a93efcd6af15f89ca4b223605362bf6aa}} 
+friend {\bfseries Game}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_acfced0710c813a848091ede706695df4}\label{class_delta_engine_1_1_light_acfced0710c813a848091ede706695df4}} 
+double {\bfseries m\+\_\+radius}
+\begin{DoxyCompactList}\small\item\em Its radius in px. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_ab0652ec5c1a4b209fd4e78b58cd37d3a}\label{class_delta_engine_1_1_light_ab0652ec5c1a4b209fd4e78b58cd37d3a}} 
+sf\+::\+Vertex\+Array {\bfseries m\+\_\+vertex\+Array}
+\begin{DoxyCompactList}\small\item\em An Array with all the vertices of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_ac28279cfc35ce7d2ccf8b01a273eca57}\label{class_delta_engine_1_1_light_ac28279cfc35ce7d2ccf8b01a273eca57}} 
+sf\+::\+Vector2f {\bfseries m\+\_\+position}
+\begin{DoxyCompactList}\small\item\em Its positon in px. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a40d9df2c826f7ce0ea20d6cfb015a524}\label{class_delta_engine_1_1_light_a40d9df2c826f7ce0ea20d6cfb015a524}} 
+sf\+::\+Color {\bfseries m\+\_\+color}
+\begin{DoxyCompactList}\small\item\em The color of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_aab425e8b17a3380a6f229f862ed11b91}\label{class_delta_engine_1_1_light_aab425e8b17a3380a6f229f862ed11b91}} 
+double {\bfseries m\+\_\+intensity}
+\begin{DoxyCompactList}\small\item\em The intensity/brightness of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_af0edeba9fd8b70f6d7319114aadbdbae}\label{class_delta_engine_1_1_light_af0edeba9fd8b70f6d7319114aadbdbae}} 
+bool {\bfseries m\+\_\+directed}
+\begin{DoxyCompactList}\small\item\em If the light is a directed light. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a48338cbc371ac9631473344eb1aa598b}\label{class_delta_engine_1_1_light_a48338cbc371ac9631473344eb1aa598b}} 
+double {\bfseries m\+\_\+abscissa\+\_\+angle}
+\begin{DoxyCompactList}\small\item\em The angle between the axe of abscissa and the light. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a1077b81e40b6c5dbefff4f510e47d070}\label{class_delta_engine_1_1_light_a1077b81e40b6c5dbefff4f510e47d070}} 
+double {\bfseries m\+\_\+opening\+\_\+angle}
+\begin{DoxyCompactList}\small\item\em The angle between the first and last ray. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class that enlights the \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}}. There\textquotesingle{}re circles \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} and directional \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. 
+
+\mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} enlight the scene. They can be circular or directional and you can change their color and brightness. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}\label{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!Light@{Light}}
+\index{Light@{Light}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{Light()}{Light()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Light\+::\+Light (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+Deleted Constructor. 
+
+Deleted constructor. Don\textquotesingle{}t use it. \mbox{\Hypertarget{class_delta_engine_1_1_light_a1d629510af6119dbe9692326ee3745da}\label{class_delta_engine_1_1_light_a1d629510af6119dbe9692326ee3745da}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!Light@{Light}}
+\index{Light@{Light}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{Light()}{Light()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Light\+::\+Light (\begin{DoxyParamCaption}\item[{double}]{radius,  }\item[{int}]{vertices,  }\item[{sf\+::\+Vector2f}]{position,  }\item[{sf\+::\+Color}]{color = {\ttfamily sf\+:\+:Color(255,~255,~255)},  }\item[{double}]{intensity = {\ttfamily 255} }\end{DoxyParamCaption})}
+
+
+
+Constructor for classic Lights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & (double) The radius of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+{\em vertices} & (int) The number of vertices in the cirle. More improves quality, but dicrease perfs. \\
+\hline
+{\em position} & (sf\+::\+Vector2f) The position of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} (center of the circle). \\
+\hline
+{\em color} & (sf\+::\+Color) The color of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+{\em intensity} & (double) The intensity/brightness of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}\\
+\hline
+\end{DoxyParams}
+Use this constructor for circles \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \mbox{\Hypertarget{class_delta_engine_1_1_light_a69f1b1f44385658331038fcc30c38b4d}\label{class_delta_engine_1_1_light_a69f1b1f44385658331038fcc30c38b4d}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!Light@{Light}}
+\index{Light@{Light}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{Light()}{Light()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Light\+::\+Light (\begin{DoxyParamCaption}\item[{double}]{radius,  }\item[{int}]{vertices,  }\item[{sf\+::\+Vector2f}]{position,  }\item[{double}]{abscissa\+\_\+angle,  }\item[{double}]{opening\+\_\+angle,  }\item[{sf\+::\+Color}]{color = {\ttfamily sf\+:\+:Color(255,~255,~255)},  }\item[{double}]{intensity = {\ttfamily 255} }\end{DoxyParamCaption})}
+
+
+
+Constructor for directed Lights. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & (double) The radius of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+{\em vertices} & (int) The number of vertices in the cirle. More improves quality, but dicrease perfs. \\
+\hline
+{\em position} & (sf\+::\+Vector2f) The position of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} (center of the circle). \\
+\hline
+{\em abscissa\+\_\+angle} & (double) The angle between the abscissa axis and the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+{\em opening\+\_\+angle} & (double) Tha angle between the first and last ray. \\
+\hline
+{\em color} & (sf\+::\+Color) The color of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+{\em intensity} & (double) The intensity/brightness of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}\\
+\hline
+\end{DoxyParams}
+Use this constructor for directionals \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \mbox{\Hypertarget{class_delta_engine_1_1_light_af5063384becbc45d8df9361f0daa7888}\label{class_delta_engine_1_1_light_af5063384becbc45d8df9361f0daa7888}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!````~Light@{$\sim$Light}}
+\index{````~Light@{$\sim$Light}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{$\sim$Light()}{~Light()}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Light\+::$\sim$\+Light (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Destructor. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_delta_engine_1_1_light_a0164ae8a310689433a1279835f7d233c}\label{class_delta_engine_1_1_light_a0164ae8a310689433a1279835f7d233c}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!get\_vertexArray@{get\_vertexArray}}
+\index{get\_vertexArray@{get\_vertexArray}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{get\_vertexArray()}{get\_vertexArray()}}
+{\footnotesize\ttfamily sf\+::\+Vertex\+Array \& Delta\+Engine\+::\+Light\+::get\+\_\+vertex\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_delta_engine_1_1_light_ab0652ec5c1a4b209fd4e78b58cd37d3a}{m\+\_\+vertex\+Array()}} (sf\+::\+Vertex\+Array) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_delta_engine_1_1_light_aa6af9ac3a2d650189ae872fd6198e39f}\label{class_delta_engine_1_1_light_aa6af9ac3a2d650189ae872fd6198e39f}} 
+\index{DeltaEngine::Light@{DeltaEngine::Light}!set\_position@{set\_position}}
+\index{set\_position@{set\_position}!DeltaEngine::Light@{DeltaEngine::Light}}
+\doxysubsubsection{\texorpdfstring{set\_position()}{set\_position()}}
+{\footnotesize\ttfamily void Delta\+Engine\+::\+Light\+::set\+\_\+position (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{position }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & (sf\+::\+Vector2f) The new position of the \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Utilisateur/\+Documents/\+Prog/\+C++/\+Static\+Delta\+Engine/\+Code/Delta\+Engine.\+hpp\item 
+C\+:/\+Users/\+Utilisateur/\+Documents/\+Prog/\+C++/\+Static\+Delta\+Engine/\+Code/Delta\+Engine.\+cpp\end{DoxyCompactItemize}

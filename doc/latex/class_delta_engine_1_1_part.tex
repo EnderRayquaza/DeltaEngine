@@ -1,0 +1,220 @@
+\hypertarget{class_delta_engine_1_1_part}{}\doxysection{Delta\+Engine\+::Part Class Reference}
+\label{class_delta_engine_1_1_part}\index{DeltaEngine::Part@{DeltaEngine::Part}}
+
+
+The \mbox{\hyperlink{namespace_delta_engine}{Delta\+Engine}} item base. It contains a sprite (with SFML) and an hitbox (with Box2D).  
+
+
+
+
+{\ttfamily \#include $<$Delta\+Engine.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_delta_engine_1_1_part_a6c7f530a97aabf3164de25003f15c243}{Part}} ()=delete
+\begin{DoxyCompactList}\small\item\em Constructor deleted. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_delta_engine_1_1_part_a81f117b0040fee60e31e9d9f6caabd33}{Part}} (std\+::string json\+Path, b2\+World \&world, sf\+::\+Vector2f position=sf\+::\+Vector2f(0, 0))
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_delta_engine_1_1_part_a11e675d80f56d46997e72bf1bb672713}{$\sim$\+Part}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+sf\+::\+Int\+Rect \mbox{\hyperlink{class_delta_engine_1_1_part_a903d526b2a1276ff0e4e0ef12b872401}{get\+\_\+current\+Sprite\+Rect}} ()
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{class_delta_engine_1_1_part_a04aa758a97fd787dea4338c428417b19}{get\+\_\+position}} (bool in\+Px=true)
+\begin{DoxyCompactList}\small\item\em Set true if you want the position in px, false for meters. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_delta_engine_1_1_part_a8099d4de3234cc38b06c1c524fb49c33}{get\+\_\+angle}} (bool in\+Deg=true)
+\begin{DoxyCompactList}\small\item\em Set true if you want the angle in degrees, false for radians. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_delta_engine_1_1_part_a68015a1331d290c5f12d896b9e341099}{set\+\_\+current\+Sprite\+Position}} (sf\+::\+Vector2i position)
+\item 
+void \mbox{\hyperlink{class_delta_engine_1_1_part_a993bd990987b22e4d5055bfc22c1bf8e}{set\+\_\+current\+Sprite\+Position}} (unsigned int positionX, unsigned int positionY)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a2cc4016c7b763e0beff883db80d473b8}\label{class_delta_engine_1_1_part_a2cc4016c7b763e0beff883db80d473b8}} 
+friend {\bfseries Game}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ad816a039ab14b1ddcb1588a307f256cd}\label{class_delta_engine_1_1_part_ad816a039ab14b1ddcb1588a307f256cd}} 
+friend {\bfseries Object}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ae8c49b1a40d79c16fd2a1e0be1b14597}\label{class_delta_engine_1_1_part_ae8c49b1a40d79c16fd2a1e0be1b14597}} 
+friend {\bfseries Entity}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ae101c61a1da1c34a08e3e4dfa26ebafc}\label{class_delta_engine_1_1_part_ae101c61a1da1c34a08e3e4dfa26ebafc}} 
+int {\bfseries m\+\_\+priority}
+\begin{DoxyCompactList}\small\item\em To draw the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}} in a special order. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ad80fe2624266a62e354a485045a1344f}\label{class_delta_engine_1_1_part_ad80fe2624266a62e354a485045a1344f}} 
+std\+::vector$<$ int $>$ {\bfseries m\+\_\+shader\+Indexes}
+\begin{DoxyCompactList}\small\item\em The index of the Shader applied. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ab85da609af687ae9b17917c92bcbe22c}\label{class_delta_engine_1_1_part_ab85da609af687ae9b17917c92bcbe22c}} 
+std\+::vector$<$ \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} $>$ {\bfseries m\+\_\+v\+Light}
+\begin{DoxyCompactList}\small\item\em A vector with \mbox{\hyperlink{class_delta_engine_1_1_light}{Light}} which follow the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_aae9abadece9417e2700dea4d2bfe77d9}\label{class_delta_engine_1_1_part_aae9abadece9417e2700dea4d2bfe77d9}} 
+double {\bfseries m\+\_\+coef}
+\begin{DoxyCompactList}\small\item\em To convert px (for SFML) \& meters (for Box2D). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_acc00153a57c50e8662f4d12973846155}\label{class_delta_engine_1_1_part_acc00153a57c50e8662f4d12973846155}} 
+int {\bfseries m\+\_\+nb\+\_\+vertices}
+\begin{DoxyCompactList}\small\item\em The number of vertices. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ac61b3cf40d76de379cb898f24fd14411}\label{class_delta_engine_1_1_part_ac61b3cf40d76de379cb898f24fd14411}} 
+sf\+::\+Convex\+Shape {\bfseries m\+\_\+shape}
+\begin{DoxyCompactList}\small\item\em The shape. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a251463e050a59a1056bb53e4fbbd8cec}\label{class_delta_engine_1_1_part_a251463e050a59a1056bb53e4fbbd8cec}} 
+sf\+::\+Texture {\bfseries m\+\_\+texture}
+\begin{DoxyCompactList}\small\item\em The texture. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ab155a08cb4605bb5d916ba8ec8e0900f}\label{class_delta_engine_1_1_part_ab155a08cb4605bb5d916ba8ec8e0900f}} 
+sf\+::\+Texture {\bfseries m\+\_\+current\+Texture}
+\begin{DoxyCompactList}\small\item\em The current texture. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a4007a136e5ee257e750c1eb0166c9baa}\label{class_delta_engine_1_1_part_a4007a136e5ee257e750c1eb0166c9baa}} 
+bool {\bfseries m\+\_\+shape\+Texture}
+\begin{DoxyCompactList}\small\item\em If true, the texture will be shaped by the shape. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ac8c13164906d11ed71d8bb421a4002d3}\label{class_delta_engine_1_1_part_ac8c13164906d11ed71d8bb421a4002d3}} 
+bool {\bfseries m\+\_\+animated}
+\begin{DoxyCompactList}\small\item\em If true, it has an animated texture. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a00d476a6f007defa65cd8034b3fb0835}\label{class_delta_engine_1_1_part_a00d476a6f007defa65cd8034b3fb0835}} 
+sf\+::\+Vector2i {\bfseries m\+\_\+size\+Sprite}
+\begin{DoxyCompactList}\small\item\em The size of one sprite in the sheet. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_ac09c107f833187e11aa2f5b330ba1cee}\label{class_delta_engine_1_1_part_ac09c107f833187e11aa2f5b330ba1cee}} 
+sf\+::\+Vector2i {\bfseries m\+\_\+current\+Sprite\+Position}
+\begin{DoxyCompactList}\small\item\em The position of the current sprite in the sheet. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a20bdb7f59828b0d9562c2419cd606c78}\label{class_delta_engine_1_1_part_a20bdb7f59828b0d9562c2419cd606c78}} 
+uint16 {\bfseries m\+\_\+type}
+\begin{DoxyCompactList}\small\item\em The type of the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}} (see enum \+\_\+part\+Category above). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a3056c4c80b70d513d39a741331bc85ac}\label{class_delta_engine_1_1_part_a3056c4c80b70d513d39a741331bc85ac}} 
+int {\bfseries m\+\_\+body\+Type}
+\begin{DoxyCompactList}\small\item\em The type of the body (Static, Kinematic or Dynamic). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a390956a4deda59088eefaa88f58e0011}\label{class_delta_engine_1_1_part_a390956a4deda59088eefaa88f58e0011}} 
+b2\+Body $\ast$ {\bfseries m\+\_\+body}
+\begin{DoxyCompactList}\small\item\em The body. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{namespace_delta_engine}{Delta\+Engine}} item base. It contains a sprite (with SFML) and an hitbox (with Box2D). 
+
+Friend with \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}}, \mbox{\hyperlink{class_delta_engine_1_1_object}{Object}} and \mbox{\hyperlink{class_delta_engine_1_1_entity}{Entity}} \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}} are a combination of a texture (SFML) and an hitbox (Box2D). They can be animated and Shader can be applied on. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{class_delta_engine_1_1_object}{Object}} 
+
+\mbox{\hyperlink{class_delta_engine_1_1_entity}{Entity}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a6c7f530a97aabf3164de25003f15c243}\label{class_delta_engine_1_1_part_a6c7f530a97aabf3164de25003f15c243}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!Part@{Part}}
+\index{Part@{Part}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{Part()}{Part()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Part\+::\+Part (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+Constructor deleted. 
+
+Deleted constructor. Don\textquotesingle{}t use it. \mbox{\Hypertarget{class_delta_engine_1_1_part_a81f117b0040fee60e31e9d9f6caabd33}\label{class_delta_engine_1_1_part_a81f117b0040fee60e31e9d9f6caabd33}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!Part@{Part}}
+\index{Part@{Part}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{Part()}{Part()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Part\+::\+Part (\begin{DoxyParamCaption}\item[{std\+::string}]{json\+Path,  }\item[{b2\+World \&}]{world,  }\item[{sf\+::\+Vector2f}]{position = {\ttfamily sf\+:\+:Vector2f(0,~0)} }\end{DoxyParamCaption})}
+
+
+
+Default Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+Path} & (std\+::string) The path of the .json file where\textquotesingle{}s the data. \\
+\hline
+{\em world} & (b2\+World\&) The world where the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}} will be created. \\
+\hline
+{\em position} & (sf\+::\+Vector2f) The postion of the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}} in meters.\\
+\hline
+\end{DoxyParams}
+The default constructor. Use .json to create your \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}}. \mbox{\Hypertarget{class_delta_engine_1_1_part_a11e675d80f56d46997e72bf1bb672713}\label{class_delta_engine_1_1_part_a11e675d80f56d46997e72bf1bb672713}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!````~Part@{$\sim$Part}}
+\index{````~Part@{$\sim$Part}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{$\sim$Part()}{~Part()}}
+{\footnotesize\ttfamily Delta\+Engine\+::\+Part\+::$\sim$\+Part (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Destructor. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a8099d4de3234cc38b06c1c524fb49c33}\label{class_delta_engine_1_1_part_a8099d4de3234cc38b06c1c524fb49c33}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!get\_angle@{get\_angle}}
+\index{get\_angle@{get\_angle}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{get\_angle()}{get\_angle()}}
+{\footnotesize\ttfamily double Delta\+Engine\+::\+Part\+::get\+\_\+angle (\begin{DoxyParamCaption}\item[{bool}]{in\+Deg = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Set true if you want the angle in degrees, false for radians. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Set} & true if you want the angle in degrees, false for radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(double) The angle of the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a903d526b2a1276ff0e4e0ef12b872401}\label{class_delta_engine_1_1_part_a903d526b2a1276ff0e4e0ef12b872401}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!get\_currentSpriteRect@{get\_currentSpriteRect}}
+\index{get\_currentSpriteRect@{get\_currentSpriteRect}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{get\_currentSpriteRect()}{get\_currentSpriteRect()}}
+{\footnotesize\ttfamily sf\+::\+Int\+Rect Delta\+Engine\+::\+Part\+::get\+\_\+current\+Sprite\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+(sf\+::\+Int\+Rect) The rectangle of the current texture. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a04aa758a97fd787dea4338c428417b19}\label{class_delta_engine_1_1_part_a04aa758a97fd787dea4338c428417b19}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!get\_position@{get\_position}}
+\index{get\_position@{get\_position}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{get\_position()}{get\_position()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Delta\+Engine\+::\+Part\+::get\+\_\+position (\begin{DoxyParamCaption}\item[{bool}]{in\+Px = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Set true if you want the position in px, false for meters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Px} & (bool) Set true if you want the position in px, false for meters. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(sf\+::\+Vector2f) The position of the \mbox{\hyperlink{class_delta_engine_1_1_part}{Part}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a68015a1331d290c5f12d896b9e341099}\label{class_delta_engine_1_1_part_a68015a1331d290c5f12d896b9e341099}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!set\_currentSpritePosition@{set\_currentSpritePosition}}
+\index{set\_currentSpritePosition@{set\_currentSpritePosition}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{set\_currentSpritePosition()}{set\_currentSpritePosition()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Delta\+Engine\+::\+Part\+::set\+\_\+current\+Sprite\+Position (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2i}]{position }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & (sf\+::\+Vector2i) The new position of the current sprite position. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_delta_engine_1_1_part_a993bd990987b22e4d5055bfc22c1bf8e}\label{class_delta_engine_1_1_part_a993bd990987b22e4d5055bfc22c1bf8e}} 
+\index{DeltaEngine::Part@{DeltaEngine::Part}!set\_currentSpritePosition@{set\_currentSpritePosition}}
+\index{set\_currentSpritePosition@{set\_currentSpritePosition}!DeltaEngine::Part@{DeltaEngine::Part}}
+\doxysubsubsection{\texorpdfstring{set\_currentSpritePosition()}{set\_currentSpritePosition()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Delta\+Engine\+::\+Part\+::set\+\_\+current\+Sprite\+Position (\begin{DoxyParamCaption}\item[{unsigned int}]{positionX,  }\item[{unsigned int}]{positionY }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em positionX} & (unsigned int) The new position of the current sprite position on the X axis. \\
+\hline
+{\em positionY} & (unsigned int) The new position of the current sprite position on the Y axis. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Utilisateur/\+Documents/\+Prog/\+C++/\+Static\+Delta\+Engine/\+Code/Delta\+Engine.\+hpp\item 
+C\+:/\+Users/\+Utilisateur/\+Documents/\+Prog/\+C++/\+Static\+Delta\+Engine/\+Code/Delta\+Engine.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="class_delta_engine_1_1_part" kind="class" language="C++" prot="public">
+    <compoundname>DeltaEngine::Part</compoundname>
+    <includes refid="_delta_engine_8hpp" local="no">DeltaEngine.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a2cc4016c7b763e0beff883db80d473b8" prot="public" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend DeltaEngine::Part::Game</definition>
+        <argsstring></argsstring>
+        <name>Game</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="329" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ad816a039ab14b1ddcb1588a307f256cd" prot="public" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend DeltaEngine::Part::Object</definition>
+        <argsstring></argsstring>
+        <name>Object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="330" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ae8c49b1a40d79c16fd2a1e0be1b14597" prot="public" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend DeltaEngine::Part::Entity</definition>
+        <argsstring></argsstring>
+        <name>Entity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="331" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ae101c61a1da1c34a08e3e4dfa26ebafc" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeltaEngine::Part::m_priority</definition>
+        <argsstring></argsstring>
+        <name>m_priority</name>
+        <briefdescription>
+<para>To draw the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> in a special order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="344" column="5" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ad80fe2624266a62e354a485045a1344f" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; DeltaEngine::Part::m_shaderIndexes</definition>
+        <argsstring></argsstring>
+        <name>m_shaderIndexes</name>
+        <briefdescription>
+<para>The index of the Shader applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="345" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ab85da609af687ae9b17917c92bcbe22c" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_delta_engine_1_1_light" kindref="compound">Light</ref> &gt;</type>
+        <definition>std::vector&lt;Light&gt; DeltaEngine::Part::m_vLight</definition>
+        <argsstring></argsstring>
+        <name>m_vLight</name>
+        <briefdescription>
+<para>A vector with <ref refid="class_delta_engine_1_1_light" kindref="compound">Light</ref> which follow the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="346" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1aae9abadece9417e2700dea4d2bfe77d9" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DeltaEngine::Part::m_coef</definition>
+        <argsstring></argsstring>
+        <name>m_coef</name>
+        <briefdescription>
+<para>To convert px (for SFML) &amp; meters (for Box2D). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="348" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1acc00153a57c50e8662f4d12973846155" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeltaEngine::Part::m_nb_vertices</definition>
+        <argsstring></argsstring>
+        <name>m_nb_vertices</name>
+        <briefdescription>
+<para>The number of vertices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="349" column="5" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ac61b3cf40d76de379cb898f24fd14411" prot="protected" static="no" mutable="no">
+        <type>sf::ConvexShape</type>
+        <definition>sf::ConvexShape DeltaEngine::Part::m_shape</definition>
+        <argsstring></argsstring>
+        <name>m_shape</name>
+        <briefdescription>
+<para>The shape. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="352" column="17" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a251463e050a59a1056bb53e4fbbd8cec" prot="protected" static="no" mutable="no">
+        <type>sf::Texture</type>
+        <definition>sf::Texture DeltaEngine::Part::m_texture</definition>
+        <argsstring></argsstring>
+        <name>m_texture</name>
+        <briefdescription>
+<para>The texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="353" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ab155a08cb4605bb5d916ba8ec8e0900f" prot="protected" static="no" mutable="no">
+        <type>sf::Texture</type>
+        <definition>sf::Texture DeltaEngine::Part::m_currentTexture</definition>
+        <argsstring></argsstring>
+        <name>m_currentTexture</name>
+        <briefdescription>
+<para>The current texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="354" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a4007a136e5ee257e750c1eb0166c9baa" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool DeltaEngine::Part::m_shapeTexture</definition>
+        <argsstring></argsstring>
+        <name>m_shapeTexture</name>
+        <briefdescription>
+<para>If true, the texture will be shaped by the shape. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="355" column="6" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ac8c13164906d11ed71d8bb421a4002d3" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool DeltaEngine::Part::m_animated</definition>
+        <argsstring></argsstring>
+        <name>m_animated</name>
+        <briefdescription>
+<para>If true, it has an animated texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="356" column="6" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a00d476a6f007defa65cd8034b3fb0835" prot="protected" static="no" mutable="no">
+        <type>sf::Vector2i</type>
+        <definition>sf::Vector2i DeltaEngine::Part::m_sizeSprite</definition>
+        <argsstring></argsstring>
+        <name>m_sizeSprite</name>
+        <briefdescription>
+<para>The size of one sprite in the sheet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="357" column="14" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1ac09c107f833187e11aa2f5b330ba1cee" prot="protected" static="no" mutable="no">
+        <type>sf::Vector2i</type>
+        <definition>sf::Vector2i DeltaEngine::Part::m_currentSpritePosition</definition>
+        <argsstring></argsstring>
+        <name>m_currentSpritePosition</name>
+        <briefdescription>
+<para>The position of the current sprite in the sheet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="358" column="14" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a20bdb7f59828b0d9562c2419cd606c78" prot="protected" static="no" mutable="no">
+        <type>uint16</type>
+        <definition>uint16 DeltaEngine::Part::m_type</definition>
+        <argsstring></argsstring>
+        <name>m_type</name>
+        <briefdescription>
+<para>The type of the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> (see enum _partCategory above). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="361" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a3056c4c80b70d513d39a741331bc85ac" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeltaEngine::Part::m_bodyType</definition>
+        <argsstring></argsstring>
+        <name>m_bodyType</name>
+        <briefdescription>
+<para>The type of the body (Static, Kinematic or Dynamic). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="362" column="5" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_part_1a390956a4deda59088eefaa88f58e0011" prot="protected" static="no" mutable="no">
+        <type>b2Body *</type>
+        <definition>b2Body* DeltaEngine::Part::m_body</definition>
+        <argsstring></argsstring>
+        <name>m_body</name>
+        <briefdescription>
+<para>The body. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="363" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Part::Part</definition>
+        <argsstring>()=delete</argsstring>
+        <name>Part</name>
+        <briefdescription>
+<para>Constructor deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deleted constructor. Don&apos;t use it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="324" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a81f117b0040fee60e31e9d9f6caabd33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Part::Part</definition>
+        <argsstring>(std::string jsonPath, b2World &amp;world, sf::Vector2f position=sf::Vector2f(0, 0))</argsstring>
+        <name>Part</name>
+        <param>
+          <type>std::string</type>
+          <declname>jsonPath</declname>
+        </param>
+        <param>
+          <type>b2World &amp;</type>
+          <declname>world</declname>
+        </param>
+        <param>
+          <type>sf::Vector2f</type>
+          <declname>position</declname>
+          <defval>sf::Vector2f(0, 0)</defval>
+        </param>
+        <briefdescription>
+<para>Default Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jsonPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(std::string) The path of the .json file where&apos;s the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>world</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(b2World&amp;) The world where the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> will be created. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(sf::Vector2f) The postion of the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> in meters.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+The default constructor. Use .json to create your <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="325" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="260" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a11e675d80f56d46997e72bf1bb672713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Part::~Part</definition>
+        <argsstring>()</argsstring>
+        <name>~Part</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="327" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a903d526b2a1276ff0e4e0ef12b872401" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sf::IntRect</type>
+        <definition>sf::IntRect DeltaEngine::Part::get_currentSpriteRect</definition>
+        <argsstring>()</argsstring>
+        <name>get_currentSpriteRect</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>(sf::IntRect) The rectangle of the current texture. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="334" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="373" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a04aa758a97fd787dea4338c428417b19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sf::Vector2f</type>
+        <definition>sf::Vector2f DeltaEngine::Part::get_position</definition>
+        <argsstring>(bool inPx=true)</argsstring>
+        <name>get_position</name>
+        <param>
+          <type>bool</type>
+          <declname>inPx</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Set true if you want the position in px, false for meters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inPx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(bool) Set true if you want the position in px, false for meters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(sf::Vector2f) The position of the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="335" column="14" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="380" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a8099d4de3234cc38b06c1c524fb49c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double DeltaEngine::Part::get_angle</definition>
+        <argsstring>(bool inDeg=true)</argsstring>
+        <name>get_angle</name>
+        <param>
+          <type>bool</type>
+          <declname>inDeg</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Set true if you want the angle in degrees, false for radians. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if you want the angle in degrees, false for radians. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(double) The angle of the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="336" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="389" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a68015a1331d290c5f12d896b9e341099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaEngine::Part::set_currentSpritePosition</definition>
+        <argsstring>(sf::Vector2i position)</argsstring>
+        <name>set_currentSpritePosition</name>
+        <param>
+          <type>sf::Vector2i</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(sf::Vector2i) The new position of the current sprite position. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="339" column="6" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_part_1a993bd990987b22e4d5055bfc22c1bf8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaEngine::Part::set_currentSpritePosition</definition>
+        <argsstring>(unsigned int positionX, unsigned int positionY)</argsstring>
+        <name>set_currentSpritePosition</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>positionX</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>positionY</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>positionX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(unsigned int) The new position of the current sprite position on the X axis. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(unsigned int) The new position of the current sprite position on the Y axis. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="340" column="6" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="403" bodyend="406"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="namespace_delta_engine" kindref="compound">DeltaEngine</ref> item base. It contains a sprite (with SFML) and an hitbox (with Box2D). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Friend with <ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref>, <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref> and <ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref> <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> are a combination of a texture (SFML) and an hitbox (Box2D). They can be animated and Shader can be applied on. <simplesect kind="see"><para><ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="281" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="282" bodyend="364"/>
+    <listofallmembers>
+      <member refid="class_delta_engine_1_1_part_1ae8c49b1a40d79c16fd2a1e0be1b14597" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>Entity</name></member>
+      <member refid="class_delta_engine_1_1_part_1a2cc4016c7b763e0beff883db80d473b8" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>Game</name></member>
+      <member refid="class_delta_engine_1_1_part_1a8099d4de3234cc38b06c1c524fb49c33" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>get_angle</name></member>
+      <member refid="class_delta_engine_1_1_part_1a903d526b2a1276ff0e4e0ef12b872401" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>get_currentSpriteRect</name></member>
+      <member refid="class_delta_engine_1_1_part_1a04aa758a97fd787dea4338c428417b19" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>get_position</name></member>
+      <member refid="class_delta_engine_1_1_part_1ac8c13164906d11ed71d8bb421a4002d3" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_animated</name></member>
+      <member refid="class_delta_engine_1_1_part_1a390956a4deda59088eefaa88f58e0011" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_body</name></member>
+      <member refid="class_delta_engine_1_1_part_1a3056c4c80b70d513d39a741331bc85ac" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_bodyType</name></member>
+      <member refid="class_delta_engine_1_1_part_1aae9abadece9417e2700dea4d2bfe77d9" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_coef</name></member>
+      <member refid="class_delta_engine_1_1_part_1ac09c107f833187e11aa2f5b330ba1cee" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_currentSpritePosition</name></member>
+      <member refid="class_delta_engine_1_1_part_1ab155a08cb4605bb5d916ba8ec8e0900f" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_currentTexture</name></member>
+      <member refid="class_delta_engine_1_1_part_1acc00153a57c50e8662f4d12973846155" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_nb_vertices</name></member>
+      <member refid="class_delta_engine_1_1_part_1ae101c61a1da1c34a08e3e4dfa26ebafc" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_priority</name></member>
+      <member refid="class_delta_engine_1_1_part_1ad80fe2624266a62e354a485045a1344f" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_shaderIndexes</name></member>
+      <member refid="class_delta_engine_1_1_part_1ac61b3cf40d76de379cb898f24fd14411" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_shape</name></member>
+      <member refid="class_delta_engine_1_1_part_1a4007a136e5ee257e750c1eb0166c9baa" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_shapeTexture</name></member>
+      <member refid="class_delta_engine_1_1_part_1a00d476a6f007defa65cd8034b3fb0835" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_sizeSprite</name></member>
+      <member refid="class_delta_engine_1_1_part_1a251463e050a59a1056bb53e4fbbd8cec" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_texture</name></member>
+      <member refid="class_delta_engine_1_1_part_1a20bdb7f59828b0d9562c2419cd606c78" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_type</name></member>
+      <member refid="class_delta_engine_1_1_part_1ab85da609af687ae9b17917c92bcbe22c" prot="protected" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>m_vLight</name></member>
+      <member refid="class_delta_engine_1_1_part_1ad816a039ab14b1ddcb1588a307f256cd" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>Object</name></member>
+      <member refid="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>Part</name></member>
+      <member refid="class_delta_engine_1_1_part_1a81f117b0040fee60e31e9d9f6caabd33" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>Part</name></member>
+      <member refid="class_delta_engine_1_1_part_1a68015a1331d290c5f12d896b9e341099" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>set_currentSpritePosition</name></member>
+      <member refid="class_delta_engine_1_1_part_1a993bd990987b22e4d5055bfc22c1bf8e" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>set_currentSpritePosition</name></member>
+      <member refid="class_delta_engine_1_1_part_1a11e675d80f56d46997e72bf1bb672713" prot="public" virt="non-virtual"><scope>DeltaEngine::Part</scope><name>~Part</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

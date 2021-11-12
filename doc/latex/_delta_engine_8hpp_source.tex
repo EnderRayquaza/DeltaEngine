@@ -1,0 +1,248 @@
+\hypertarget{_delta_engine_8hpp_source}{}\doxysection{Delta\+Engine.\+hpp}
+\label{_delta_engine_8hpp_source}\index{C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp@{C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//DeltaEngine.hpp}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{//STL}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{9 \textcolor{comment}{//SFML}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <SFML/Window.hpp>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{12 \textcolor{comment}{//Box2d}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <box2d/box2d.h>}}
+\DoxyCodeLine{14 \textcolor{comment}{//Json}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <nlohmann/json.hpp>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{//For conversion radians <-\/> degrees.}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#define RAD2DEG 57.29577951}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define DEG2RAD 0.01745329252}}
+\DoxyCodeLine{20 \textcolor{comment}{//For Game::draw}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define PRIORITIES 5}}
+\DoxyCodeLine{22 \textcolor{comment}{//For bodyType (box2d)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#define STATICBODY 0}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define KINEMATICBODY 1}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define DYNAMICBODY 2}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{comment}{//For collision (box2d)}}
+\DoxyCodeLine{28 \textcolor{keyword}{enum} \_partCategory}
+\DoxyCodeLine{29 \{}
+\DoxyCodeLine{30     NOTHING = 0x0000,}
+\DoxyCodeLine{31     DECOR = 0x0001,}
+\DoxyCodeLine{32     GROUND = 0x0002,}
+\DoxyCodeLine{33     PLAYER = 0x0004,}
+\DoxyCodeLine{34     PNJ = 0x0006,}
+\DoxyCodeLine{35     ENEMY = 0x0008,}
+\DoxyCodeLine{36     BULLET = 0x0010,}
+\DoxyCodeLine{37 \};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{using} json = nlohmann::json;}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_delta_engine}{DeltaEngine}}}
+\DoxyCodeLine{42 \{}
+\DoxyCodeLine{128     \textcolor{keyword}{class }Game;}
+\DoxyCodeLine{129     \textcolor{keyword}{class }Part;}
+\DoxyCodeLine{130     \textcolor{keyword}{class }Object;}
+\DoxyCodeLine{131     \textcolor{keyword}{class }Entity;}
+\DoxyCodeLine{132     \textcolor{keyword}{class }Light;}
+\DoxyCodeLine{133     \textcolor{keyword}{class }ShaderManager;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135     json \mbox{\hyperlink{namespace_delta_engine_a1239ff6b1b712a6f56060b204995cc8d}{returnJson}}(std::string jsonPath); }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_game}{Game}}}
+\DoxyCodeLine{138     \{}
+\DoxyCodeLine{139     \textcolor{keyword}{public}:}
+\DoxyCodeLine{215         \textcolor{comment}{//Todo : Doc of Setters}}
+\DoxyCodeLine{221 \textcolor{comment}{}        \mbox{\hyperlink{class_delta_engine_1_1_game_a79a0c184f2178d471b6961fde8da12b4}{Game}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{222         \mbox{\hyperlink{class_delta_engine_1_1_game_a79a0c184f2178d471b6961fde8da12b4}{Game}}(std::string name, \textcolor{keywordtype}{int} version\_Major, \textcolor{keywordtype}{int} version\_minor, \textcolor{keywordtype}{bool} debug, \textcolor{keywordtype}{bool} textureOn,}
+\DoxyCodeLine{223             std::string icon, \mbox{\hyperlink{class_delta_engine_1_1_shader_manager}{ShaderManager}}* shaderManager, sf::Color\& bgColor, b2Vec2\& gravity,}
+\DoxyCodeLine{224             \textcolor{keywordtype}{float} timeStep = 1.f / 60.f, int32 velocityIt = 6, int32 positionIt = 3); }
+\DoxyCodeLine{225         \mbox{\hyperlink{class_delta_engine_1_1_game_ade71f170792f4eb7349896ead6d1dade}{\string~Game}}(); }
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227         \textcolor{comment}{//Getters}}
+\DoxyCodeLine{228         std::string \mbox{\hyperlink{class_delta_engine_1_1_game_a7f1b2ae3cd5a5504ae73710988dcd0a8}{get\_title}}(\textcolor{keywordtype}{bool} showVersion = \textcolor{keyword}{false}); }
+\DoxyCodeLine{229         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_game_ae9d25992fc2d3215ccbe67ba4e822f7f}{get\_debug}}();}
+\DoxyCodeLine{230         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_game_a7978377efc7cf6d4505dcb36a0b1f621}{get\_textureOn}}();}
+\DoxyCodeLine{231         std::vector<Object>\& \mbox{\hyperlink{class_delta_engine_1_1_game_a7ead8082f8d19b3d9775e0765ac499f1}{get\_vObject}}();}
+\DoxyCodeLine{232         std::vector<Entity>\& \mbox{\hyperlink{class_delta_engine_1_1_game_a9eddca7718d968bb26cae1763e7b8fee}{get\_vEntity}}();}
+\DoxyCodeLine{233         std::vector<Light>\& \mbox{\hyperlink{class_delta_engine_1_1_game_acb62d5768f507a365433a522b53d2614}{get\_vLight}}();}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235         sf::RenderWindow\& \mbox{\hyperlink{class_delta_engine_1_1_game_a63cbc931c43d4ac65e348c10238b7468}{get\_window}}();}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237         b2World\& \mbox{\hyperlink{class_delta_engine_1_1_game_a860ed44814dd9efa5fff61adcdf48e8d}{get\_world}}();}
+\DoxyCodeLine{238         \textcolor{keywordtype}{float} \mbox{\hyperlink{class_delta_engine_1_1_game_ada6da62fe5b6c9c0ba95a2e498dfae61}{get\_timeStep}}();}
+\DoxyCodeLine{239         int32 \mbox{\hyperlink{class_delta_engine_1_1_game_acc7b4e04752781d6b4e009c59ecd964e}{get\_velocityIt}}();}
+\DoxyCodeLine{240         int32 \mbox{\hyperlink{class_delta_engine_1_1_game_a98435fd95bd54defc7633b6c055cf93f}{get\_positionIt}}();}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242         \textcolor{comment}{//Setters}}
+\DoxyCodeLine{243         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_addbfeb9ef8d706df6d6880ae8be6b509}{set\_debug}}(\textcolor{keywordtype}{bool} value); }
+\DoxyCodeLine{244         \textcolor{keywordtype}{void} set\_textureOn(\textcolor{keywordtype}{bool} value);}
+\DoxyCodeLine{245         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_a0fa16f6ef9965c13dd73d96a9b33e08b}{addObject}}(\mbox{\hyperlink{class_delta_engine_1_1_object}{Object}}\& \textcolor{keywordtype}{object}); }
+\DoxyCodeLine{246         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_ae16b51cba5042f03820f13f78420f4f3}{addEntity}}(\mbox{\hyperlink{class_delta_engine_1_1_entity}{Entity}}\& entity); }
+\DoxyCodeLine{247         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_adc9fcc6f5685e7d019fae9a4b0d092d5}{addLight}}(\mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}\& light); }
+\DoxyCodeLine{248         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_a71e59ccc159fa067b9dc959c40890614}{removeObject}}(\textcolor{keywordtype}{int} index); }
+\DoxyCodeLine{249         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_a489cff06c499a8c0ffc3ae1711ee65cd}{removeEntity}}(\textcolor{keywordtype}{int} index); }
+\DoxyCodeLine{250         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_a12946e113171afd6a0cae4eab1187943}{removeLight}}(\textcolor{keywordtype}{int} index); }
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252         \textcolor{comment}{//Others}}
+\DoxyCodeLine{253         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_game_ad6b15268791d22c0bce6ce89e9b8cfd7}{draw}}(); }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{256         \textcolor{comment}{//Game members}}
+\DoxyCodeLine{257         std::string \mbox{\hyperlink{class_delta_engine_1_1_game_af431853e69258f257619884984cc1471}{m\_name}}; }
+\DoxyCodeLine{258         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_game_a48f756148ae8cd59ed349be0feb990a6}{m\_version\_M}}; }
+\DoxyCodeLine{259         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_game_abc946fe88a6496ff1ea8cb9d02262eb4}{m\_version\_m}}; }
+\DoxyCodeLine{260         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_game_aa248dc138a81b023cb68b671c62ac69d}{m\_debug}}; }
+\DoxyCodeLine{261         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_game_a73fe8220728cece449886dd956864cc5}{m\_textureOn}}; }
+\DoxyCodeLine{262         std::string \mbox{\hyperlink{class_delta_engine_1_1_game_a961574b65b81014650d959d362103287}{m\_icon}}; }
+\DoxyCodeLine{263         std::vector<Object> \mbox{\hyperlink{class_delta_engine_1_1_game_a447efac19c30287b7e1367269d8a66e5}{m\_vObject}}; }
+\DoxyCodeLine{264         std::vector<Entity> \mbox{\hyperlink{class_delta_engine_1_1_game_a8565a9e376e924e8be4b42db5085fa26}{m\_vEntity}}; }
+\DoxyCodeLine{265         std::vector<Light> \mbox{\hyperlink{class_delta_engine_1_1_game_a9f449040c31b1eb144e587d5d0d72e72}{m\_vLight}}; }
+\DoxyCodeLine{266         std::vector<Light> \mbox{\hyperlink{class_delta_engine_1_1_game_a316df4ca08438f9c37baa6c6bebadfb3}{m\_vPartLight}}; }
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268         \textcolor{comment}{//Game members (SFML)}}
+\DoxyCodeLine{269         \mbox{\hyperlink{class_delta_engine_1_1_shader_manager}{ShaderManager}}* \mbox{\hyperlink{class_delta_engine_1_1_game_a7c2c7141dbf38aeb0b18ea5f65f3aa7e}{m\_shaderManager}}; }
+\DoxyCodeLine{270         sf::RenderWindow \mbox{\hyperlink{class_delta_engine_1_1_game_a61e86878be90b835fd10e84a151a322e}{m\_window}}; }
+\DoxyCodeLine{271         sf::Color \mbox{\hyperlink{class_delta_engine_1_1_game_a5e1ad249aea10b174348e81effe9f88c}{m\_bgColor}}; }
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273         \textcolor{comment}{//Game members (Box2d)}}
+\DoxyCodeLine{274         b2Vec2 \mbox{\hyperlink{class_delta_engine_1_1_game_a59f8819f19b07e76c3fbfea8da587bdf}{m\_gravity}}; }
+\DoxyCodeLine{275         b2World \mbox{\hyperlink{class_delta_engine_1_1_game_a7dbe2929943859967dec36b6e5406c3d}{m\_world}}; }
+\DoxyCodeLine{276         \textcolor{keywordtype}{float} \mbox{\hyperlink{class_delta_engine_1_1_game_a66c2f7740b1c5d2c3c2c8aad3a3cb3f1}{m\_timeStep}}; }
+\DoxyCodeLine{277         int32 \mbox{\hyperlink{class_delta_engine_1_1_game_a8727830e985f8bf578637a8d76a5eac3}{m\_velocityIt}}; }
+\DoxyCodeLine{278         int32 \mbox{\hyperlink{class_delta_engine_1_1_game_a59406d775239c76a597422311d13d109}{m\_positionIt}}; }
+\DoxyCodeLine{279     \};}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_part}{Part}}}
+\DoxyCodeLine{282     \{}
+\DoxyCodeLine{283     \textcolor{keyword}{public}:}
+\DoxyCodeLine{324         \mbox{\hyperlink{class_delta_engine_1_1_part_a6c7f530a97aabf3164de25003f15c243}{Part}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{325         \mbox{\hyperlink{class_delta_engine_1_1_part_a6c7f530a97aabf3164de25003f15c243}{Part}}(std::string jsonPath, b2World\& world, sf::Vector2f position = sf::Vector2f(0, 0)); }
+\DoxyCodeLine{327         \mbox{\hyperlink{class_delta_engine_1_1_part_a11e675d80f56d46997e72bf1bb672713}{\string~Part}}(); }
+\DoxyCodeLine{328 }
+\DoxyCodeLine{329         \textcolor{keyword}{friend} \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}};}
+\DoxyCodeLine{330         \textcolor{keyword}{friend} \mbox{\hyperlink{class_delta_engine_1_1_object}{Object}};}
+\DoxyCodeLine{331         \textcolor{keyword}{friend} \mbox{\hyperlink{class_delta_engine_1_1_entity}{Entity}};}
+\DoxyCodeLine{332 }
+\DoxyCodeLine{333         \textcolor{comment}{//Getters}}
+\DoxyCodeLine{334         sf::IntRect \mbox{\hyperlink{class_delta_engine_1_1_part_a903d526b2a1276ff0e4e0ef12b872401}{get\_currentSpriteRect}}();}
+\DoxyCodeLine{335         sf::Vector2f \mbox{\hyperlink{class_delta_engine_1_1_part_a04aa758a97fd787dea4338c428417b19}{get\_position}}(\textcolor{keywordtype}{bool} inPx = \textcolor{keyword}{true}); }
+\DoxyCodeLine{336         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_part_a8099d4de3234cc38b06c1c524fb49c33}{get\_angle}}(\textcolor{keywordtype}{bool} inDeg = \textcolor{keyword}{true}); }
+\DoxyCodeLine{337 }
+\DoxyCodeLine{338         \textcolor{comment}{//Setters}}
+\DoxyCodeLine{339         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_part_a68015a1331d290c5f12d896b9e341099}{set\_currentSpritePosition}}(sf::Vector2i position);}
+\DoxyCodeLine{340         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_part_a68015a1331d290c5f12d896b9e341099}{set\_currentSpritePosition}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} positionX, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} positionY);}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{343         \textcolor{comment}{//Part members}}
+\DoxyCodeLine{344         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_part_ae101c61a1da1c34a08e3e4dfa26ebafc}{m\_priority}}; }
+\DoxyCodeLine{345         std::vector<int> \mbox{\hyperlink{class_delta_engine_1_1_part_ad80fe2624266a62e354a485045a1344f}{m\_shaderIndexes}}; }
+\DoxyCodeLine{346         std::vector<Light> \mbox{\hyperlink{class_delta_engine_1_1_part_ab85da609af687ae9b17917c92bcbe22c}{m\_vLight}}; }
+\DoxyCodeLine{347 }
+\DoxyCodeLine{348         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_part_aae9abadece9417e2700dea4d2bfe77d9}{m\_coef}}; }
+\DoxyCodeLine{349         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_part_acc00153a57c50e8662f4d12973846155}{m\_nb\_vertices}}; }
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351         \textcolor{comment}{//Part members (SFML)}}
+\DoxyCodeLine{352         sf::ConvexShape \mbox{\hyperlink{class_delta_engine_1_1_part_ac61b3cf40d76de379cb898f24fd14411}{m\_shape}}; }
+\DoxyCodeLine{353         sf::Texture \mbox{\hyperlink{class_delta_engine_1_1_part_a251463e050a59a1056bb53e4fbbd8cec}{m\_texture}}; }
+\DoxyCodeLine{354         sf::Texture \mbox{\hyperlink{class_delta_engine_1_1_part_ab155a08cb4605bb5d916ba8ec8e0900f}{m\_currentTexture}}; }
+\DoxyCodeLine{355         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_part_a4007a136e5ee257e750c1eb0166c9baa}{m\_shapeTexture}}; }
+\DoxyCodeLine{356         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_part_ac8c13164906d11ed71d8bb421a4002d3}{m\_animated}}; }
+\DoxyCodeLine{357         sf::Vector2i \mbox{\hyperlink{class_delta_engine_1_1_part_a00d476a6f007defa65cd8034b3fb0835}{m\_sizeSprite}}; }
+\DoxyCodeLine{358         sf::Vector2i \mbox{\hyperlink{class_delta_engine_1_1_part_ac09c107f833187e11aa2f5b330ba1cee}{m\_currentSpritePosition}}; }
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360         \textcolor{comment}{//Part members (Box2d)}}
+\DoxyCodeLine{361         uint16 \mbox{\hyperlink{class_delta_engine_1_1_part_a20bdb7f59828b0d9562c2419cd606c78}{m\_type}}; }
+\DoxyCodeLine{362         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_part_a3056c4c80b70d513d39a741331bc85ac}{m\_bodyType}}; }
+\DoxyCodeLine{363         b2Body* \mbox{\hyperlink{class_delta_engine_1_1_part_a390956a4deda59088eefaa88f58e0011}{m\_body}}; }
+\DoxyCodeLine{364     \};}
+\DoxyCodeLine{365 }
+\DoxyCodeLine{366     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_object}{Object}}}
+\DoxyCodeLine{367     \{}
+\DoxyCodeLine{368     \textcolor{keyword}{public}:}
+\DoxyCodeLine{390         \mbox{\hyperlink{class_delta_engine_1_1_object_a944894e704336455a08981ab7155b292}{Object}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{391         \mbox{\hyperlink{class_delta_engine_1_1_object_a944894e704336455a08981ab7155b292}{Object}}(std::string jsonPath, b2World\& world, sf::Vector2f position = sf::Vector2f(0, 0));}
+\DoxyCodeLine{393         \mbox{\hyperlink{class_delta_engine_1_1_object_a5ef22e625db079b12c4a4d1a95001ee7}{\string~Object}}(); }
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395         \textcolor{keyword}{friend} \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}};}
+\DoxyCodeLine{396 }
+\DoxyCodeLine{397         \textcolor{comment}{//Others}}
+\DoxyCodeLine{398         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_object_ab2d19890723d9446f2f06d67946836fe}{updateLight}}(); }
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{401         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_object_a6d272d955b320fc1bf3e8954bac75e05}{m\_id}}; }
+\DoxyCodeLine{402         std::string \mbox{\hyperlink{class_delta_engine_1_1_object_a4cca2c75f66eb00b891f25f32fad0612}{m\_name}}; }
+\DoxyCodeLine{403         \textcolor{keywordtype}{int} \mbox{\hyperlink{class_delta_engine_1_1_object_a449481b553a0adb00968834d9a7e5040}{m\_nb\_part}}; }
+\DoxyCodeLine{404         std::vector<Part> \mbox{\hyperlink{class_delta_engine_1_1_object_ab9c5f285f02610e7432da7fea5e6e2ae}{m\_vPart}}; }
+\DoxyCodeLine{405     \};}
+\DoxyCodeLine{406 }
+\DoxyCodeLine{407     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_entity}{Entity}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_delta_engine_1_1_object}{Object}}}
+\DoxyCodeLine{408     \{}
+\DoxyCodeLine{409     \textcolor{keyword}{public}:}
+\DoxyCodeLine{435         \mbox{\hyperlink{class_delta_engine_1_1_entity_a351ea3001af8559e187e8a7372bfb3b2}{Entity}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{436         \mbox{\hyperlink{class_delta_engine_1_1_entity_a351ea3001af8559e187e8a7372bfb3b2}{Entity}}(std::string jsonPath, b2World\& world, sf::Vector2f position = sf::Vector2f(0, 0));}
+\DoxyCodeLine{438         \mbox{\hyperlink{class_delta_engine_1_1_entity_afb1b26e40631fb0915fc05fcdc95c076}{\string~Entity}}(); }
+\DoxyCodeLine{439 }
+\DoxyCodeLine{440         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_entity_a48bc7ab87db1fbda405424f0782e33cb}{move}}(\textcolor{keywordtype}{float} direction, \textcolor{keywordtype}{float} value, \textcolor{keywordtype}{float} acceleration = 0.1); }
+\DoxyCodeLine{441 }
+\DoxyCodeLine{442     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{443 }
+\DoxyCodeLine{444     \};}
+\DoxyCodeLine{445 }
+\DoxyCodeLine{446     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_light}{Light}}}
+\DoxyCodeLine{447     \{}
+\DoxyCodeLine{448     public :}
+\DoxyCodeLine{491         \mbox{\hyperlink{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}{Light}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{492         \mbox{\hyperlink{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}{Light}}(\textcolor{keywordtype}{double} radius, \textcolor{keywordtype}{int} vertices, sf::Vector2f position,}
+\DoxyCodeLine{493             sf::Color color = sf::Color(255, 255, 255), \textcolor{keywordtype}{double} intensity = 255);}
+\DoxyCodeLine{494         \mbox{\hyperlink{class_delta_engine_1_1_light_a4a514d2b6f87b4a4e5cdcc801ecd163f}{Light}}(\textcolor{keywordtype}{double} radius, \textcolor{keywordtype}{int} vertices, sf::Vector2f position, \textcolor{keywordtype}{double} abscissa\_angle,}
+\DoxyCodeLine{495             \textcolor{keywordtype}{double} opening\_angle, sf::Color color = sf::Color(255, 255, 255),}
+\DoxyCodeLine{496             \textcolor{keywordtype}{double} intensity = 255); }
+\DoxyCodeLine{497         \mbox{\hyperlink{class_delta_engine_1_1_light_af5063384becbc45d8df9361f0daa7888}{\string~Light}}(); }
+\DoxyCodeLine{498 }
+\DoxyCodeLine{499         \textcolor{keyword}{friend} \mbox{\hyperlink{class_delta_engine_1_1_game}{Game}};}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501         \textcolor{comment}{//Getters}}
+\DoxyCodeLine{502         sf::VertexArray\& \mbox{\hyperlink{class_delta_engine_1_1_light_a0164ae8a310689433a1279835f7d233c}{get\_vertexArray}}();}
+\DoxyCodeLine{503 }
+\DoxyCodeLine{504         \textcolor{comment}{//Setters}}
+\DoxyCodeLine{505         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_light_aa6af9ac3a2d650189ae872fd6198e39f}{set\_position}}(sf::Vector2f position);}
+\DoxyCodeLine{506 }
+\DoxyCodeLine{507         \textcolor{comment}{//Others}}
+\DoxyCodeLine{508         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_delta_engine_1_1_light_af67ac480447a82ce1ede97912d44a0ff}{generate}}(); }
+\DoxyCodeLine{509 }
+\DoxyCodeLine{510     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{511         \textcolor{comment}{//Light members}}
+\DoxyCodeLine{512         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_light_acfced0710c813a848091ede706695df4}{m\_radius}}; }
+\DoxyCodeLine{513         sf::VertexArray \mbox{\hyperlink{class_delta_engine_1_1_light_ab0652ec5c1a4b209fd4e78b58cd37d3a}{m\_vertexArray}}; }
+\DoxyCodeLine{514         sf::Vector2f \mbox{\hyperlink{class_delta_engine_1_1_light_ac28279cfc35ce7d2ccf8b01a273eca57}{m\_position}}; }
+\DoxyCodeLine{515         sf::Color \mbox{\hyperlink{class_delta_engine_1_1_light_a40d9df2c826f7ce0ea20d6cfb015a524}{m\_color}}; }
+\DoxyCodeLine{516         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_light_aab425e8b17a3380a6f229f862ed11b91}{m\_intensity}}; }
+\DoxyCodeLine{517 }
+\DoxyCodeLine{518         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_delta_engine_1_1_light_af0edeba9fd8b70f6d7319114aadbdbae}{m\_directed}}; }
+\DoxyCodeLine{519 }
+\DoxyCodeLine{520         \textcolor{comment}{//Directed Light members}}
+\DoxyCodeLine{521         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_light_a48338cbc371ac9631473344eb1aa598b}{m\_abscissa\_angle}}; }
+\DoxyCodeLine{522         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_delta_engine_1_1_light_a1077b81e40b6c5dbefff4f510e47d070}{m\_opening\_angle}}; }
+\DoxyCodeLine{523     \};}
+\DoxyCodeLine{524 }
+\DoxyCodeLine{525     \textcolor{keyword}{class }\mbox{\hyperlink{class_delta_engine_1_1_shader_manager}{ShaderManager}}}
+\DoxyCodeLine{526     \{}
+\DoxyCodeLine{527     \textcolor{keyword}{public}:}
+\DoxyCodeLine{545         \mbox{\hyperlink{class_delta_engine_1_1_shader_manager_ac0a962f43e00c3de5380827899a28a2e}{ShaderManager}}() = \textcolor{keyword}{delete}; }
+\DoxyCodeLine{546         \mbox{\hyperlink{class_delta_engine_1_1_shader_manager_ac0a962f43e00c3de5380827899a28a2e}{ShaderManager}}(std::string jsonPath); }
+\DoxyCodeLine{547         \mbox{\hyperlink{class_delta_engine_1_1_shader_manager_aa85a16e1a16a5ab1e00ad824a447688a}{\string~ShaderManager}}(); }
+\DoxyCodeLine{548 }
+\DoxyCodeLine{549         \textcolor{comment}{//Getters}}
+\DoxyCodeLine{550         sf::Shader* \mbox{\hyperlink{class_delta_engine_1_1_shader_manager_a0e61cd46a8ee9fff28c9427f1cdc4762}{get\_shader}}(\textcolor{keywordtype}{int} index); }
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{553         std::vector<sf::Shader*> \mbox{\hyperlink{class_delta_engine_1_1_shader_manager_a72a2e6ecad241662e5b4fb63b9aa8329}{m\_vShader}}; }
+\DoxyCodeLine{554     \};}
+\DoxyCodeLine{555 \}}
+
+\end{DoxyCode}

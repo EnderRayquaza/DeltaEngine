@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="class_delta_engine_1_1_object" kind="class" language="C++" prot="public">
+    <compoundname>DeltaEngine::Object</compoundname>
+    <derivedcompoundref refid="class_delta_engine_1_1_entity" prot="public" virt="non-virtual">DeltaEngine::Entity</derivedcompoundref>
+    <includes refid="_delta_engine_8hpp" local="no">DeltaEngine.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_delta_engine_1_1_object_1abc97dc9c9028fe4b09876b6ea10dd8a1" prot="public" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend DeltaEngine::Object::Game</definition>
+        <argsstring></argsstring>
+        <name>Game</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="395" column="8" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_delta_engine_1_1_object_1a6d272d955b320fc1bf3e8954bac75e05" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeltaEngine::Object::m_id</definition>
+        <argsstring></argsstring>
+        <name>m_id</name>
+        <briefdescription>
+<para>The id of the <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="401" column="5" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_object_1a4cca2c75f66eb00b891f25f32fad0612" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngine::Object::m_name</definition>
+        <argsstring></argsstring>
+        <name>m_name</name>
+        <briefdescription>
+<para>The name of the <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="402" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_object_1a449481b553a0adb00968834d9a7e5040" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DeltaEngine::Object::m_nb_part</definition>
+        <argsstring></argsstring>
+        <name>m_nb_part</name>
+        <briefdescription>
+<para>The number of <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="403" column="5" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_1_1_object_1ab9c5f285f02610e7432da7fea5e6e2ae" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> &gt;</type>
+        <definition>std::vector&lt;Part&gt; DeltaEngine::Object::m_vPart</definition>
+        <argsstring></argsstring>
+        <name>m_vPart</name>
+        <briefdescription>
+<para>A vector with the <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> of the <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="404" column="13" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_delta_engine_1_1_object_1a944894e704336455a08981ab7155b292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Object::Object</definition>
+        <argsstring>()=delete</argsstring>
+        <name>Object</name>
+        <briefdescription>
+<para>Constructor deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deleted constructor. Don&apos;t use it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="390" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_object_1ac8522790d5fdfa6da6d7687297cd6636" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Object::Object</definition>
+        <argsstring>(std::string jsonPath, b2World &amp;world, sf::Vector2f position=sf::Vector2f(0, 0))</argsstring>
+        <name>Object</name>
+        <param>
+          <type>std::string</type>
+          <declname>jsonPath</declname>
+        </param>
+        <param>
+          <type>b2World &amp;</type>
+          <declname>world</declname>
+        </param>
+        <param>
+          <type>sf::Vector2f</type>
+          <declname>position</declname>
+          <defval>sf::Vector2f(0, 0)</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jsonPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(std::string) The path of the .json file where&apos;s the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>world</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(b2World&amp;) The world where the differents <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref> will be created. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(sf::Vector2f) The postion of the <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref> in meters.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+The default constructor. Use .json to create your <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref>. <simplesect kind="see"><para><ref refid="class_delta_engine_1_1_part_1a6c7f530a97aabf3164de25003f15c243" kindref="member">Part::Part</ref>(std::string jsonPath, b2World&amp; world, sf::Vector2f position = sf::Vector2f(0, 0)) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="391" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="411" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_object_1a5ef22e625db079b12c4a4d1a95001ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DeltaEngine::Object::~Object</definition>
+        <argsstring>()</argsstring>
+        <name>~Object</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="393" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_1_1_object_1ab2d19890723d9446f2f06d67946836fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaEngine::Object::updateLight</definition>
+        <argsstring>()</argsstring>
+        <name>updateLight</name>
+        <briefdescription>
+<para>Updates the position of Lights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="398" column="6" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.cpp" bodystart="423" bodyend="434"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A class that contains statics <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Friend with <ref refid="class_delta_engine_1_1_game" kindref="compound">Game</ref>. <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref> and <ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref> are pretty the same, but <ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref> can move and <ref refid="class_delta_engine_1_1_object" kindref="compound">Object</ref> are statics. They&apos;re container of <ref refid="class_delta_engine_1_1_part" kindref="compound">Part</ref>. <simplesect kind="see"><para><ref refid="class_delta_engine_1_1_entity" kindref="compound">Entity</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>DeltaEngine::Entity</label>
+        <link refid="class_delta_engine_1_1_entity"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>DeltaEngine::Object</label>
+        <link refid="class_delta_engine_1_1_object"/>
+      </node>
+    </inheritancegraph>
+    <location file="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" line="366" column="1" bodyfile="C:/Users/Utilisateur/Documents/Prog/C++/StaticDeltaEngine/Code/DeltaEngine.hpp" bodystart="367" bodyend="405"/>
+    <listofallmembers>
+      <member refid="class_delta_engine_1_1_object_1abc97dc9c9028fe4b09876b6ea10dd8a1" prot="public" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>Game</name></member>
+      <member refid="class_delta_engine_1_1_object_1a6d272d955b320fc1bf3e8954bac75e05" prot="protected" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>m_id</name></member>
+      <member refid="class_delta_engine_1_1_object_1a4cca2c75f66eb00b891f25f32fad0612" prot="protected" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>m_name</name></member>
+      <member refid="class_delta_engine_1_1_object_1a449481b553a0adb00968834d9a7e5040" prot="protected" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>m_nb_part</name></member>
+      <member refid="class_delta_engine_1_1_object_1ab9c5f285f02610e7432da7fea5e6e2ae" prot="protected" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>m_vPart</name></member>
+      <member refid="class_delta_engine_1_1_object_1a944894e704336455a08981ab7155b292" prot="public" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>Object</name></member>
+      <member refid="class_delta_engine_1_1_object_1ac8522790d5fdfa6da6d7687297cd6636" prot="public" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>Object</name></member>
+      <member refid="class_delta_engine_1_1_object_1ab2d19890723d9446f2f06d67946836fe" prot="public" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>updateLight</name></member>
+      <member refid="class_delta_engine_1_1_object_1a5ef22e625db079b12c4a4d1a95001ee7" prot="public" virt="non-virtual"><scope>DeltaEngine::Object</scope><name>~Object</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -515,9 +515,9 @@ namespace DeltaEngine //Light
 
 namespace DeltaEngine //ShaderManager
 {
-	ShaderManager::ShaderManager(std::string listPath)
+	ShaderManager::ShaderManager(std::string jsonPath)
 	{
-		json j{ returnJson(listPath) };
+		json j{ returnJson(jsonPath) };
 		for (auto e : j["vert"])
 		{
 			sf::Shader* shader = new sf::Shader();
