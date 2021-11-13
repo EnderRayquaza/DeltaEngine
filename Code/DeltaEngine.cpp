@@ -273,15 +273,17 @@ namespace DeltaEngine //Part
 			m_vLight.push_back(Light(jL["radius"], jL["vertices"], 
 				sf::Vector2f(jL["position"][0], jL["position"][1]), 
 				sf::Color(jL["color"][0],jL["color"][1], jL["color"][2]), jL["intensity"]));
-			m_vLight.back().set_position(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
+			m_vLight.back().set_position(sf::Vector2f(j["position"][0] * m_coef,
+				j["position"][1] * m_coef));
 		}
-		for (auto jDL : j["lights"])
+		for (auto jDL : j["dirLights"])
 		{
 			m_vLight.push_back(Light(jDL["radius"], jDL["vertices"],
 				sf::Vector2f(jDL["position"][0], jDL["position"][1]),
 				jDL["abscissa_angle"], jDL["opening_angle"],
 				sf::Color(jDL["color"][0], jDL["color"][1], jDL["color"][2]), jDL["intensity"]));
-			m_vLight.back().set_position(sf::Vector2f(j["pos"][0] * m_coef, j["pos"][1] * m_coef));
+			m_vLight.back().set_position(sf::Vector2f(j["position"][0] * m_coef,
+				j["position"][1] * m_coef));
 		}
 
 		m_coef = j["coef"];
@@ -312,7 +314,7 @@ namespace DeltaEngine //Part
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
 		for (int i{ 0 }; i < m_nb_vertices; i++)
 		{
-			vertices[i].Set(j["vtxPos"][i][0], j["vtxPos"][i][1]);
+			vertices[i].Set(j["vertexPosition"][i][0], j["vertexPosition"][i][1]);
 		}
 		//Sets the vertices to their own pos.
 		b2PolygonShape partShape; //Creates a shape for the part.
