@@ -7,7 +7,7 @@ __DeltaEngine is a 2d engine made with [SFML](sfml-dev.org "SFML") (window,rende
 It uses multiples classes, firstly Game, that contains infos about your project (name, version, debug/release mode, etc...) and your Objects, Entities, Lights and Shaders.
 This class draws everything on the window too.
 
-Objects and Entities are pretty the same, but Entities can move and [Objects](class_delta_engine_1_1_object.html) are statics.
+Objects and Entities are pretty the same, but Entities can move and Objects are statics.
 They're containers of Parts.
 
 Parts are a combination of a texture ([SFML](sfml-dev.org "SFML")) and an hitbox ([Box2D](box2d.ord "Box2D")).
