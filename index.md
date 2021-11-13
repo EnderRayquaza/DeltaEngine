@@ -4,19 +4,18 @@ __DeltaEngine is a 2d engine made with [SFML](sfml-dev.org "SFML") (window,rende
 
 > The doc is [here](doc/annotated.html "Doc").
 
-It uses multiples classes, firstly [Game](), that contains infos about your project (name, version, debug/release mode, etc...) and your [Objects](),
-[Entities](), [Lights]() and [Shaders]().
+It uses multiples classes, firstly [Game](class_delta_engine_1_1_game.html), that contains infos about your project (name, version, debug/release mode, etc...) and your [Objects](class_delta_engine_1_1_object.html), [Entities](class_delta_engine_1_1_entity.html), [Lights](class_delta_engine_1_1_light.html) and [Shaders](class_delta_engine_1_1_shadermanager.html).
 This class draws everything on the window too.
 
-[Objects]() and [Entities]() are pretty the same, but [Entities]() can move and [Objects]() are statics.
-They're containers of [Parts]().
+[Objects](class_delta_engine_1_1_object.html)(class_delta_engine_1_1_object.html) and [Entities](class_delta_engine_1_1_entity.html) are pretty the same, but [Entities](class_delta_engine_1_1_entity.html) can move and [Objects](class_delta_engine_1_1_object.html) are statics.
+They're containers of [Parts](class_delta_engine_1_1_part.html).
 
-[Parts]() are a combination of a texture ([SFML](sfml-dev.org "SFML")) and an hitbox ([Box2D](box2d.ord "Box2D")).
-They can be animated and [Shaders]() can be applied on.
+[Parts](class_delta_engine_1_1_part.html) are a combination of a texture ([SFML](sfml-dev.org "SFML")) and an hitbox ([Box2D](box2d.ord "Box2D")).
+They can be animated and [Shaders](class_delta_engine_1_1_shadermanager.html) can be applied on.
  
-[Lights]() enlight the scene. They can be circular or directional and you can change their color and brightness.
+[Lights](class_delta_engine_1_1_light.html) enlight the scene. They can be circular or directional and you can change their color and brightness.
  
-[ShaderManagers]() manage and stock all your [Shaders]().
+[ShaderManagers](class_delta_engine_1_1_shadermanager.html) manage and stock all your [Shaders](class_delta_engine_1_1_shadermanager.html).
 They're accessible by their index.
 
 Made by [EnderRayquaza](https://github.com/EnderRayquaza, "My Github") / Under MIT Licence. <br/>
