@@ -4,7 +4,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) an
 Todo :
 - [ ] Complete the README
 - [x] Make examples
-- [ ] Make a release
-- [ ] Make a package
+- [x] Make a release
+- [x] Make a package
 
 *In building...*
