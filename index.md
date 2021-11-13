@@ -2,7 +2,7 @@ DeltaEngine
 ===========
 __DeltaEngine is a 2d engine made with [SFML](sfml-dev.org "SFML") (window,render,sound) and [Box2D](box2d.ord "Box2D") (physics).__
 
-> The doc is [here](doc/annotated.html).
+> The doc is [here](doc/annotated.html "Doc").
 
 It uses multiples classes, firstly [Game](), that contains infos about your project (name, version, debug/release mode, etc...) and your [Objects](),
 [Entities](), [Lights]() and [Shaders]().
