@@ -118,6 +118,14 @@ namespace DeltaEngine
 	* Light enlight the scene. They can be circular or directional and you can change their color and brightness.
 	*/
 	/**
+	* @class TextureManager
+	* @brief A class that contains and manage sf::Texture
+	* @see sf::Texture
+	*
+	* TextureManager manage and stock all your Texture. They're accessible by their index.
+	* You can select a part of the texture with its coordinates.
+	*/
+	/**
 	* @class ShaderManager
 	* @brief A class that contains and manage sf::Shader
 	* @see sf::Shader
@@ -130,6 +138,7 @@ namespace DeltaEngine
 	class Object;
 	class Entity;
 	class Light;
+	class TextureManager;
 	class ShaderManager;
 
 	json returnJson(std::string jsonPath); ///< Returns a json array from a .json file.
@@ -220,8 +229,9 @@ namespace DeltaEngine
 
 		Game() = delete; ///< Constructor deleted
 		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
-			std::string icon, ShaderManager* shaderManager, sf::Color& bgColor, b2Vec2& gravity,
-			float timeStep = 1.f / 60.f, int32 velocityIt = 6, int32 positionIt = 3); ///< Default Constructor
+			std::string icon, TextureManager* textureManager, ShaderManager* shaderManager,
+			sf::Color& bgColor, b2Vec2& gravity, float timeStep = 1.f / 60.f, int32 velocityIt = 6,
+			int32 positionIt = 3); ///< Default Constructor
 		~Game(); ///< Destructor
 
 		//Getters
@@ -266,6 +276,7 @@ namespace DeltaEngine
 		std::vector<Light> m_vPartLight; ///< A vector with all Light of all the Part.
 
 		//Game members (SFML)
+		TextureManager* m_textureManager;
 		ShaderManager* m_shaderManager; ///< The ShaderManager of the Game.
 		sf::RenderWindow m_window; ///< A RenderWindow to draw and show the Game.
 		sf::Color m_bgColor; ///< The color of the background.
@@ -322,27 +333,25 @@ namespace DeltaEngine
 		*/
 
 		Part() = delete; ///< Constructor deleted.
-		Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0)); 
-		///< Default Constructor.
-		~Part(); ///< Destructor.
+		Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0)); ///< Default Constructor.
+		~Part() = default; ///< Destructor.
 
 		friend Game;
 		friend Object;
 		friend Entity;
 
 		//Getters
-		sf::IntRect get_currentSpriteRect();
+		sf::IntRect get_currentSubTextureRect();
 		sf::Vector2f get_position(bool inPx = true); ///< Set true if you want the position in px, false for meters.
 		double get_angle(bool inDeg = true); ///< Set true if you want the angle in degrees, false for radians.
 
 		//Setters
-		void set_currentSpritePosition(sf::Vector2i position);
-		void set_currentSpritePosition(unsigned int positionX, unsigned int positionY);
+		void set_currentSubTexturePosition(sf::Vector2i position);
+		void set_currentSubTexturePosition(unsigned int positionX, unsigned int positionY);
 
 	protected:
 		//Part members
 		int m_priority; ///< To draw the Part in a special order.
-		std::vector<int> m_shaderIndexes; ///< The index of the Shader applied
 		std::vector<Light> m_vLight; ///< A vector with Light which follow the Part.
 
 		double m_coef; ///< To convert px (for SFML) & meters (for Box2D).
@@ -350,12 +359,15 @@ namespace DeltaEngine
 
 		//Part members (SFML)
 		sf::ConvexShape m_shape; ///< The shape.
-		sf::Texture m_texture; ///< The texture.
-		sf::Texture m_currentTexture; ///< The current texture.
+		int m_textureIndex; ///< The texture index in the TextureManager.
+		int m_shaderIndex; ///< The index of the Shader applied. Set -1 if you don't want a Shader.
 		bool m_shapeTexture; ///< If true, the texture will be shaped by the shape.
-		bool m_animated; ///< If true, it has an animated texture.
+		bool m_subTexture; ///< If true, it has a sub-texture.
+		bool m_repeated; ///< Defines if the Texture is repeated in the Sprite.
+		bool m_smoothed; ///< Defines if the Texture is smoothed.
 		sf::Vector2i m_sizeSprite; ///< The size of one sprite in the sheet.
-		sf::Vector2i m_currentSpritePosition; ///< The position of the current sprite in the sheet.
+		sf::Vector2i m_sizeSubTexture; ///< The size of one sub-texture in the sheet.
+		sf::Vector2i m_currentSubTexturePosition; ///< The position of the current sub-texture in the sheet.
 
 		//Part members (Box2d)
 		uint16 m_type; ///< The type of the Part (see enum _partCategory above).
@@ -390,7 +402,7 @@ namespace DeltaEngine
 		Object() = delete; ///< Constructor deleted.
 		Object(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0));
 		///< Constructor.
-		~Object(); ///< Destructor.
+		//~Object(); ///< Destructor.
 
 		friend Game;
 
@@ -435,7 +447,7 @@ namespace DeltaEngine
 		Entity() = delete; ///< Deleted Constructor.
 		Entity(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0));
 		///< Constructor.
-		~Entity(); ///< Destructor.
+		//~Entity(); ///< Destructor.
 
 		void move(float direction, float value, float acceleration = 0.1); ///< Moves the Entity.
 
@@ -494,7 +506,7 @@ namespace DeltaEngine
 		Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
 			double opening_angle, sf::Color color = sf::Color(255, 255, 255),
 			double intensity = 255); ///< Constructor for directed Lights.
-		~Light(); ///< Destructor.
+		//~Light(); ///< Destructor.
 
 		friend Game;
 
@@ -522,6 +534,52 @@ namespace DeltaEngine
 		double m_opening_angle; ///< The angle between the first and last ray.
 	};
 
+	class TextureManager
+	{
+		/**
+		* @fn TextureManager() = delete;
+		* Deleted constructor. Don't use it.
+		*/
+		/**
+		* @fn TextureManager(std::string jsonPath);
+		* @param jsonPath (std::string) The path to the .json file defining TextureManager.
+		*/
+		/**
+		* @fn ~TextureManager()
+		* Destructor.
+		*/
+		/**
+		* @fn sf::Texture* get_texture(unsigned int index)
+		* @param index (unsigned int) The index of the Texture.
+		* @return (sf::Texture*) A pointer the choosen Texture in m_vTexture(). 
+		*/
+		/**
+		* @fn sf::Texture* get_texture(unsigned int index, sf::Vector2i spriteSize, sf::Vector2i position)
+		* @param index (unsigned int) The index of the Texture.
+		* @param spriteSize (sf::Vector2i) The size of the sprite.
+		* @param position (sf::Vector2i) The position of the choosen Texture.
+		* @return (sf::Texture*) A pointer the choosen Texture in m_vTexture().
+		*/
+		/**
+		* @fn sf::Texture* get_texture(unsigned int index, sf::IntRect rect)
+		* @param index (unsigned int) The index of the Texture.
+		* @param rect (sf::IntRect) The rectangle where is the choosen Texture.
+		* @return (sf::Texture*) A pointer the choosen Texture in m_vTexture().
+		*/
+	public:
+		TextureManager() = delete;
+		TextureManager(std::string jsonPath);
+		~TextureManager();
+
+		sf::Texture* get_texture(unsigned int index);
+		sf::Texture* get_texture(unsigned int index, sf::Vector2i spriteSize, sf::Vector2i position);
+		sf::Texture* get_texture(unsigned int index, sf::IntRect rect);
+
+	protected:
+		std::vector<sf::Texture*> m_vTexture;
+
+	};
+
 	class ShaderManager
 	{
 	public:
@@ -531,7 +589,7 @@ namespace DeltaEngine
 		*/
 		/**
 		* @fn ShaderManager(std::string jsonPath);
-		* @param jsonPath (std::string) The path to the .json file defining Light.
+		* @param jsonPath (std::string) The path to the .json file defining ShaderManager.
 		*/
 		/**
 		* @fn ~ShaderManager()

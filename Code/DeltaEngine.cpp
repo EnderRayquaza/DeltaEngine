@@ -17,15 +17,20 @@ namespace DeltaEngine //Functions
 namespace DeltaEngine //Game
 {
 	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
-		std::string icon, ShaderManager* shaderManager, sf::Color& bgColor, b2Vec2& gravity,
-		float timeStep, int32 velocityIt, int32 positionIt):m_name(name),
-		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), 
-		m_textureOn(textureOn), m_icon(icon), m_shaderManager(shaderManager),
-		m_window(sf::VideoMode(800, 600), ""), m_bgColor(bgColor), m_gravity(gravity),
-		m_world(m_gravity), m_timeStep(timeStep), m_velocityIt(velocityIt),
-		m_positionIt(positionIt)
+		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager,
+		sf::Color& bgColor, b2Vec2& gravity, float timeStep, int32 velocityIt,
+		int32 positionIt):m_name(name), m_version_M(version_Major), m_version_m(version_minor),
+		m_debug(debug), m_textureOn(textureOn), m_icon(icon), m_shaderManager(shaderManager),
+		m_textureManager(textureManager), m_window(sf::VideoMode(800, 600), ""),
+		m_bgColor(bgColor), m_gravity(gravity),	m_world(m_gravity), m_timeStep(timeStep),
+		m_velocityIt(velocityIt), m_positionIt(positionIt)
 	{
 		m_window.setTitle(get_title());
+	}
+
+	Game::~Game()
+	{
+		delete m_shaderManager;
 	}
 
 	//Getters
@@ -175,7 +180,6 @@ namespace DeltaEngine //Game
 				{
 					if (m_debug)
 					{
-						part.m_shape.setTexture(&part.m_texture);
 						part.m_shape.setPosition(part.get_position());
 						part.m_shape.setRotation(part.get_angle());
 						switch (part.m_bodyType)
@@ -201,21 +205,41 @@ namespace DeltaEngine //Game
 					{
 						if (part.m_shapeTexture)
 						{
-							part.m_shape.setTexture(&part.m_texture);
-							if (part.m_animated)
-								part.m_shape.setTextureRect(part.get_currentSpriteRect());
+							sf::Texture* texture;
+							if (part.m_subTexture)
+								texture = m_textureManager->get_texture(part.m_textureIndex,
+									part.get_currentSubTextureRect());
+							else
+								texture = m_textureManager->get_texture(part.m_textureIndex);
+							texture->setRepeated(part.m_repeated);
+							texture->setSmooth(part.m_smoothed);
+							part.m_shape.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), part.m_sizeSprite));
+							part.m_shape.setTexture(texture);
 							part.m_shape.setPosition(part.get_position());
 							part.m_shape.setRotation(part.get_angle());
-							m_window.draw(part.m_shape, m_shaderManager->get_shader(part.m_shaderIndexes[0]));
+							if (part.m_shaderIndex != -1)
+								m_window.draw(part.m_shape, m_shaderManager->get_shader(part.m_shaderIndex));
+							else
+								m_window.draw(part.m_shape);
 						}
 						else
 						{
-							sprite.setTexture(part.m_texture);
-							if (part.m_animated)
-								sprite.setTextureRect(part.get_currentSpriteRect());
+							sf::Texture* texture;
+							if (part.m_subTexture)
+								texture = m_textureManager->get_texture(part.m_textureIndex,
+									part.get_currentSubTextureRect());
+							else
+								texture = m_textureManager->get_texture(part.m_textureIndex);
+							texture->setRepeated(part.m_repeated);
+							texture->setSmooth(part.m_smoothed);
+							sprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), part.m_sizeSprite));
+							sprite.setTexture(*texture);
 							sprite.setPosition(part.get_position());
 							sprite.setRotation(part.get_angle());
-							m_window.draw(sprite, m_shaderManager->get_shader(part.m_shaderIndexes[0]));
+							if (part.m_shaderIndex != -1)
+								m_window.draw(sprite, m_shaderManager->get_shader(part.m_shaderIndex));
+							else
+								m_window.draw(sprite);
 						}
 					}
 				}
@@ -264,17 +288,12 @@ namespace DeltaEngine //Part
 
 		//Class members
 		m_priority = j["priority"];
-		for (auto jIdx : j["shaderIndexes"])
-		{
-			m_shaderIndexes.push_back(jIdx);
-		}
 		for (auto jL : j["lights"])
 		{
 			m_vLight.push_back(Light(jL["radius"], jL["vertices"], 
 				sf::Vector2f(jL["position"][0], jL["position"][1]), 
 				sf::Color(jL["color"][0],jL["color"][1], jL["color"][2]), jL["intensity"]));
-			m_vLight.back().set_position(sf::Vector2f(j["position"][0] * m_coef,
-				j["position"][1] * m_coef));
+			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 		}
 		for (auto jDL : j["dirLights"])
 		{
@@ -282,8 +301,7 @@ namespace DeltaEngine //Part
 				sf::Vector2f(jDL["position"][0], jDL["position"][1]),
 				jDL["abscissa_angle"], jDL["opening_angle"],
 				sf::Color(jDL["color"][0], jDL["color"][1], jDL["color"][2]), jDL["intensity"]));
-			m_vLight.back().set_position(sf::Vector2f(j["position"][0] * m_coef,
-				j["position"][1] * m_coef));
+			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 		}
 
 		m_coef = j["coef"];
@@ -294,27 +312,30 @@ namespace DeltaEngine //Part
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
 		for (int i{ 0 }; i < m_nb_vertices; i++)
 		{
-			vtxPosX = j["vertexPosition"][i][0]; vtxPosY = j["vertexPosition"][i][1];//Collects the
+			vtxPosX = j["verticesPositions"][i][0]; vtxPosY = j["verticesPositions"][i][1];//Collects the
 			//position from the .json file.
 			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices 
 			//to their position (which converted from meters to px).
 		}
-		if (!m_texture.loadFromFile(j["texture"]))
-			std::cout << "Texture not loaded" << std::endl;
+		m_textureIndex = j["textureIndex"];
+		m_shaderIndex = j["shaderIndex"];
 		m_shapeTexture = j["shapeTexture"];
-		m_animated = j["animated"];
+		m_subTexture = j["subTexture"];
+		m_repeated = j["textureRepeated"];
+		m_smoothed = j["textureSmoothed"];
 		m_sizeSprite = sf::Vector2i(j["sizeSprite"][0], j["sizeSprite"][1]);
-		m_currentSpritePosition = sf::Vector2i(j["startSpritePosition"][0],
-			j["startSpritePosition"][1]);
+		m_sizeSubTexture = sf::Vector2i(j["sizeSubTexture"][0], j["sizeSubTexture"][1]);
+		m_currentSubTexturePosition = sf::Vector2i(j["startSubTexturePosition"][0],
+			j["startSubTexturePosition"][1]);
 
-		//Class members (Box2d)
+		//Class members (Box2D)
 		m_type = j["type"];
 		m_bodyType = j["bodyType"];
 		//Creation of the body
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
 		for (int i{ 0 }; i < m_nb_vertices; i++)
 		{
-			vertices[i].Set(j["vertexPosition"][i][0], j["vertexPosition"][i][1]);
+			vertices[i].Set(j["verticesPositions"][i][0], j["verticesPositions"][i][1]);
 		}
 		//Sets the vertices to their own pos.
 		b2PolygonShape partShape; //Creates a shape for the part.
@@ -325,9 +346,8 @@ namespace DeltaEngine //Part
 		fixtureDef.friction = j["friction"]; //Set the friction of the part.
 		fixtureDef.restitution = j["restitution"]; //...
 		b2BodyDef bodyDef; //Create a BodyDef.
-		float posX{ j["position"][0] + position.x }, posY{ j["position"][1] + position.y };
 		//Calculate the position of the part.
-		bodyDef.position.Set(posX, posY); //Sets it.
+		bodyDef.position.Set(position.x, position.y); //Sets it.
 		switch (m_bodyType) //Defines the bodyType
 		{
 		case STATICBODY:
@@ -372,10 +392,10 @@ namespace DeltaEngine //Part
 	}
 
 	//Getters
-	sf::IntRect Part::get_currentSpriteRect()
+	sf::IntRect Part::get_currentSubTextureRect()
 	{
-		sf::Vector2i currSprPos{ m_currentSpritePosition.x * m_sizeSprite.x,
-			 m_currentSpritePosition.y * m_sizeSprite.y };
+		sf::Vector2i currSprPos{ m_currentSubTexturePosition.x * m_sizeSubTexture.x,
+			 m_currentSubTexturePosition.y * m_sizeSubTexture.y };
 		return sf::IntRect(currSprPos, m_sizeSprite);
 	}
 
@@ -397,14 +417,14 @@ namespace DeltaEngine //Part
 	}
 
 	//Setters
-	void Part::set_currentSpritePosition(sf::Vector2i position)
+	void Part::set_currentSubTexturePosition(sf::Vector2i position)
 	{
-		m_currentSpritePosition = position;
+		m_currentSubTexturePosition = position;
 	}
 
-	void Part::set_currentSpritePosition(unsigned int positionX, unsigned int positionY)
+	void Part::set_currentSubTexturePosition(unsigned int positionX, unsigned int positionY)
 	{
-		m_currentSpritePosition = sf::Vector2i(positionX, positionY);
+		m_currentSubTexturePosition = sf::Vector2i(positionX, positionY);
 	}
 }
 
@@ -445,7 +465,7 @@ namespace DeltaEngine //Entity
 	void Entity::move(float direction, float value, float acceleration)
 	{
 		float t{ 1 / 60.0 }, m{ 0 };
-		b2Vec2 v_{ cos(direction) * value, sin(direction) * value }, v0{ 0, 0 }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
+		b2Vec2 v_{ cos(direction) * value, sin(direction) * value }, v0{ 0.f, 0.f }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
 		for (auto part : m_vPart)
 		{
 			v0 += part.m_body->GetLinearVelocity();
@@ -514,6 +534,60 @@ namespace DeltaEngine //Light
 	}
 }
 
+namespace DeltaEngine //TextureManager
+{
+	TextureManager::TextureManager(std::string jsonPath)
+	{
+		json j{ returnJson(jsonPath) };
+		for (auto e : j)
+		{
+			sf::Texture* texture = new sf::Texture();
+			texture->loadFromFile(e);
+			m_vTexture.push_back(texture);
+		}
+	}
+
+	TextureManager::~TextureManager()
+	{
+		for (auto shader : m_vTexture)
+		{
+			delete shader;
+		}
+	}
+
+	sf::Texture* TextureManager::get_texture(unsigned int index)
+	{
+		return m_vTexture[index];
+	}
+
+	sf::Texture* TextureManager::get_texture(unsigned int index, sf::Vector2i spriteSize, sf::Vector2i position)
+	{
+		sf::RenderTexture* render = new sf::RenderTexture;
+		sf::Sprite sprite;
+		sprite.setTexture(*m_vTexture[index]);
+		sprite.setTextureRect(sf::IntRect(position, spriteSize));
+		render->draw(sprite);
+		render->display();
+		sf::Texture* newTexture = new sf::Texture();
+		*newTexture = render->getTexture();
+		return newTexture;
+	}
+
+	sf::Texture* TextureManager::get_texture(unsigned int index, sf::IntRect rect)
+	{
+		sf::RenderTexture* render = new sf::RenderTexture;
+		//render->create(rect.width, rect.height);
+		sf::Sprite sprite;
+		sprite.setTexture(*m_vTexture[index]);
+		sprite.setTextureRect(rect);
+		render->draw(sprite);
+		render->display();
+		sf::Texture* newTexture = new sf::Texture();
+		*newTexture = render->getTexture();
+		return newTexture;
+	}
+}
+
 namespace DeltaEngine //ShaderManager
 {
 	ShaderManager::ShaderManager(std::string jsonPath)
@@ -536,6 +610,14 @@ namespace DeltaEngine //ShaderManager
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e[0], (std::string)e[0]);
 			m_vShader.push_back(shader);
+		}
+	}
+
+	ShaderManager::~ShaderManager()
+	{
+		for (auto shader : m_vShader)
+		{
+			delete shader;
 		}
 	}
 
