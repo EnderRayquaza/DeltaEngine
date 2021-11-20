@@ -260,6 +260,7 @@ namespace DeltaEngine
 		void removeLight(int index); ///< Removes an Light of the game.
 
 		//Others
+		void init();
 		void draw(); ///< Draws Object, Entity, Light and sf::Shader.
 
 	protected:
@@ -363,9 +364,9 @@ namespace DeltaEngine
 		int m_shaderIndex; ///< The index of the Shader applied. Set -1 if you don't want a Shader.
 		bool m_shapeTexture; ///< If true, the texture will be shaped by the shape.
 		bool m_subTexture; ///< If true, it has a sub-texture.
-		bool m_repeated; ///< Defines if the Texture is repeated in the Sprite.
+		//bool m_repeated; ///< Defines if the Texture is repeated in the Sprite.
 		bool m_smoothed; ///< Defines if the Texture is smoothed.
-		sf::Vector2i m_sizeSprite; ///< The size of one sprite in the sheet.
+		//sf::Vector2i m_sizeSprite; ///< The size of one sprite in the sheet.
 		sf::Vector2i m_sizeSubTexture; ///< The size of one sub-texture in the sheet.
 		sf::Vector2i m_currentSubTexturePosition; ///< The position of the current sub-texture in the sheet.
 
@@ -572,12 +573,12 @@ namespace DeltaEngine
 		~TextureManager();
 
 		sf::Texture* get_texture(unsigned int index);
-		sf::Texture* get_texture(unsigned int index, sf::Vector2i spriteSize, sf::Vector2i position);
-		sf::Texture* get_texture(unsigned int index, sf::IntRect rect);
+
+		void init();
 
 	protected:
+		std::string m_jsonPath;
 		std::vector<sf::Texture*> m_vTexture;
-
 	};
 
 	class ShaderManager
@@ -607,7 +608,10 @@ namespace DeltaEngine
 		//Getters
 		sf::Shader* get_shader(int index); ///< Gets the Shader by the index.
 
+		void init();
+
 	protected:
+		std::string m_jsonPath;
 		std::vector<sf::Shader*> m_vShader; ///< The vector with all the Shader.
 	};
 }
