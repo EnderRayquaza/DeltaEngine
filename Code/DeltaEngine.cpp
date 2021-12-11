@@ -282,7 +282,7 @@ namespace DeltaEngine //Part
 		//JSON
 		json j{ returnJson(jsonPath) }; //Collects data from json.
 
-		//Class members
+		//Light
 		m_priority = j["priority"];
 		for (auto jL : j["lights"])
 		{
