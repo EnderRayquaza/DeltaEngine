@@ -307,7 +307,7 @@ namespace DeltaEngine //Part
 		m_shaderIndex = (int)j["shaderIndex"];
 		m_shapeTexture = (bool)j["shapeTexture"];
 		m_subTexture = (bool)j["subTexture"];
-		m_smoothed = (bool)j["textureSmoothed"];
+		m_smoothed = (bool)j["smoothedTexture"];
 
 		m_sizeSubTexture = sf::Vector2i((float)j["sizeSubTexture"][0], (float)j["sizeSubTexture"][1]);
 		m_currentSubTexturePosition = sf::Vector2i(
