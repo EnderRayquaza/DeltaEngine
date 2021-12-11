@@ -282,28 +282,38 @@ namespace DeltaEngine //Part
 		//JSON
 		json j{ returnJson(jsonPath) }; //Collects data from json.
 
-		//Light
-		m_priority = j["priority"];
+		//Class members(Lights)
 		for (auto jL : j["lights"])
 		{
-			m_vLight.push_back(Light(jL["radius"], jL["vertices"], 
-				sf::Vector2f(jL["position"][0], jL["position"][1]), 
-				sf::Color(jL["color"][0],jL["color"][1], jL["color"][2]), jL["intensity"]));
+			m_vLight.push_back(Light(jL, _Light::CLASSIC));
 			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 		}
-		for (auto jDL : j["dirLights"])
+		for (auto jL : j["dirLights"])
 		{
-			m_vLight.push_back(Light(jDL["radius"], jDL["vertices"],
-				sf::Vector2f(jDL["position"][0], jDL["position"][1]),
-				jDL["abscissa_angle"], jDL["opening_angle"],
-				sf::Color(jDL["color"][0], jDL["color"][1], jDL["color"][2]), jDL["intensity"]));
+			m_vLight.push_back(Light(jL, _Light::DIRECTIONAL));
 			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 		}
-
-		m_coef = j["coef"];
+		for (auto jL : j["linLights"])
+		{
+			m_vLight.push_back(Light(jL, _Light::LINEAR));
+			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
+		}
 		m_nb_vertices = j["nb_vertices"];
 
 		//Class members (SFML)
+		m_coef = (double)j["coef"];
+		m_priority = (int)j["priority"];
+		m_textureIndex = (int)j["textureIndex"];
+		m_shaderIndex = (int)j["shaderIndex"];
+		m_shapeTexture = (bool)j["shapeTexture"];
+		m_subTexture = (bool)j["subTexture"];
+		m_smoothed = (bool)j["textureSmoothed"];
+
+		m_sizeSubTexture = sf::Vector2i((float)j["sizeSubTexture"][0], (float)j["sizeSubTexture"][1]);
+		m_currentSubTexturePosition = sf::Vector2i(
+			(float)j["startSubTexturePosition"][0],
+			(float)j["startSubTexturePosition"][1]);
+
 		m_shape = sf::ConvexShape(m_nb_vertices);
 		double vtxPosX{ 0 }, vtxPosY{ 0 };
 		for (int i{ 0 }; i < m_nb_vertices; i++)
@@ -313,18 +323,10 @@ namespace DeltaEngine //Part
 			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices 
 			//to their position (which converted from meters to px).
 		}
-		m_textureIndex = j["textureIndex"];
-		m_shaderIndex = j["shaderIndex"];
-		m_shapeTexture = j["shapeTexture"];
-		m_subTexture = j["subTexture"];
-		m_smoothed = j["textureSmoothed"];
-		m_sizeSubTexture = sf::Vector2i(j["sizeSubTexture"][0], j["sizeSubTexture"][1]);
-		m_currentSubTexturePosition = sf::Vector2i(j["startSubTexturePosition"][0],
-			j["startSubTexturePosition"][1]);
 
 		//Class members (Box2D)
-		m_type = j["type"];
-		m_bodyType = j["bodyType"];
+		m_type = (int)j["type"];
+		m_bodyType = (int)j["bodyType"];
 		//Creation of the body
 		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
 		for (int i{ 0 }; i < m_nb_vertices; i++)
@@ -336,9 +338,9 @@ namespace DeltaEngine //Part
 		partShape.Set(vertices, m_nb_vertices); //Sets the vertices for the shape.
 		b2FixtureDef fixtureDef; //Creates a FixtureDef.
 		fixtureDef.shape = &partShape; //Set the shape to the FixtureDef.
-		fixtureDef.density = j["density"]; //Set the density of the part.
-		fixtureDef.friction = j["friction"]; //Set the friction of the part.
-		fixtureDef.restitution = j["restitution"]; //...
+		fixtureDef.density = (float)j["density"]; //Set the density of the part.
+		fixtureDef.friction = (float)j["friction"]; //Set the friction of the part.
+		fixtureDef.restitution = (float)j["restitution"]; //...
 		b2BodyDef bodyDef; //Create a BodyDef.
 		//Calculate the position of the part.
 		bodyDef.position.Set(position.x, position.y); //Sets it.
@@ -478,6 +480,33 @@ namespace DeltaEngine //Entity
 
 namespace DeltaEngine //Light
 {
+	Light::Light(std::string jsonPath, _Light typeLight)
+	{
+		json j{ returnJson(jsonPath) };
+		switch (typeLight)
+		{
+		case _Light::CLASSIC:
+			m_radius = (double)j["radius"];
+			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
+			m_intensity = (double)j["intensity"];
+			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
+			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
+			break;
+		case _Light::DIRECTIONAL:
+			m_radius = (double)j["radius"];
+			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
+			m_intensity = (double)j["intensity"];
+			m_abscissa_angle = (double)j["abscissa_angle"];
+			m_opening_angle = (double)j["opening_angle"];
+			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
+			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
+			break;
+		case _Light::LINEAR:
+			break;
+		default:
+			break;
+		}
+	}
 	Light::Light(double radius, int vertices, sf::Vector2f position,
 		sf::Color color, double intensity):m_radius(radius),
 		m_vertexArray(sf::TriangleFan, vertices), m_position(position), m_color(color), 
@@ -549,7 +578,7 @@ namespace DeltaEngine //TextureManager
 	void TextureManager::init()
 	{
 		json j{ returnJson(m_jsonPath) };
-		for (auto e : j)
+		for (auto e : j["textures"])
 		{
 			sf::Texture* texture = new sf::Texture();
 			if (!texture->loadFromFile(e))

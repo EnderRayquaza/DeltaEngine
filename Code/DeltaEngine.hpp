@@ -34,6 +34,14 @@ enum _partCategory
 	PNJ = 0x0006,
 	ENEMY = 0x0008,
 	BULLET = 0x0010,
+	ENEMY_BULLET = 0x0012
+};
+
+enum class _Light
+{
+	CLASSIC,
+	DIRECTIONAL,
+	LINEAR
 };
 
 using json = nlohmann::json;
@@ -502,6 +510,7 @@ namespace DeltaEngine
 		*/
 
 		Light() = delete; ///< Deleted Constructor.
+		Light(std::string jsonPath, _Light typeLight);
 		Light(double radius, int vertices, sf::Vector2f position,
 			sf::Color color = sf::Color(255, 255, 255), double intensity = 255);///< Constructor for classic Lights.
 		Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
