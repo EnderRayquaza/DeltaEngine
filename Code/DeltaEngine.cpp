@@ -559,7 +559,7 @@ namespace DeltaEngine //Light
 		{
 			if (m_directed)
 				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
-				+ m_abscissa_angle * DEG2RAD;
+				- m_abscissa_angle * DEG2RAD;
 			else
 				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
 				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
