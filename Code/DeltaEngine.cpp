@@ -240,7 +240,6 @@ namespace DeltaEngine //Game
 						{
 							if(part.m_subTexture)
 								sprite.setTextureRect(part.get_currentSubTextureRect());
-							std::cout << sprite.getTextureRect().height << "/" << sprite.getTextureRect().width << std::endl;
 							sprite.setTexture(*texture);
 							sprite.setPosition(part.get_position());
 							sprite.setRotation(part.get_angle());
@@ -518,6 +517,7 @@ namespace DeltaEngine //Light
 		default:
 			break;
 		}
+		generate();
 	}
 	Light::Light(double radius, int vertices, sf::Vector2f position,
 		sf::Color color, double intensity):m_radius(radius),
