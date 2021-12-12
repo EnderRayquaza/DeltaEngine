@@ -210,12 +210,13 @@ namespace DeltaEngine //Game
 					}
 					if (m_textureOn)
 					{
+						sf::Texture* texture;
+						texture = m_textureManager->get_texture(part.m_textureIndex);
+						texture->setSmooth(part.m_smoothed);
 						if (part.m_shapeTexture)
 						{
-							sf::Texture* texture;
-							texture = m_textureManager->get_texture(part.m_textureIndex);
-							texture->setSmooth(part.m_smoothed);
-							part.m_shape.setTextureRect(part.get_currentSubTextureRect());
+							if (part.m_subTexture)
+								part.m_shape.setTextureRect(part.get_currentSubTextureRect());
 							part.m_shape.setTexture(texture);
 							part.m_shape.setPosition(part.get_position());
 							part.m_shape.setRotation(part.get_angle());
@@ -226,9 +227,6 @@ namespace DeltaEngine //Game
 						}
 						else
 						{
-							sf::Texture* texture;
-							texture = m_textureManager->get_texture(part.m_textureIndex);
-							texture->setSmooth(part.m_smoothed);
 							if(part.m_subTexture)
 								sprite.setTextureRect(part.get_currentSubTextureRect());
 							sprite.setTexture(*texture);
