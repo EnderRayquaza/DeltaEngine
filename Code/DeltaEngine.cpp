@@ -497,6 +497,7 @@ namespace DeltaEngine //Light
 		switch (typeLight)
 		{
 		case _Light::CLASSIC:
+			m_directed = false;
 			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
 			m_intensity = (double)j["intensity"];
@@ -504,6 +505,7 @@ namespace DeltaEngine //Light
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 			break;
 		case _Light::DIRECTIONAL:
+			m_directed = true;
 			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
 			m_intensity = (double)j["intensity"];
