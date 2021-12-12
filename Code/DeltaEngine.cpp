@@ -229,7 +229,8 @@ namespace DeltaEngine //Game
 							sf::Texture* texture;
 							texture = m_textureManager->get_texture(part.m_textureIndex);
 							texture->setSmooth(part.m_smoothed);
-							sprite.setTextureRect(part.get_currentSubTextureRect());
+							if(part.m_subTexture)
+								sprite.setTextureRect(part.get_currentSubTextureRect());
 							sprite.setTexture(*texture);
 							sprite.setPosition(part.get_position());
 							sprite.setRotation(part.get_angle());
