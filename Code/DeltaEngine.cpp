@@ -47,6 +47,11 @@ namespace DeltaEngine //Game
 	{
 		return m_debug;
 	}
+	
+	bool Game::get_textureOn()
+	{
+		return m_textureOn;
+	}
 
 	std::vector<Object>& Game::get_vObject()
 	{
@@ -92,6 +97,11 @@ namespace DeltaEngine //Game
 	void Game::set_debug(bool value)
 	{
 		m_debug = value;
+	}
+
+	void Game::set_textureOn(bool value)
+	{
+		m_textureOn = value;
 	}
 
 	void Game::addObject(Object& object)
@@ -183,6 +193,7 @@ namespace DeltaEngine //Game
 		{
 			for (auto& part : vPart)
 			{
+				sprite = sf::Sprite();//Reset the sprite
 				if (part.m_priority == i)
 				{
 					if (m_debug)
@@ -229,6 +240,7 @@ namespace DeltaEngine //Game
 						{
 							if(part.m_subTexture)
 								sprite.setTextureRect(part.get_currentSubTextureRect());
+							std::cout << sprite.getTextureRect().height << "/" << sprite.getTextureRect().width << std::endl;
 							sprite.setTexture(*texture);
 							sprite.setPosition(part.get_position());
 							sprite.setRotation(part.get_angle());

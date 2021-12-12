@@ -259,7 +259,7 @@ namespace DeltaEngine
 
 		//Setters
 		void set_debug(bool value); ///< Switchs between debug and release.
-		void set_textureOn(bool value);
+		void set_textureOn(bool value); ///< Enable/Disable the textures.
 		void addObject(Object& object); ///< Adds an Object to the game.
 		void addEntity(Entity& entity); ///< Adds an Entity to the game.
 		void addLight(Light& light); ///< Adds an Light to the game.
