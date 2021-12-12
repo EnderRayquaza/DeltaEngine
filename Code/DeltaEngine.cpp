@@ -30,7 +30,8 @@ namespace DeltaEngine //Game
 
 	Game::~Game()
 	{
-		delete m_shaderManager;
+		m_textureManager->~TextureManager();
+		m_shaderManager->~ShaderManager(); 
 	}
 
 	//Getters
@@ -597,7 +598,7 @@ namespace DeltaEngine //ShaderManager
 
 	ShaderManager::~ShaderManager()
 	{
-		for (auto shader : m_vShader)
+		for (auto* shader : m_vShader)
 		{
 			delete shader;
 		}
