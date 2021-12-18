@@ -519,6 +519,7 @@ namespace DeltaEngine
 		//~Light(); ///< Destructor.
 
 		friend Game;
+		friend Part;
 
 		//Getters
 		sf::VertexArray& get_vertexArray();
@@ -533,6 +534,7 @@ namespace DeltaEngine
 		//Light members
 		double m_radius; ///< Its radius in px.
 		sf::VertexArray m_vertexArray; ///< An Array with all the vertices of the Light.
+		sf::Vector2f m_position_origin; ///< Its original positon in px.
 		sf::Vector2f m_position; ///< Its positon in px.
 		sf::Color m_color; ///< The color of the Light.
 		double m_intensity; ///< The intensity/brightness of the Light.

@@ -152,6 +152,10 @@ namespace DeltaEngine //Game
 	//Others
 	void Game::init()
 	{
+		for (auto& lgh : m_vLight)
+		{
+			lgh.generate();
+		}
 		m_textureManager->init();
 		m_shaderManager->init();
 	}
@@ -293,6 +297,7 @@ namespace DeltaEngine //Part
 		//JSON
 		json j{ returnJson(jsonPath) }; //Collects data from json.
 
+		//Class members(Lights)
 		//Class members(Lights)
 		for (auto jL : j["lights"])
 		{
@@ -501,6 +506,7 @@ namespace DeltaEngine //Light
 			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
 			m_intensity = (double)j["intensity"];
+			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
 			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 			break;
@@ -511,6 +517,7 @@ namespace DeltaEngine //Light
 			m_intensity = (double)j["intensity"];
 			m_abscissa_angle = (double)j["abscissa_angle"];
 			m_opening_angle = (double)j["opening_angle"];
+			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
 			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 			break;
@@ -519,20 +526,6 @@ namespace DeltaEngine //Light
 		default:
 			break;
 		}
-		generate();
-	}
-	Light::Light(double radius, int vertices, sf::Vector2f position,
-		sf::Color color, double intensity):m_radius(radius),
-		m_vertexArray(sf::TriangleFan, vertices), m_position(position), m_color(color), 
-		m_intensity(intensity), m_directed(false), m_abscissa_angle(0), m_opening_angle(0)
-	{
-		generate();
-	}
-	Light::Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
-		double opening_angle, sf::Color color, double intensity) : m_radius(radius), m_vertexArray(sf::TriangleFan, vertices),
-		m_position(position), m_color(color), m_intensity(intensity), m_directed(true),
-		m_abscissa_angle(abscissa_angle),m_opening_angle(opening_angle)
-	{
 		generate();
 	}
 
@@ -545,7 +538,7 @@ namespace DeltaEngine //Light
 	//Setters
 	void Light::set_position(sf::Vector2f position)
 	{
-		m_position = position;
+		m_position = m_position_origin + position;
 		generate();
 	}
 
@@ -560,7 +553,7 @@ namespace DeltaEngine //Light
 			if (m_directed)
 				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
 				+ (m_abscissa_angle) * DEG2RAD;
-			else
+			else 
 				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
 				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
 			m_vertexArray[i+1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
@@ -568,7 +561,6 @@ namespace DeltaEngine //Light
 			m_vertexArray[i+1].color = sf::Color(m_color.r, m_color.b, m_color.g
 				, m_intensity / m_radius);//More the radius is big, less the intensity will be.
 		}
-		std::cout << "------------------" << std::endl;
 	}
 }
 
