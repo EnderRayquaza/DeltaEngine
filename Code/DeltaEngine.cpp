@@ -499,7 +499,7 @@ namespace DeltaEngine //Light
 		case _Light::CLASSIC:
 			m_directed = false;
 			m_radius = (double)j["radius"];
-			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
+			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
 			m_intensity = (double)j["intensity"];
 			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
@@ -507,7 +507,7 @@ namespace DeltaEngine //Light
 		case _Light::DIRECTIONAL:
 			m_directed = true;
 			m_radius = (double)j["radius"];
-			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["radius"]);
+			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
 			m_intensity = (double)j["intensity"];
 			m_abscissa_angle = (double)j["abscissa_angle"];
 			m_opening_angle = (double)j["opening_angle"];
@@ -555,19 +555,20 @@ namespace DeltaEngine //Light
 		m_vertexArray[0].position = m_position;
 		m_vertexArray[0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
 		double angle{ 0 };
-		for(int i{1}; i<m_vertexArray.getVertexCount(); i++) //The first vertex is already placed.
+		for (size_t i{ 0 }; i < m_vertexArray.getVertexCount() - 1; i++) //The first vertex is already placed.
 		{
 			if (m_directed)
 				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
-				- m_abscissa_angle * DEG2RAD;
+				+ (m_abscissa_angle) * DEG2RAD;
 			else
 				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
 				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
-			m_vertexArray[i].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
-				m_position.y + sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
-			m_vertexArray[i].color = sf::Color(m_color.r, m_color.b, m_color.g
+			m_vertexArray[i+1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
+				m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
+			m_vertexArray[i+1].color = sf::Color(m_color.r, m_color.b, m_color.g
 				, m_intensity / m_radius);//More the radius is big, less the intensity will be.
 		}
+		std::cout << "------------------" << std::endl;
 	}
 }
 
