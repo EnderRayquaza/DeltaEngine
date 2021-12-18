@@ -499,31 +499,38 @@ namespace DeltaEngine //Light
 	Light::Light(std::string jsonPath, _Light typeLight)
 	{
 		json j{ returnJson(jsonPath) };
-		switch (typeLight)
+		m_type = typeLight;
+		switch (m_type)
 		{
 		case _Light::CLASSIC:
-			m_directed = false;
+		{
 			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
+			m_brightness = (double)j["brightness"];
 			m_intensity = (double)j["intensity"];
 			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
 			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
+		}
 			break;
 		case _Light::DIRECTIONAL:
-			m_directed = true;
+		{
 			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
+			m_brightness = (double)j["brightness"];
 			m_intensity = (double)j["intensity"];
 			m_abscissa_angle = (double)j["abscissa_angle"];
 			m_opening_angle = (double)j["opening_angle"];
 			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
 			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
 			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
+		}
 			break;
 		case _Light::LINEAR:
+		{}
 			break;
 		default:
+			assert("Light::Light(std::string, _Light) -> default(switch(m_type)) (ln.531)[DeltaEngine.cpp]");
 			break;
 		}
 		generate();
@@ -546,20 +553,42 @@ namespace DeltaEngine //Light
 	void Light::generate()
 	{
 		m_vertexArray[0].position = m_position;
-		m_vertexArray[0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+		m_vertexArray[0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
 		double angle{ 0 };
 		for (size_t i{ 0 }; i < m_vertexArray.getVertexCount() - 1; i++) //The first vertex is already placed.
 		{
-			if (m_directed)
-				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
-				+ (m_abscissa_angle) * DEG2RAD;
-			else 
+			switch (m_type)
+			{
+			case _Light::CLASSIC:
+			{
 				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
 				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
-			m_vertexArray[i+1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
-				m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
-			m_vertexArray[i+1].color = sf::Color(m_color.r, m_color.b, m_color.g
-				, m_intensity / m_radius);//More the radius is big, less the intensity will be.
+				m_vertexArray[i + 1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
+					m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
+				m_vertexArray[i + 1].color = sf::Color(m_color.r, m_color.b, m_color.g
+					, m_intensity);
+				
+			}
+				break;
+			case _Light::DIRECTIONAL:
+			{
+				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
+					+ (m_abscissa_angle)*DEG2RAD;
+				m_vertexArray[i + 1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
+					m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
+				m_vertexArray[i + 1].color = sf::Color(m_color.r, m_color.b, m_color.g
+					, m_intensity);
+			}
+				break;
+			case _Light::LINEAR:
+			{
+
+			}
+				break;
+			default:
+				assert("Light::generate() -> default(switch (m_type)) (ln.587)[DeltaEngine.cpp]");
+				break;
+			}
 		}
 	}
 }

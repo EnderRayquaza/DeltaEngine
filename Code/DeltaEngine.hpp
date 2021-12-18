@@ -511,11 +511,6 @@ namespace DeltaEngine
 
 		Light() = delete; ///< Deleted Constructor.
 		Light(std::string jsonPath, _Light typeLight);
-		Light(double radius, int vertices, sf::Vector2f position,
-			sf::Color color = sf::Color(255, 255, 255), double intensity = 255);///< Constructor for classic Lights.
-		Light(double radius, int vertices, sf::Vector2f position, double abscissa_angle,
-			double opening_angle, sf::Color color = sf::Color(255, 255, 255),
-			double intensity = 255); ///< Constructor for directed Lights.
 		//~Light(); ///< Destructor.
 
 		friend Game;
@@ -531,15 +526,16 @@ namespace DeltaEngine
 		void generate(); ///< Calculate the render of the Light.
 
 	protected:
+		_Light m_type; ///< The type of the Light.
+
 		//Light members
 		double m_radius; ///< Its radius in px.
 		sf::VertexArray m_vertexArray; ///< An Array with all the vertices of the Light.
 		sf::Vector2f m_position_origin; ///< Its original positon in px.
 		sf::Vector2f m_position; ///< Its positon in px.
 		sf::Color m_color; ///< The color of the Light.
-		double m_intensity; ///< The intensity/brightness of the Light.
-
-		bool m_directed; ///< If the light is a directed light.
+		double m_brightness; ///< The brightness at the source of the Light.
+		double m_intensity; ///< The intensity of the Light.
 
 		//Directed Light members
 		double m_abscissa_angle; ///< The angle between the axe of abscissa and the light.
