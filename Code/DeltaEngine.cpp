@@ -329,112 +329,113 @@ namespace DeltaEngine //Part
 	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position)
 	{
 		//JSON
-		json j{ returnJson(jsonPath) }; //Collects data from json.
+			json j{ returnJson(jsonPath) }; //Collects data from json.
 
 		//Class members(Lights)
-		//Class members(Lights)
-		for (auto jL : j["lights"])
-		{
-			m_vLight.push_back(Light(jL, _Light::CLASSIC));
-			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
-		}
-		for (auto jL : j["dirLights"])
-		{
-			m_vLight.push_back(Light(jL, _Light::DIRECTIONAL));
-			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
-		}
-		for (auto jL : j["linLights"])
-		{
-			m_vLinLight.push_back(LinearLight(jL));
-			m_vLinLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
-		}
-		m_nb_vertices = j["nb_vertices"];
+			for (auto jL : j["lights"])
+			{
+				m_vLight.push_back(Light(jL, _Light::CLASSIC));
+				m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
+			}
+			for (auto jL : j["dirLights"])
+			{
+				m_vLight.push_back(Light(jL, _Light::DIRECTIONAL));
+				m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
+			}
+			for (auto jL : j["linLights"])
+			{
+				m_vLinLight.push_back(LinearLight(jL));
+				m_vLinLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
+			}
+			m_nb_vertices = j["nb_vertices"];
 
 		//Class members (SFML)
-		m_coef = (double)j["coef"];
-		m_priority = (int)j["priority"];
-		m_textureIndex = (int)j["textureIndex"];
-		m_shaderIndex = (int)j["shaderIndex"];
-		m_shapeTexture = (bool)j["shapeTexture"];
-		m_subTexture = (bool)j["subTexture"];
-		m_smoothed = (bool)j["smoothedTexture"];
+			m_coef = (double)j["coef"];
+			m_priority = (int)j["priority"];
+			m_textureIndex = (int)j["textureIndex"];
+			m_shaderIndex = (int)j["shaderIndex"];
+			m_shapeTexture = (bool)j["shapeTexture"];
+			m_subTexture = (bool)j["subTexture"];
+			m_smoothed = (bool)j["smoothedTexture"];
 
-		m_sizeSubTexture = sf::Vector2i((float)j["sizeSubTexture"][0], (float)j["sizeSubTexture"][1]);
-		m_currentSubTexturePosition = sf::Vector2i(
-			(float)j["startSubTexturePosition"][0],
-			(float)j["startSubTexturePosition"][1]);
+			m_sizeSubTexture = sf::Vector2i((float)j["sizeSubTexture"][0], (float)j["sizeSubTexture"][1]);
+			m_currentSubTexturePosition = sf::Vector2i(
+				(float)j["startSubTexturePosition"][0],
+				(float)j["startSubTexturePosition"][1]);
 
-		m_shape = sf::ConvexShape(m_nb_vertices);
-		double vtxPosX{ 0 }, vtxPosY{ 0 };
-		for (int i{ 0 }; i < m_nb_vertices; i++)
-		{
-			vtxPosX = j["verticesPositions"][i][0]; vtxPosY = j["verticesPositions"][i][1];//Collects the
-			//position from the .json file.
-			m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices 
-			//to their position (which converted from meters to px).
-		}
+			m_shape = sf::ConvexShape(m_nb_vertices);
+			double vtxPosX{ 0 }, vtxPosY{ 0 };
+			for (int i{ 0 }; i < m_nb_vertices; i++)
+			{
+				vtxPosX = j["verticesPositions"][i][0]; vtxPosY = j["verticesPositions"][i][1];//Collects the
+				//position from the .json file.
+				m_shape.setPoint(i, sf::Vector2f(vtxPosX * m_coef, vtxPosY * m_coef)); //Sets vertices 
+				//to their position (which converted from meters to px).
+			}
 
 		//Class members (Box2D)
-		m_type = (int)j["type"];
-		m_bodyType = (int)j["bodyType"];
+			m_type = (int)j["type"];
+			m_bodyType = (int)j["bodyType"];
+		//Creation of the shape
+			b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
+			for (int i{ 0 }; i < m_nb_vertices; i++)
+			{
+				vertices[i].Set(j["verticesPositions"][i][0], j["verticesPositions"][i][1]);
+			}
+			//Sets the vertices to their own pos.
+			b2PolygonShape partShape; //Creates a shape for the part.
+			partShape.Set(vertices, m_nb_vertices); //Sets the vertices for the shape.
+		//Creation of the fixtureDef
+			b2FixtureDef fixtureDef; //Creates a FixtureDef.
+			fixtureDef.shape = &partShape; //Set the shape to the FixtureDef.
+			fixtureDef.density = (float)j["density"]; //Set the density of the part.
+			fixtureDef.friction = (float)j["friction"]; //Set the friction of the part.
+			fixtureDef.restitution = (float)j["restitution"]; //...
+
 		//Creation of the body
-		b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
-		for (int i{ 0 }; i < m_nb_vertices; i++)
-		{
-			vertices[i].Set(j["verticesPositions"][i][0], j["verticesPositions"][i][1]);
-		}
-		//Sets the vertices to their own pos.
-		b2PolygonShape partShape; //Creates a shape for the part.
-		partShape.Set(vertices, m_nb_vertices); //Sets the vertices for the shape.
-		b2FixtureDef fixtureDef; //Creates a FixtureDef.
-		fixtureDef.shape = &partShape; //Set the shape to the FixtureDef.
-		fixtureDef.density = (float)j["density"]; //Set the density of the part.
-		fixtureDef.friction = (float)j["friction"]; //Set the friction of the part.
-		fixtureDef.restitution = (float)j["restitution"]; //...
-		b2BodyDef bodyDef; //Create a BodyDef.
-		//Calculate the position of the part.
-		bodyDef.position.Set(position.x, position.y); //Sets it.
-		switch (m_bodyType) //Defines the bodyType
-		{
-		case STATICBODY:
-			bodyDef.type = b2_staticBody;
-			break;
-		case KINEMATICBODY:
-			bodyDef.type = b2_kinematicBody;
-			break;
-		case DYNAMICBODY:
-			bodyDef.type = b2_dynamicBody;
-			bodyDef.fixedRotation = true;
-			break;
-		default:
-			break;
-		}
-		fixtureDef.filter.categoryBits = m_type; //Defines what collides with what.
-		switch (m_type)
-		{
-		case DECOR:
-			fixtureDef.filter.maskBits = NOTHING;
-			break;
-		case GROUND:
-			fixtureDef.filter.maskBits = PLAYER | PNJ | ENEMY | BULLET;
-			break;
-		case PLAYER:
-			fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
-			break;
-		case PNJ:
-			fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
-			break;
-		case ENEMY:
-			fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY | BULLET;
-			break;
-		case BULLET:
-			fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY;
-			break;
-		default:
-			break;
-		}
-		m_body = world.CreateBody(&bodyDef); //Create the body.
-		m_body->CreateFixture(&fixtureDef); //Set the fixture to the body.
+			b2BodyDef bodyDef; //Create a BodyDef.
+			bodyDef.position.Set(position.x, position.y); //Sets the position of the part.
+			switch (m_bodyType) //Defines the bodyType
+			{
+			case STATICBODY:
+				bodyDef.type = b2_staticBody;
+				break;
+			case KINEMATICBODY:
+				bodyDef.type = b2_kinematicBody;
+				break;
+			case DYNAMICBODY:
+				bodyDef.type = b2_dynamicBody;
+				bodyDef.fixedRotation = true;
+				break;
+			default:
+				break;
+			}
+			fixtureDef.filter.categoryBits = m_type; //Defines what collides with what.
+			switch (m_type)
+			{
+			case DECOR:
+				fixtureDef.filter.maskBits = NOTHING;
+				break;
+			case GROUND:
+				fixtureDef.filter.maskBits = PLAYER | PNJ | ENEMY | BULLET;
+				break;
+			case PLAYER:
+				fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+				break;
+			case PNJ:
+				fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+				break;
+			case ENEMY:
+				fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY | BULLET;
+				break;
+			case BULLET:
+				fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY;
+				break;
+			default:
+				break;
+			}
+			m_body = world.CreateBody(&bodyDef); //Create the body.
+			m_body->CreateFixture(&fixtureDef); //Set the fixture to the body.
 	}
 
 	//Getters
