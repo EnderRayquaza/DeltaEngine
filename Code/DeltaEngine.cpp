@@ -17,15 +17,30 @@ namespace DeltaEngine //Functions
 namespace DeltaEngine //Game
 {
 	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
-		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager,
-		sf::Color& bgColor, b2Vec2& gravity, float timeStep, int32 velocityIt,
-		int32 positionIt):m_name(name), m_version_M(version_Major), m_version_m(version_minor),
-		m_debug(debug), m_textureOn(textureOn), m_icon(icon), m_shaderManager(shaderManager),
-		m_textureManager(textureManager), m_window(sf::VideoMode(800, 600), ""),
-		m_bgColor(bgColor), m_gravity(gravity),	m_world(m_gravity), m_timeStep(timeStep),
-		m_velocityIt(velocityIt), m_positionIt(positionIt)
+		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager, ContactListener* contactListener,
+		sf::Color& bgColor, b2Vec2& gravity, float timeStep, int32 velocityIt, int32 positionIt):m_name(name),
+		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), m_textureOn(textureOn), m_icon(icon),
+		m_textureManager(textureManager), m_shaderManager(shaderManager), m_contactListener(contactListener),
+		m_window(sf::VideoMode(800, 600), ""), m_bgColor(bgColor), m_gravity(gravity), m_world(m_gravity),
+		m_timeStep(timeStep), m_velocityIt(velocityIt), m_positionIt(positionIt)
 	{
 		m_window.setTitle(get_title());
+	}
+	
+	Game::Game(const Game& copy):m_name(copy.m_name), m_version_M(copy.m_version_M), m_version_m(copy.m_version_m),
+		m_debug(copy.m_debug), m_textureOn(copy.m_textureOn), m_icon(copy.m_icon), m_vObject(copy.m_vObject),
+		m_vEntity(copy.m_vEntity), m_vLight(copy.m_vLight), m_vLinLight(copy.m_vLinLight), m_vPartLight(copy.m_vPartLight),
+		m_vPartLinLight(copy.m_vPartLinLight), m_textureManager(copy.m_textureManager), m_shaderManager(copy.m_shaderManager),
+		m_contactListener(copy.m_contactListener), m_window(sf::VideoMode(800, 600), ""), m_bgColor(copy.m_bgColor),
+		m_gravity(copy.m_gravity), m_world(copy.m_world), m_timeStep(copy.m_timeStep), m_velocityIt(copy.m_velocityIt),
+		m_positionIt(copy.m_positionIt)
+	{
+		m_window.setTitle(get_title());
+	}
+
+	Game Game::operator=(const Game& copy)
+	{
+		return Game(copy);
 	}
 
 	Game::~Game()
@@ -173,6 +188,7 @@ namespace DeltaEngine //Game
 			lgh.generate();
 		m_textureManager->init();
 		m_shaderManager->init();
+		m_contactListener->init(this);
 	}
 
 	void Game::draw()
@@ -322,6 +338,27 @@ namespace DeltaEngine //Game
 
 		m_window.display(); //Displays the RenderWindow.
 	}
+
+	Part& Game::findPart(b2Body* body)
+	{
+		for (auto& obj : m_vObject)
+		{
+			for (auto& part : obj.m_vPart)
+			{
+				if (part.m_body->GetUserData().pointer == body->GetUserData().pointer)
+					return part;
+			}
+		}
+		for (auto& ent : m_vEntity)
+		{
+			for (auto& part : ent.m_vPart)
+			{
+				if (part.m_body->GetUserData().pointer == body->GetUserData().pointer)
+					return part;
+			}
+		}
+		std::cout << "Game::findPart -> no body found :'(" << std::endl;
+	}
 }
 
 namespace DeltaEngine //Part
@@ -332,17 +369,17 @@ namespace DeltaEngine //Part
 			json j{ returnJson(jsonPath) }; //Collects data from json.
 
 		//Class members(Lights)
-			for (auto jL : j["lights"])
+			for (auto& jL : j["lights"])
 			{
 				m_vLight.push_back(Light(jL, _Light::CLASSIC));
 				m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 			}
-			for (auto jL : j["dirLights"])
+			for (auto& jL : j["dirLights"])
 			{
 				m_vLight.push_back(Light(jL, _Light::DIRECTIONAL));
 				m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 			}
-			for (auto jL : j["linLights"])
+			for (auto& jL : j["linLights"])
 			{
 				m_vLinLight.push_back(LinearLight(jL));
 				m_vLinLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
@@ -374,7 +411,7 @@ namespace DeltaEngine //Part
 			}
 
 		//Class members (Box2D)
-			m_type = (int)j["type"];
+			m_type = (_PartCategory)j["type"];
 			m_bodyType = (int)j["bodyType"];
 		//Creation of the shape
 			b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
@@ -410,26 +447,30 @@ namespace DeltaEngine //Part
 			default:
 				break;
 			}
-			fixtureDef.filter.categoryBits = m_type; //Defines what collides with what.
+			fixtureDef.filter.categoryBits = (uint16)m_type; //Defines what collides with what.
 			switch (m_type)
 			{
-			case DECOR:
-				fixtureDef.filter.maskBits = NOTHING;
+			case _PartCategory::NOTHING:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::NOTHING;
 				break;
-			case GROUND:
-				fixtureDef.filter.maskBits = PLAYER | PNJ | ENEMY | BULLET;
+			case _PartCategory::DECOR:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::NOTHING;
 				break;
-			case PLAYER:
-				fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+			case _PartCategory::GROUND:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::FRIEND | (uint16)_PartCategory::ENEMY |
+					(uint16)_PartCategory::BULLET;
 				break;
-			case PNJ:
-				fixtureDef.filter.maskBits = GROUND | ENEMY | BULLET;
+			case _PartCategory::FRIEND:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::GROUND | (uint16)_PartCategory::ENEMY |
+					(uint16)_PartCategory::BULLET;
 				break;
-			case ENEMY:
-				fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY | BULLET;
+			case _PartCategory::ENEMY:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::GROUND | (uint16)_PartCategory::FRIEND |
+					(uint16)_PartCategory::BULLET;
 				break;
-			case BULLET:
-				fixtureDef.filter.maskBits = GROUND | PLAYER | PNJ | ENEMY;
+			case _PartCategory::BULLET:
+				fixtureDef.filter.maskBits = (uint16)_PartCategory::GROUND | (uint16)_PartCategory::FRIEND |
+					(uint16)_PartCategory::ENEMY;
 				break;
 			default:
 				break;
@@ -511,21 +552,7 @@ namespace DeltaEngine //Entity
 
 	void Entity::move(float direction, float value, float acceleration)
 	{
-		float t{ 1 / 60.0 }, m{ 0 };
-		b2Vec2 v_{ cos(direction) * value, sin(direction) * value }, v0{ 0.f, 0.f }, dv{ 0, 0 }, a{ 0, 0 }, f{ 0, 0 };
-		for (auto part : m_vPart)
-		{
-			v0 += part.m_body->GetLinearVelocity();
-		}
-		b2Vec2 a_{ (v_.x - v0.x) / t, (v_.y - v0.y) / t }, f_{ 0, 0 };
-		if (v_.x == 0) a_.x = 0;
-		if (v_.y == 0) a_.y = 0;
-		for (auto part : m_vPart)
-		{
-			m = part.m_body->GetMass();
-			f_ = b2Vec2{ a_.x * m, a_.y * m }; //f = ma
-			part.m_body->ApplyForce(f_, part.m_body->GetWorldCenter(), true);
-		}
+		//Do some complex calculs here...
 	}
 }
 
@@ -626,7 +653,7 @@ namespace DeltaEngine //LinearLight
 	LinearLight::LinearLight(std::string jsonPath):Light(jsonPath, _Light::LINEAR)
 	{
 		json j{ returnJson(jsonPath) };
-		for (auto jvp : j["verticesPosition"])
+		for (auto& jvp : j["verticesPosition"])
 		{
 			m_verticesPosition.push_back(sf::Vector2f(jvp[0], jvp[1]));
 		}
@@ -723,7 +750,7 @@ namespace DeltaEngine //TextureManager
 	void TextureManager::init()
 	{
 		json j{ returnJson(m_jsonPath) };
-		for (auto e : j["textures"])
+		for (auto& e : j["textures"])
 		{
 			sf::Texture* texture = new sf::Texture();
 			if (!texture->loadFromFile(e))
@@ -756,23 +783,44 @@ namespace DeltaEngine //ShaderManager
 	void ShaderManager::init()
 	{
 		json j{ returnJson(m_jsonPath) };
-		for (auto e : j["vert"])
+		for (auto& e : j["vert"])
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e, sf::Shader::Type::Vertex);
 			m_vShader.push_back(shader);
 		}
-		for (auto e : j["frag"])
+		for (auto& e : j["frag"])
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e, sf::Shader::Type::Fragment);
 			m_vShader.push_back(shader);
 		}
-		for (auto e : j["vert+frag"])
+		for (auto& e : j["vert+frag"])
 		{
 			sf::Shader* shader = new sf::Shader();
 			shader->loadFromFile(e[0], (std::string)e[0]);
 			m_vShader.push_back(shader);
 		}
+	}
+}
+
+namespace DeltaEngine //ContactListener
+{
+	void ContactListener::init(Game* game)
+	{
+		m_game = *game;
+	}
+
+	void ContactListener::BeginContact(b2Contact* contact)
+	{
+		b2Body *bodyA{contact->GetFixtureA()->GetBody()}, *bodyB{contact->GetFixtureB()->GetBody()};
+		Part partA{ m_game.findPart(bodyA) }, partB{ m_game.findPart(bodyB) };
+		if (bodyA->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::GROUND &&
+			(bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::FRIEND ||
+				bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::ENEMY))
+		{
+			//Do a lot of complex calculs
+		}
+		
 	}
 }

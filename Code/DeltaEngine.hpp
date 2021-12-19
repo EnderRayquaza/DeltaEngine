@@ -25,16 +25,14 @@
 #define DYNAMICBODY 2
 
 //For collision (box2d)
-enum _partCategory
+enum class _PartCategory
 {
 	NOTHING = 0x0000,
 	DECOR = 0x0001,
 	GROUND = 0x0002,
-	PLAYER = 0x0004,
-	PNJ = 0x0006,
+	FRIEND = 0x0004,
 	ENEMY = 0x0008,
-	BULLET = 0x0010,
-	ENEMY_BULLET = 0x0012
+	BULLET = 0x0010
 };
 
 enum class _Light
@@ -149,6 +147,7 @@ namespace DeltaEngine
 	class LinearLight;
 	class TextureManager;
 	class ShaderManager;
+	class ContactListener;
 
 	json returnJson(std::string jsonPath); ///< Returns a json array from a .json file.
 
@@ -237,10 +236,12 @@ namespace DeltaEngine
 		*/
 
 		Game() = delete; ///< Constructor deleted
-		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
-			std::string icon, TextureManager* textureManager, ShaderManager* shaderManager,
+		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn, std::string icon,
+			TextureManager* textureManager, ShaderManager* shaderManager, ContactListener* contactListener,
 			sf::Color& bgColor, b2Vec2& gravity, float timeStep = 1.f / 60.f, int32 velocityIt = 6,
 			int32 positionIt = 3); ///< Default Constructor
+		Game(const Game&); ///< Copy Constructor
+		Game operator=(const Game&);
 		~Game(); ///< Destructor
 
 		//Getters
@@ -273,6 +274,7 @@ namespace DeltaEngine
 		//Others
 		void init();
 		void draw(); ///< Draws Object, Entity, Light and sf::Shader.
+		Part& findPart(b2Body* body);
 
 	protected:
 		//Game members
@@ -296,6 +298,7 @@ namespace DeltaEngine
 		sf::Color m_bgColor; ///< The color of the background.
 
 		//Game members (Box2d)
+		ContactListener* m_contactListener;
 		b2Vec2 m_gravity; ///< A vector defining the gravity.
 		b2World m_world; ///< The World where the Bodies move.
 		float m_timeStep; ///< The time step for b2box.
@@ -385,7 +388,7 @@ namespace DeltaEngine
 		sf::Vector2i m_currentSubTexturePosition; ///< The position of the current sub-texture in the sheet.
 
 		//Part members (Box2d)
-		uint16 m_type; ///< The type of the Part (see enum _partCategory above).
+		_PartCategory m_type; ///< The type of the Part (see enum _PartCategory above).
 		int m_bodyType; ///< The type of the body (Static, Kinematic or Dynamic).
 		b2Body* m_body; ///< The body.
 	};
@@ -467,7 +470,6 @@ namespace DeltaEngine
 		void move(float direction, float value, float acceleration = 0.1); ///< Moves the Entity.
 
 	protected:
-
 	};
 
 	class Light
@@ -646,5 +648,17 @@ namespace DeltaEngine
 	protected:
 		std::string m_jsonPath;
 		std::vector<sf::Shader*> m_vShader; ///< The vector with all the Shader.
+	};
+
+	class ContactListener : public b2ContactListener
+	{
+	public:
+		void init(Game& game);
+
+		void BeginContact(b2Contact* contact);
+		void EndContact(b2Contact* contact);
+
+	protected:
+		Game& m_game;
 	};
 }
