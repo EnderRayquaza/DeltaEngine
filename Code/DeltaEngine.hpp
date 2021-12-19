@@ -146,6 +146,7 @@ namespace DeltaEngine
 	class Object;
 	class Entity;
 	class Light;
+	class LinearLight;
 	class TextureManager;
 	class ShaderManager;
 
@@ -263,9 +264,11 @@ namespace DeltaEngine
 		void addObject(Object& object); ///< Adds an Object to the game.
 		void addEntity(Entity& entity); ///< Adds an Entity to the game.
 		void addLight(Light& light); ///< Adds an Light to the game.
+		void addLinearLight(LinearLight& light); ///< Adds an Light to the game.
 		void removeObject(int index); ///< Removes an Object of the game.
 		void removeEntity(int index); ///< Removes an Entity of the game.
 		void removeLight(int index); ///< Removes an Light of the game.
+		void removeLinearLight(int index); ///< Removes an Light of the game.
 
 		//Others
 		void init();
@@ -282,7 +285,9 @@ namespace DeltaEngine
 		std::vector<Object> m_vObject; ///< A vector with all Objects of the game.
 		std::vector<Entity> m_vEntity; ///< A vector with all Entity of the game.
 		std::vector<Light> m_vLight; ///< A vector with all Light of the game.
+		std::vector<LinearLight> m_vLinLight; ///< A vector with all Light of the game.
 		std::vector<Light> m_vPartLight; ///< A vector with all Light of all the Part.
+		std::vector<LinearLight> m_vPartLinLight; ///< A vector with all Light of all the Part.
 
 		//Game members (SFML)
 		TextureManager* m_textureManager;
@@ -362,6 +367,7 @@ namespace DeltaEngine
 		//Part members
 		int m_priority; ///< To draw the Part in a special order.
 		std::vector<Light> m_vLight; ///< A vector with Light which follow the Part.
+		std::vector<LinearLight> m_vLinLight; ///< A vector with LinearLight which follow the Part.
 
 		double m_coef; ///< To convert px (for SFML) & meters (for Box2D).
 		int m_nb_vertices; ///< The number of vertices.
@@ -529,6 +535,7 @@ namespace DeltaEngine
 		_Light m_type; ///< The type of the Light.
 
 		//Light members
+		double m_coef;
 		double m_radius; ///< Its radius in px.
 		sf::VertexArray m_vertexArray; ///< An Array with all the vertices of the Light.
 		sf::Vector2f m_position_origin; ///< Its original positon in px.
@@ -540,6 +547,25 @@ namespace DeltaEngine
 		//Directed Light members
 		double m_abscissa_angle; ///< The angle between the axe of abscissa and the light.
 		double m_opening_angle; ///< The angle between the first and last ray.
+	};
+
+	class LinearLight : public Light
+	{
+	public:
+		LinearLight() = delete;
+		LinearLight(std::string jsonPath);
+		~LinearLight() = default;
+
+		friend Game;
+		friend Part;
+
+		//Other
+		void generate();
+
+	protected:
+		//Linear Light members
+		std::vector<sf::VertexArray> m_vVertexArray;
+		std::vector<sf::Vector2f> m_verticesPosition; ///< The position of each vertex.
 	};
 
 	class TextureManager

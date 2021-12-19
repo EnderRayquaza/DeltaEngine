@@ -119,6 +119,11 @@ namespace DeltaEngine //Game
 		m_vLight.push_back(light);
 	}
 
+	void Game::addLinearLight(LinearLight& light)
+	{
+		m_vLinLight.push_back(light);
+	}
+
 	void Game::removeObject(int index)
 	{
 		m_vObject[index].~Object();
@@ -149,13 +154,23 @@ namespace DeltaEngine //Game
 		}
 	}
 
+	void Game::removeLinearLight(int index)
+	{
+		m_vLinLight[index].~LinearLight();
+		auto delElem = m_vLinLight.begin() + index;
+		if (delElem != m_vLinLight.end())
+		{
+			m_vLinLight.erase(delElem);
+		}
+	}
+
 	//Others
 	void Game::init()
 	{
 		for (auto& lgh : m_vLight)
-		{
 			lgh.generate();
-		}
+		for (auto& lgh : m_vLinLight)
+			lgh.generate();
 		m_textureManager->init();
 		m_shaderManager->init();
 	}
@@ -264,6 +279,10 @@ namespace DeltaEngine //Game
 			{
 				m_vPartLight.push_back(light);
 			}
+			for (auto& light : part.m_vLinLight)
+			{
+				m_vPartLinLight.push_back(light);
+			}
 		}
 		//Collects the lights linked to the parts.
 
@@ -275,8 +294,23 @@ namespace DeltaEngine //Game
 		{
 			lightTex.draw(light.get_vertexArray());
 		}
+		for (auto& light : m_vLinLight)
+		{
+			for (auto& quad : light.m_vVertexArray)
+			{
+				lightTex.draw(quad);
+			}
+		}
+		for (auto& light : m_vPartLinLight)
+		{
+			for (auto& quad : light.m_vVertexArray)
+			{
+				lightTex.draw(quad);
+			}
+		}
 		//Draws Lights on lightTex
 		m_vPartLight.clear(); //Clear vPartLight to avoid duplication.
+		m_vPartLinLight.clear(); //Clear vPartLight to avoid duplication.
 
 		debTex.display(); //Displays the debug Texture.
 		lightTex.display(); //Idem for Light Texture.
@@ -311,8 +345,8 @@ namespace DeltaEngine //Part
 		}
 		for (auto jL : j["linLights"])
 		{
-			m_vLight.push_back(Light(jL, _Light::LINEAR));
-			m_vLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
+			m_vLinLight.push_back(LinearLight(jL));
+			m_vLinLight.back().set_position(sf::Vector2f(position.x * m_coef, position.y * m_coef));
 		}
 		m_nb_vertices = j["nb_vertices"];
 
@@ -461,9 +495,9 @@ namespace DeltaEngine //Object
 			sf::Vector2f pos{ part.m_body->GetPosition().x * (float)part.m_coef,
 				part.m_body->GetPosition().y * (float)part.m_coef }; //Gets the pos of the Part
 			for (auto& light : part.m_vLight)
-			{
 				light.set_position(pos); //Sets the pos of the Light.
-			}
+			for (auto& light : part.m_vLinLight)
+				light.set_position(pos); //Sets the pos of the Light.
 		}
 	}
 }
@@ -500,40 +534,36 @@ namespace DeltaEngine //Light
 	{
 		json j{ returnJson(jsonPath) };
 		m_type = typeLight;
+		m_coef = (double)j["coef"];
+		m_radius = (double)j["radius"];
+		m_brightness = (double)j["brightness"];
+		m_intensity = (double)j["intensity"];
+		m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
+		m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
+		m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 		switch (m_type)
 		{
 		case _Light::CLASSIC:
 		{
-			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
-			m_brightness = (double)j["brightness"];
-			m_intensity = (double)j["intensity"];
-			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
-			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
-			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 		}
 			break;
 		case _Light::DIRECTIONAL:
 		{
-			m_radius = (double)j["radius"];
 			m_vertexArray = sf::VertexArray(sf::TriangleFan, (int)j["vertices"]);
-			m_brightness = (double)j["brightness"];
-			m_intensity = (double)j["intensity"];
 			m_abscissa_angle = (double)j["abscissa_angle"];
 			m_opening_angle = (double)j["opening_angle"];
-			m_position_origin.x = (float)j["position"][0]; m_position_origin.y = (float)j["position"][1];
-			m_position.x = (float)j["position"][0]; m_position.y = (float)j["position"][1];
-			m_color.r = (float)j["color"][0]; m_color.g = (float)j["color"][1]; m_color.b = (float)j["color"][2];
 		}
 			break;
 		case _Light::LINEAR:
-		{}
+		{
+			m_vertexArray = sf::VertexArray();
+		}
 			break;
 		default:
 			assert("Light::Light(std::string, _Light) -> default(switch(m_type)) (ln.531)[DeltaEngine.cpp]");
 			break;
 		}
-		generate();
 	}
 
 	//Getters
@@ -552,7 +582,7 @@ namespace DeltaEngine //Light
 	//Others
 	void Light::generate()
 	{
-		m_vertexArray[0].position = m_position;
+		m_vertexArray[0].position = sf::Vector2f(m_position.x*m_coef, m_position.y*m_coef);
 		m_vertexArray[0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
 		double angle{ 0 };
 		for (size_t i{ 0 }; i < m_vertexArray.getVertexCount() - 1; i++) //The first vertex is already placed.
@@ -563,10 +593,9 @@ namespace DeltaEngine //Light
 			{
 				angle = 2 * b2_pi * i / (m_vertexArray.getVertexCount() - 2); //Calculate the
 				//angle (0-Center-Vextex) | The last vertex will be at the same place than the first.
-				m_vertexArray[i + 1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
-					m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
-				m_vertexArray[i + 1].color = sf::Color(m_color.r, m_color.b, m_color.g
-					, m_intensity);
+				m_vertexArray[i + 1].position = sf::Vector2f((m_position.x + cos(angle) * m_radius)*m_coef,
+					(m_position.y - sin(angle) * m_radius)*m_coef); //Sets the vertex at its pos with trigo.
+				m_vertexArray[i + 1].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
 				
 			}
 				break;
@@ -574,21 +603,100 @@ namespace DeltaEngine //Light
 			{
 				angle = i * m_opening_angle * DEG2RAD / (m_vertexArray.getVertexCount() - 2)
 					+ (m_abscissa_angle)*DEG2RAD;
-				m_vertexArray[i + 1].position = sf::Vector2f(m_position.x + cos(angle) * m_radius,
-					m_position.y - sin(angle) * m_radius); //Sets the vertex at its pos with trigo.
+				m_vertexArray[i + 1].position = sf::Vector2f((m_position.x + cos(angle) * m_radius) * m_coef,
+					(m_position.y - sin(angle) * m_radius) * m_coef); //Sets the vertex at its pos with trigo.
 				m_vertexArray[i + 1].color = sf::Color(m_color.r, m_color.b, m_color.g
 					, m_intensity);
 			}
 				break;
 			case _Light::LINEAR:
-			{
-
-			}
+			{}
 				break;
 			default:
 				assert("Light::generate() -> default(switch (m_type)) (ln.587)[DeltaEngine.cpp]");
 				break;
 			}
+		}
+	}
+}
+
+namespace DeltaEngine //LinearLight
+{
+	LinearLight::LinearLight(std::string jsonPath):Light(jsonPath, _Light::LINEAR)
+	{
+		json j{ returnJson(jsonPath) };
+		for (auto jvp : j["verticesPosition"])
+		{
+			m_verticesPosition.push_back(sf::Vector2f(jvp[0], jvp[1]));
+		}
+		for (size_t i{ 0 }; i < 2 * m_verticesPosition.size() + 2; i++)
+		{
+			m_vVertexArray.push_back(sf::VertexArray(sf::Quads, 4));
+		}
+	}
+
+	//Others
+	void LinearLight::generate()
+	{
+		for (size_t i{ 0 }; i < m_vVertexArray.size()-4; i++) //The 4 final quads are generated apart.
+		{
+			if (i < m_verticesPosition.size() - 1)
+			{
+				m_vVertexArray[i][0].position = sf::Vector2f(m_verticesPosition[i].x * m_coef,
+					m_verticesPosition[i].y * m_coef);
+				m_vVertexArray[i][0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
+				m_vVertexArray[i][1].position = sf::Vector2f(m_verticesPosition[i+1].x * m_coef,
+					m_verticesPosition[i+1].y * m_coef);
+				m_vVertexArray[i][1].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
+
+				m_vVertexArray[i][2].position = sf::Vector2f(m_verticesPosition[i+1].x * m_coef,
+					(m_verticesPosition[i+1].y + m_radius) * m_coef);
+				m_vVertexArray[i][2].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+				m_vVertexArray[i][3].position = sf::Vector2f(m_verticesPosition[i].x * m_coef,
+					(m_verticesPosition[i].y + m_radius) * m_coef);
+				m_vVertexArray[i][3].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+			}
+			else if (i < 2 * m_verticesPosition.size() - 2)
+			{
+				size_t i_{ i - m_verticesPosition.size() + 1 };
+				m_vVertexArray[i][0].position = sf::Vector2f(m_verticesPosition[i_].x * m_coef,
+					m_verticesPosition[i_].y * m_coef);
+				m_vVertexArray[i][0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
+				m_vVertexArray[i][1].position = sf::Vector2f(m_verticesPosition[i_+1].x * m_coef,
+					m_verticesPosition[i_ + 1].y * m_coef);
+				m_vVertexArray[i][1].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
+
+				m_vVertexArray[i][2].position = sf::Vector2f(m_verticesPosition[i_ + 1].x * m_coef,
+					(m_verticesPosition[i_ + 1].y - m_radius) * m_coef);
+				m_vVertexArray[i][2].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+				m_vVertexArray[i][3].position = sf::Vector2f(m_verticesPosition[i_].x * m_coef,
+					(m_verticesPosition[i_].y - m_radius) * m_coef);
+				m_vVertexArray[i][3].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+			}
+			else
+				std::cout << "(Err) i : " << i << std::endl;
+		}
+		for (size_t i{ 0 }; i < 4; i++)
+		{
+			std::array<int, 4> arr_i{ 0, 0, m_verticesPosition.size() - 1, m_verticesPosition.size() - 1 };
+			std::array<int, 4> arr_x{ -1, -1, 1, 1 };
+			std::array<int, 4> arr_y{ -1, 1, -1, 1 };
+			size_t i_{ m_vVertexArray.size() - (i + 1) };
+			m_vVertexArray[i_][0].position = sf::Vector2f(m_verticesPosition[arr_i[i]].x * m_coef,
+				m_verticesPosition[arr_i[i]].y * m_coef);
+			m_vVertexArray[i_][0].color = sf::Color(m_color.r, m_color.b, m_color.g, m_brightness);
+
+			m_vVertexArray[i_][1].position = sf::Vector2f((m_verticesPosition[arr_i[i]].x + m_radius*arr_x[i]) * m_coef,
+				m_verticesPosition[arr_i[i]].y * m_coef);
+			m_vVertexArray[i_][1].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
+
+			m_vVertexArray[i_][2].position = sf::Vector2f((m_verticesPosition[arr_i[i]].x + m_radius*arr_x[i]) * m_coef,
+				(m_verticesPosition[arr_i[i]].y + m_radius*arr_y[i]) * m_coef);
+			m_vVertexArray[i_][2].color = sf::Color(m_color.r, m_color.b, m_color.g, 0);
+
+			m_vVertexArray[i_][3].position = sf::Vector2f(m_verticesPosition[arr_i[i]].x * m_coef,
+				(m_verticesPosition[arr_i[i]].y + m_radius*arr_y[i]) * m_coef);
+			m_vVertexArray[i_][3].color = sf::Color(m_color.r, m_color.b, m_color.g, m_intensity);
 		}
 	}
 }
