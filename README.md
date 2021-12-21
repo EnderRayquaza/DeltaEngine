@@ -5,6 +5,7 @@ In this branch we will try to create our physic engine.
 Todo :
 - [ ] Make AABB struct
 - [ ] Make Vertex struct
+- [ ] Make Vector struct
 - [ ] Make Shape struct/class
 - [ ] Make Body class
 - [ ] Make Contact class
