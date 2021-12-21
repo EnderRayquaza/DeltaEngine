@@ -10,11 +10,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 //Box2d
-#include <box2d/box2d.h>
+//#include <box2d/box2d.h>
 //Json
 #include <nlohmann/json.hpp>
 
-#define TEST
 //For conversion radians <-> degrees.
 #define RAD2DEG 57.29577951
 #define DEG2RAD 0.01745329252
