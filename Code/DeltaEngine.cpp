@@ -824,32 +824,3 @@ namespace DeltaEngine //ShaderManager
 		}
 	}
 }
-
-namespace DeltaEngine //ContactListener
-{
-	DEContactListener::DEContactListener() :b2ContactListener(), m_game(nullptr)
-	{}
-
-	void DEContactListener::init(Game& game)
-	{
-		m_game =&game;
-	}
-
-	void DEContactListener::BeginContact(b2Contact* contact)
-	{
-		b2Body *bodyA{contact->GetFixtureA()->GetBody()}, *bodyB{contact->GetFixtureB()->GetBody()};
-		Part partA{ m_game->findPart(bodyA) }, partB{ m_game->findPart(bodyB) };
-		if (bodyA->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::GROUND &&
-			(bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::FRIEND ||
-				bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::ENEMY))
-		{
-			//Do a lot of complex calculs
-		}
-		
-	}
-
-	void DEContactListener::EndContact(b2Contact* contact)
-	{
-
-	}
-}

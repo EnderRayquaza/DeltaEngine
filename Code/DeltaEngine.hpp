@@ -652,20 +652,4 @@ namespace DeltaEngine
 		std::string m_jsonPath;
 		std::vector<sf::Shader*> m_vShader; ///< The vector with all the Shader.
 	};
-
-	class DEContactListener : public b2ContactListener
-	{
-	public:
-		DEContactListener();
-
-		friend Game;
-
-		void init(Game& game);
-
-		void BeginContact(b2Contact* contact);
-		void EndContact(b2Contact* contact);
-
-	protected:
-		Game* m_game;
-	};
 }
