@@ -14,6 +14,7 @@
 //Json
 #include <nlohmann/json.hpp>
 
+#define TEST
 //For conversion radians <-> degrees.
 #define RAD2DEG 57.29577951
 #define DEG2RAD 0.01745329252
@@ -147,7 +148,7 @@ namespace DeltaEngine
 	class LinearLight;
 	class TextureManager;
 	class ShaderManager;
-	class ContactListener;
+	class DEContactListener;
 
 	json returnJson(std::string jsonPath); ///< Returns a json array from a .json file.
 
@@ -237,12 +238,14 @@ namespace DeltaEngine
 
 		Game() = delete; ///< Constructor deleted
 		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn, std::string icon,
-			TextureManager* textureManager, ShaderManager* shaderManager, ContactListener* contactListener,
+			TextureManager* textureManager, ShaderManager* shaderManager, DEContactListener* contactListener,
 			sf::Color& bgColor, b2Vec2& gravity, float timeStep = 1.f / 60.f, int32 velocityIt = 6,
 			int32 positionIt = 3); ///< Default Constructor
 		Game(const Game&); ///< Copy Constructor
 		Game operator=(const Game&);
 		~Game(); ///< Destructor
+
+		friend DEContactListener;
 
 		//Getters
 		std::string get_title(bool showVersion = false); ///< Returns the name + the version.
@@ -252,7 +255,7 @@ namespace DeltaEngine
 		std::vector<Entity>& get_vEntity();
 		std::vector<Light>& get_vLight();
 
-		sf::RenderWindow& get_window();
+		sf::RenderWindow* get_window();
 
 		b2World& get_world();
 		float get_timeStep();
@@ -294,11 +297,11 @@ namespace DeltaEngine
 		//Game members (SFML)
 		TextureManager* m_textureManager;
 		ShaderManager* m_shaderManager; ///< The ShaderManager of the Game.
-		sf::RenderWindow m_window; ///< A RenderWindow to draw and show the Game.
+		sf::RenderWindow* m_window; ///< A RenderWindow to draw and show the Game.
 		sf::Color m_bgColor; ///< The color of the background.
 
-		//Game members (Box2d)
-		ContactListener* m_contactListener;
+		//Game members (Box2d) 
+		DEContactListener* m_contactListener;
 		b2Vec2 m_gravity; ///< A vector defining the gravity.
 		b2World m_world; ///< The World where the Bodies move.
 		float m_timeStep; ///< The time step for b2box.
@@ -650,15 +653,19 @@ namespace DeltaEngine
 		std::vector<sf::Shader*> m_vShader; ///< The vector with all the Shader.
 	};
 
-	class ContactListener : public b2ContactListener
+	class DEContactListener : public b2ContactListener
 	{
 	public:
+		DEContactListener();
+
+		friend Game;
+
 		void init(Game& game);
 
 		void BeginContact(b2Contact* contact);
 		void EndContact(b2Contact* contact);
 
 	protected:
-		Game& m_game;
+		Game* m_game;
 	};
 }

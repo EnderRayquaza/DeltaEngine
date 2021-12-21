@@ -17,30 +17,48 @@ namespace DeltaEngine //Functions
 namespace DeltaEngine //Game
 {
 	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
-		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager, ContactListener* contactListener,
+		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager, DEContactListener* contactListener,
 		sf::Color& bgColor, b2Vec2& gravity, float timeStep, int32 velocityIt, int32 positionIt):m_name(name),
 		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), m_textureOn(textureOn), m_icon(icon),
 		m_textureManager(textureManager), m_shaderManager(shaderManager), m_contactListener(contactListener),
-		m_window(sf::VideoMode(800, 600), ""), m_bgColor(bgColor), m_gravity(gravity), m_world(m_gravity),
+		m_bgColor(bgColor), m_gravity(gravity), m_world(m_gravity),
 		m_timeStep(timeStep), m_velocityIt(velocityIt), m_positionIt(positionIt)
-	{
-		m_window.setTitle(get_title());
-	}
+	{}
 	
 	Game::Game(const Game& copy):m_name(copy.m_name), m_version_M(copy.m_version_M), m_version_m(copy.m_version_m),
 		m_debug(copy.m_debug), m_textureOn(copy.m_textureOn), m_icon(copy.m_icon), m_vObject(copy.m_vObject),
 		m_vEntity(copy.m_vEntity), m_vLight(copy.m_vLight), m_vLinLight(copy.m_vLinLight), m_vPartLight(copy.m_vPartLight),
 		m_vPartLinLight(copy.m_vPartLinLight), m_textureManager(copy.m_textureManager), m_shaderManager(copy.m_shaderManager),
-		m_contactListener(copy.m_contactListener), m_window(sf::VideoMode(800, 600), ""), m_bgColor(copy.m_bgColor),
+		m_contactListener(copy.m_contactListener), m_window(copy.m_window), m_bgColor(copy.m_bgColor),
 		m_gravity(copy.m_gravity), m_world(copy.m_world), m_timeStep(copy.m_timeStep), m_velocityIt(copy.m_velocityIt),
 		m_positionIt(copy.m_positionIt)
-	{
-		m_window.setTitle(get_title());
-	}
+	{}
 
 	Game Game::operator=(const Game& copy)
 	{
-		return Game(copy);
+		m_name = copy.m_name;
+		m_version_M = copy.m_version_M;
+		m_version_m = copy.m_version_m;
+		m_debug = copy.m_debug;
+		m_textureOn = copy.m_textureOn;
+		m_icon = copy.m_icon;
+		m_vObject = copy.m_vObject;
+		m_vEntity = copy.m_vEntity;
+		m_vLight = copy.m_vLight;
+		m_vLinLight = copy.m_vLinLight;
+
+		m_textureManager = copy.m_textureManager;
+		m_shaderManager = copy.m_shaderManager;
+		m_window = copy.m_window;
+		m_bgColor = copy.m_bgColor;
+
+		m_contactListener = copy.m_contactListener;
+		m_gravity = copy.m_gravity;
+		m_world = copy.m_world;
+		m_velocityIt = copy.m_velocityIt;
+		m_positionIt = copy.m_positionIt;
+		m_timeStep = copy.m_timeStep;
+		return *this;
 	}
 
 	Game::~Game()
@@ -83,7 +101,7 @@ namespace DeltaEngine //Game
 		return m_vLight;
 	}
 
-	sf::RenderWindow& Game::get_window()
+	sf::RenderWindow* Game::get_window()
 	{
 		return m_window;
 	}
@@ -188,7 +206,10 @@ namespace DeltaEngine //Game
 			lgh.generate();
 		m_textureManager->init();
 		m_shaderManager->init();
-		m_contactListener->init(this);
+		m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "");
+		m_window->setTitle(get_title());
+		m_contactListener->init(*this);
+		m_world.SetContactListener(m_contactListener);
 	}
 
 	void Game::draw()
@@ -201,7 +222,7 @@ namespace DeltaEngine //Game
 		debTex.create(800, 600); //Inits the debTex by the size of the window.
 		lightTex.create(800, 600); //Idem for lghTex.
 
-		m_window.clear(); //Clears the RenderWindow.
+		m_window->clear(); //Clears the RenderWindow.
 		debTex.clear(); //Idem.
 		lightTex.clear(m_bgColor); //Idem with the color of bgColor.
 
@@ -267,9 +288,9 @@ namespace DeltaEngine //Game
 							part.m_shape.setPosition(part.get_position());
 							part.m_shape.setRotation(part.get_angle());
 							if (part.m_shaderIndex != -1)
-								m_window.draw(part.m_shape, m_shaderManager->get_shader(part.m_shaderIndex));
+								m_window->draw(part.m_shape, m_shaderManager->get_shader(part.m_shaderIndex));
 							else
-								m_window.draw(part.m_shape);
+								m_window->draw(part.m_shape);
 						}
 						else
 						{
@@ -279,9 +300,9 @@ namespace DeltaEngine //Game
 							sprite.setPosition(part.get_position());
 							sprite.setRotation(part.get_angle());
 							if (part.m_shaderIndex != -1)
-								m_window.draw(sprite, m_shaderManager->get_shader(part.m_shaderIndex));
+								m_window->draw(sprite, m_shaderManager->get_shader(part.m_shaderIndex));
 							else
-								m_window.draw(sprite);
+								m_window->draw(sprite);
 						}
 					}
 				}
@@ -332,11 +353,11 @@ namespace DeltaEngine //Game
 		lightTex.display(); //Idem for Light Texture.
 		sf::Sprite lightSprite(lightTex.getTexture()), debSprite(debTex.getTexture()); //Creates 
 		//Sprites with the RenderTextures.
-		m_window.draw(lightSprite, sf::BlendMultiply); //Draws the Light Texture on the 
+		m_window->draw(lightSprite, sf::BlendMultiply); //Draws the Light Texture on the 
 													   //RenderWindow.
-		m_window.draw(debSprite, sf::BlendAdd); //Draws the debug Texture on the RenderWindow.
+		m_window->draw(debSprite, sf::BlendAdd); //Draws the debug Texture on the RenderWindow.
 
-		m_window.display(); //Displays the RenderWindow.
+		m_window->display(); //Displays the RenderWindow.
 	}
 
 	Part& Game::findPart(b2Body* body)
@@ -806,15 +827,18 @@ namespace DeltaEngine //ShaderManager
 
 namespace DeltaEngine //ContactListener
 {
-	void ContactListener::init(Game* game)
+	DEContactListener::DEContactListener() :b2ContactListener(), m_game(nullptr)
+	{}
+
+	void DEContactListener::init(Game& game)
 	{
-		m_game = *game;
+		m_game =&game;
 	}
 
-	void ContactListener::BeginContact(b2Contact* contact)
+	void DEContactListener::BeginContact(b2Contact* contact)
 	{
 		b2Body *bodyA{contact->GetFixtureA()->GetBody()}, *bodyB{contact->GetFixtureB()->GetBody()};
-		Part partA{ m_game.findPart(bodyA) }, partB{ m_game.findPart(bodyB) };
+		Part partA{ m_game->findPart(bodyA) }, partB{ m_game->findPart(bodyB) };
 		if (bodyA->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::GROUND &&
 			(bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::FRIEND ||
 				bodyB->GetFixtureList()[0].GetFilterData().categoryBits == (uint16)_PartCategory::ENEMY))
@@ -822,5 +846,10 @@ namespace DeltaEngine //ContactListener
 			//Do a lot of complex calculs
 		}
 		
+	}
+
+	void DEContactListener::EndContact(b2Contact* contact)
+	{
+
 	}
 }
