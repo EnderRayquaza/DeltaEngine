@@ -2,7 +2,12 @@
 
 namespace DeltaEngine
 {
-	Body::Body(Vector position, Shape& shape, double density, double friction, double restitution):m_position(position),
+	Body::Body():m_position(NULL_VECTOR),
+		m_shape(), m_density(0), m_friction(0), m_restitution(0), m_currentForce(NULL_VECTOR),
+		m_currentImpulse(NULL_VECTOR), m_currentVelocity(NULL_VECTOR), m_aabb(0, 0, 0, 0), m_mass(0)
+	{}
+
+	Body::Body(Vector position, Shape shape, double density, double friction, double restitution):m_position(position),
 		m_shape(shape), m_density(density), m_friction(friction), m_restitution(restitution), m_currentForce(0, 0),
 		m_currentImpulse(0, 0), m_currentVelocity(0, 0), m_aabb(findAABBfromShape(m_shape)), m_mass(m_density * aera(m_shape))
 	{
@@ -18,9 +23,19 @@ namespace DeltaEngine
 		return m_position;
 	}
 
+	double Body::get_angle() const
+	{
+		return m_angle;
+	}
+
 	void Body::set_position(Vector pos)
 	{
 		m_position = pos;
+	}
+
+	void Body::set_angle(double angle)
+	{
+		m_angle = angle;
 	}
 
 	void Body::move(double time)

@@ -4,18 +4,23 @@
 
 namespace DeltaEngine
 {
+	class Body;
+
 	class Body
 	{
 	public:
-		Body(Vector, Shape&, double, double, double);
+		Body();
+		Body(typename Vector, Shape, double, double, double);
 		~Body() = default;
 
-		friend Contact;
-		friend Collision;
+		friend class Contact;
+		friend class Collision;
 
 		Vector get_position() const noexcept;
+		double get_angle() const noexcept;
 
 		void set_position(Vector pos);
+		void set_angle(double angle);
 
 		void move(double time);
 		void applyForce(Vector force);
@@ -27,6 +32,7 @@ namespace DeltaEngine
 		static std::vector<int> listId;
 		int m_id;
 		Vector m_position;
+		double m_angle;
 		Vector m_currentForce;
 		Vector m_currentImpulse;
 		Vector m_currentVelocity;

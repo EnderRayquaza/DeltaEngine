@@ -23,6 +23,8 @@
 //For conversion radians <-> degrees.
 #define RAD2DEG 57.29577951
 #define DEG2RAD 0.01745329252
+#define PI 3.141532654
+#define NULL_VECTOR DeltaEngine::Vector(0, 0)
 //For Game::draw
 #define PRIORITIES 5
 //For bodyType (box2d)
@@ -52,6 +54,14 @@ using json = nlohmann::json;
 
 namespace DeltaEngine
 {
+	class Game;
+	class Part;
+	class Object;
+	class Light;
+	class LinearLight;
+	class TextureManager;
+	class ShaderManager;
+
 	/**
 	* @namespace DeltaEngine
 	* @brief A 2d engine made with [SFML](sfml-dev.org "SFML") (window,render,sound) and [Box2D](box2d.ord "Box2D") (physics).
@@ -116,14 +126,6 @@ namespace DeltaEngine
 	* @see Entity
 	*/
 	/**
-	* @class Entity
-	* @brief [Inherits from Object] It contains kinematics and dynamics Part.
-	* 
-	* Friend with Game.
-	* Object and Entity are pretty the same, but Entity can move and Object are statics. They're container of Part.
-	* @see Object
-	*/
-	/**
 	* @class Light
 	* @brief A class that enlights the Game. There're circles Light and directional Light.
 	* 
@@ -144,16 +146,6 @@ namespace DeltaEngine
 	* 
 	* ShaderManager manage and stock all your Shader. They're accessible by their index.
 	*/
-
-	class Game;
-	class Part;
-	class Object;
-	class Entity;
-	class Light;
-	class LinearLight;
-	class TextureManager;
-	class ShaderManager;
-	class DEContactListener;
 
 	json returnJson(std::string jsonPath); ///< Returns a json array from a .json file.
 
@@ -243,21 +235,15 @@ namespace DeltaEngine
 
 		Game() = delete; ///< Constructor deleted
 		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn, std::string icon,
-			TextureManager* textureManager, ShaderManager* shaderManager, DEContactListener* contactListener,
-			sf::Color& bgColor, Vector& gravity, float timeStep = 1.f / 60.f, int velocityIt = 6,
-			int positionIt = 3); ///< Default Constructor
-		Game(const Game&); ///< Copy Constructor
-		Game operator=(const Game&);
+			TextureManager* textureManager, ShaderManager* shaderManager, sf::Color& bgColor, Vector& gravity,
+			float timeStep = 1.f / 60.f); ///< Default Constructor
 		~Game(); ///< Destructor
-
-		friend DEContactListener;
 
 		//Getters
 		std::string get_title(bool showVersion = false); ///< Returns the name + the version.
 		bool get_debug();
 		bool get_textureOn();
 		std::vector<Object>& get_vObject();
-		std::vector<Entity>& get_vEntity();
 		std::vector<Light>& get_vLight();
 
 		sf::RenderWindow* get_window();
@@ -271,7 +257,6 @@ namespace DeltaEngine
 		void set_debug(bool value); ///< Switchs between debug and release.
 		void set_textureOn(bool value); ///< Enable/Disable the textures.
 		void addObject(Object& object); ///< Adds an Object to the game.
-		void addEntity(Entity& entity); ///< Adds an Entity to the game.
 		void addLight(Light& light); ///< Adds an Light to the game.
 		void addLinearLight(LinearLight& light); ///< Adds an Light to the game.
 		void removeObject(int index); ///< Removes an Object of the game.
@@ -293,7 +278,6 @@ namespace DeltaEngine
 		bool m_textureOn; ///< If you show the textures or not.
 		std::string m_icon; ///< The path of the icon.
 		std::vector<Object> m_vObject; ///< A vector with all Objects of the game.
-		std::vector<Entity> m_vEntity; ///< A vector with all Entity of the game.
 		std::vector<Light> m_vLight; ///< A vector with all Light of the game.
 		std::vector<LinearLight> m_vLinLight; ///< A vector with all Light of the game.
 		std::vector<Light> m_vPartLight; ///< A vector with all Light of all the Part.
@@ -306,12 +290,9 @@ namespace DeltaEngine
 		sf::Color m_bgColor; ///< The color of the background.
 
 		//Game members (Box2d) 
-		DEContactListener* m_contactListener;
 		Vector m_gravity; ///< A vector defining the gravity.
 		World m_world; ///< The World where the Bodies move.
-		float m_timeStep; ///< The time step for b2box.
-		int m_velocityIt; ///< Param for b2box, increase it and perfomance will drops but quality will grows.
-		int m_positionIt; ///< Idem.
+		float m_timeStep; ///< The time step for the physics.
 	};
 
 	class Part
@@ -358,16 +339,15 @@ namespace DeltaEngine
 		*/
 
 		Part() = delete; ///< Constructor deleted.
-		Part(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0)); ///< Default Constructor.
+		Part(std::string jsonPath, World& world, Vector position = NULL_VECTOR); ///< Default Constructor.
 		~Part() = default; ///< Destructor.
 
 		friend Game;
 		friend Object;
-		friend Entity;
 
 		//Getters
 		sf::IntRect get_currentSubTextureRect();
-		sf::Vector2f get_position(bool inPx = true); ///< Set true if you want the position in px, false for meters.
+		Vector get_position();
 		double get_angle(bool inDeg = true); ///< Set true if you want the angle in degrees, false for radians.
 
 		//Setters
@@ -398,7 +378,7 @@ namespace DeltaEngine
 		//Part members (Box2d)
 		_PartCategory m_type; ///< The type of the Part (see enum _PartCategory above).
 		int m_bodyType; ///< The type of the body (Static, Kinematic or Dynamic).
-		Body* m_body; ///< The body.
+		Body m_body; ///< The body.
 	};
 
 	class Object
@@ -426,9 +406,9 @@ namespace DeltaEngine
 		*/
 
 		Object() = delete; ///< Constructor deleted.
-		Object(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0));
+		Object(std::string jsonPath, World& world, Vector position = NULL_VECTOR);
 		///< Constructor.
-		//~Object(); ///< Destructor.
+		~Object() = default; ///< Destructor.
 
 		friend Game;
 
@@ -436,48 +416,10 @@ namespace DeltaEngine
 		void updateLight(); ///< Updates the position of Lights.
 
 	protected:
+		static std::vector<int> listId;
 		int m_id; ///< The id of the Object.
 		std::string m_name; ///< The name of the Object.
-		int m_nb_part; ///< The number of Part.
 		std::vector<Part> m_vPart; ///< A vector with the Part of the Object.
-	};
-
-	class Entity : public Object
-	{
-	public:
-		/**
-		* @fn Entity() = delete
-		* Deleted constructor. Don't use it.
-		*/
-		/**
-		* @fn Entity(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
-		* @param jsonPath (std::string) The path of the .json file where's the data.
-		* @param world (b2World&) The world where the differents Part will be created.
-		* @param position (sf::Vector2f) The postion of the Entity in meters.
-		*
-		* The default constructor. Use .json to create your Entity.
-		* @see Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0))
-		*/
-		/**
-		* @fn ~Entity()
-		* Destructor.
-		*/
-		/**
-		* @fn void move(float direction, float value, float acceleration = 0.1)
-		* @param direction (float) The angle (in degrees) of the direction.
-		* @param value (float) The velocity of the movement.
-		* @param acceleation (float) Th acceleration to go at the velocity.
-		* 
-		* I dislike this function, so it will be modified soon and maybe modified a lot of time.
-		*/
-		Entity() = delete; ///< Deleted Constructor.
-		Entity(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0));
-		///< Constructor.
-		//~Entity(); ///< Destructor.
-
-		void move(float direction, float value, float acceleration = 0.1); ///< Moves the Entity.
-
-	protected:
 	};
 
 	class Light

@@ -41,6 +41,7 @@ namespace DeltaEngine
 	{
 		std::vector<Vertex> vertices;
 
+		Shape() = default;
 		Shape(std::vector<Vertex>);
 		Shape(sf::VertexArray);
 
@@ -65,6 +66,7 @@ namespace DeltaEngine
 		double scalarProduct(const Vector&) const;
 		double getAngle(const Vector&) const;
 		Vector getUnit() const;
+		sf::Vector2f to_sfV2f() const;
 
 		double x, y;
 

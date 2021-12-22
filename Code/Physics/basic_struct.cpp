@@ -86,13 +86,13 @@ namespace DeltaEngine
 
 	Vector& Vector::operator+=(const Vector& vec)
 	{
-		x + vec.x; y + vec.y;
+		x += vec.x; y += vec.y;
 		return *this;
 	}
 
 	Vector& Vector::operator-=(const Vector& vec)
 	{
-		x - vec.x; y - vec.y;
+		x -= vec.x; y -= vec.y;
 		return *this;
 	}
 
@@ -134,6 +134,11 @@ namespace DeltaEngine
 	{
 		Vector vec{ *this };
 		return vec / m_standard;
+	}
+
+	sf::Vector2f Vector::to_sfV2f() const
+	{
+		return sf::Vector2f(x, y);
 	}
 
 	//Other functions
