@@ -13,7 +13,7 @@ namespace DeltaEngine
 
 	}
 
-	Vertex AABB::get_vertex(int index)
+	Vertex AABB::get_vertex(int index) const
 	{
 		switch (index)
 		{
@@ -62,6 +62,14 @@ namespace DeltaEngine
 		for (size_t i{ 0 }; i < vtxArr.getVertexCount(); i++)
 		{
 			vertices.push_back(Vertex(vtxArr[i]));
+		}
+	}
+
+	void Shape::move(const Vector& vec)
+	{
+		for (auto& vtx : vertices)
+		{
+			vtx.x += vec.x; vtx.y += vec.y;
 		}
 	}
 

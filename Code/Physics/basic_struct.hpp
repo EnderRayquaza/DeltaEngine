@@ -25,7 +25,7 @@ namespace DeltaEngine
 
 		AABB(int, int, int, int);
 		AABB(sf::Vector2i, sf::Vector2i);
-		Vertex get_vertex(int index);
+		Vertex get_vertex(int index) const;
 	};
 
 	struct Vertex
@@ -35,7 +35,6 @@ namespace DeltaEngine
 		Vertex(int, int);
 		Vertex(sf::Vector2i);
 		Vertex(sf::Vertex);
-
 	};
 
 	struct Shape
@@ -44,6 +43,8 @@ namespace DeltaEngine
 
 		Shape(std::vector<Vertex>);
 		Shape(sf::VertexArray);
+
+		void move(const Vector&);
 	};
 
 	class Vector

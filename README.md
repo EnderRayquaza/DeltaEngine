@@ -10,5 +10,6 @@ Todo :
 - [x] Make Body class
 - [ ] **Make Contact class**
 - [ ] **Make Collision class**
-- [ ] Make World class
+- [ ] **Make World class**
+- [ ] **Make Area class**
 - [ ] Implement this in DeltaEngine master
