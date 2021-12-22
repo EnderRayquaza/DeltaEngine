@@ -244,8 +244,8 @@ namespace DeltaEngine
 		Game() = delete; ///< Constructor deleted
 		Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn, std::string icon,
 			TextureManager* textureManager, ShaderManager* shaderManager, DEContactListener* contactListener,
-			sf::Color& bgColor, b2Vec2& gravity, float timeStep = 1.f / 60.f, int32 velocityIt = 6,
-			int32 positionIt = 3); ///< Default Constructor
+			sf::Color& bgColor, Vector& gravity, float timeStep = 1.f / 60.f, int velocityIt = 6,
+			int positionIt = 3); ///< Default Constructor
 		Game(const Game&); ///< Copy Constructor
 		Game operator=(const Game&);
 		~Game(); ///< Destructor
@@ -262,10 +262,10 @@ namespace DeltaEngine
 
 		sf::RenderWindow* get_window();
 
-		b2World& get_world();
+		World& get_world();
 		float get_timeStep();
-		int32 get_velocityIt();
-		int32 get_positionIt();
+		int get_velocityIt();
+		int get_positionIt();
 
 		//Setters
 		void set_debug(bool value); ///< Switchs between debug and release.
@@ -282,7 +282,7 @@ namespace DeltaEngine
 		//Others
 		void init();
 		void draw(); ///< Draws Object, Entity, Light and sf::Shader.
-		Part& findPart(b2Body* body);
+		Part& findPart(Body* body);
 
 	protected:
 		//Game members
@@ -307,11 +307,11 @@ namespace DeltaEngine
 
 		//Game members (Box2d) 
 		DEContactListener* m_contactListener;
-		b2Vec2 m_gravity; ///< A vector defining the gravity.
-		b2World m_world; ///< The World where the Bodies move.
+		Vector m_gravity; ///< A vector defining the gravity.
+		World m_world; ///< The World where the Bodies move.
 		float m_timeStep; ///< The time step for b2box.
-		int32 m_velocityIt; ///< Param for b2box, increase it and perfomance will drops but quality will grows.
-		int32 m_positionIt; ///< Idem.
+		int m_velocityIt; ///< Param for b2box, increase it and perfomance will drops but quality will grows.
+		int m_positionIt; ///< Idem.
 	};
 
 	class Part
@@ -358,7 +358,7 @@ namespace DeltaEngine
 		*/
 
 		Part() = delete; ///< Constructor deleted.
-		Part(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0)); ///< Default Constructor.
+		Part(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0)); ///< Default Constructor.
 		~Part() = default; ///< Destructor.
 
 		friend Game;
@@ -398,7 +398,7 @@ namespace DeltaEngine
 		//Part members (Box2d)
 		_PartCategory m_type; ///< The type of the Part (see enum _PartCategory above).
 		int m_bodyType; ///< The type of the body (Static, Kinematic or Dynamic).
-		b2Body* m_body; ///< The body.
+		Body* m_body; ///< The body.
 	};
 
 	class Object
@@ -426,7 +426,7 @@ namespace DeltaEngine
 		*/
 
 		Object() = delete; ///< Constructor deleted.
-		Object(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0));
+		Object(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0));
 		///< Constructor.
 		//~Object(); ///< Destructor.
 
@@ -471,7 +471,7 @@ namespace DeltaEngine
 		* I dislike this function, so it will be modified soon and maybe modified a lot of time.
 		*/
 		Entity() = delete; ///< Deleted Constructor.
-		Entity(std::string jsonPath, b2World& world, sf::Vector2f position = sf::Vector2f(0, 0));
+		Entity(std::string jsonPath, World& world, sf::Vector2f position = sf::Vector2f(0, 0));
 		///< Constructor.
 		//~Entity(); ///< Destructor.
 

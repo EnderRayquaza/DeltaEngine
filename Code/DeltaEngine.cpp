@@ -18,10 +18,10 @@ namespace DeltaEngine //Game
 {
 	Game::Game(std::string name, int version_Major, int version_minor, bool debug, bool textureOn,
 		std::string icon, TextureManager* textureManager, ShaderManager* shaderManager, DEContactListener* contactListener,
-		sf::Color& bgColor, b2Vec2& gravity, float timeStep, int32 velocityIt, int32 positionIt):m_name(name),
+		sf::Color& bgColor, Vector& gravity, float timeStep, int velocityIt, int positionIt):m_name(name),
 		m_version_M(version_Major), m_version_m(version_minor), m_debug(debug), m_textureOn(textureOn), m_icon(icon),
 		m_textureManager(textureManager), m_shaderManager(shaderManager), m_contactListener(contactListener),
-		m_bgColor(bgColor), m_gravity(gravity), m_world(m_gravity),
+		m_bgColor(bgColor), m_gravity(gravity), m_world(),
 		m_timeStep(timeStep), m_velocityIt(velocityIt), m_positionIt(positionIt)
 	{}
 	
@@ -106,7 +106,7 @@ namespace DeltaEngine //Game
 		return m_window;
 	}
 
-	b2World& Game::get_world()
+	World& Game::get_world()
 	{
 		return m_world;
 	}
@@ -116,12 +116,12 @@ namespace DeltaEngine //Game
 		return m_timeStep;
 	}
 
-	int32 Game::get_velocityIt()
+	int Game::get_velocityIt()
 	{
 		return m_velocityIt;
 	}
 
-	int32 Game::get_positionIt()
+	int Game::get_positionIt()
 	{
 		return m_positionIt;
 	}
@@ -360,7 +360,7 @@ namespace DeltaEngine //Game
 		m_window->display(); //Displays the RenderWindow.
 	}
 
-	Part& Game::findPart(b2Body* body)
+	Part& Game::findPart(Body* body)
 	{
 		for (auto& obj : m_vObject)
 		{
@@ -384,7 +384,7 @@ namespace DeltaEngine //Game
 
 namespace DeltaEngine //Part
 {
-	Part::Part(std::string jsonPath, b2World& world, sf::Vector2f position)
+	Part::Part(std::string jsonPath, World& world, sf::Vector2f position)
 	{
 		//JSON
 			json j{ returnJson(jsonPath) }; //Collects data from json.
@@ -431,11 +431,11 @@ namespace DeltaEngine //Part
 				//to their position (which converted from meters to px).
 			}
 
-		//Class members (Box2D)
+		/*//Class members (Box2D)
 			m_type = (_PartCategory)j["type"];
 			m_bodyType = (int)j["bodyType"];
 		//Creation of the shape
-			b2Vec2 vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
+			Vector vertices[b2_maxPolygonVertices]; //Creates an array of vertices.
 			for (int i{ 0 }; i < m_nb_vertices; i++)
 			{
 				vertices[i].Set(j["verticesPositions"][i][0], j["verticesPositions"][i][1]);
@@ -451,7 +451,7 @@ namespace DeltaEngine //Part
 			fixtureDef.restitution = (float)j["restitution"]; //...
 
 		//Creation of the body
-			b2BodyDef bodyDef; //Create a BodyDef.
+			BodyDef bodyDef; //Create a BodyDef.
 			bodyDef.position.Set(position.x, position.y); //Sets the position of the part.
 			switch (m_bodyType) //Defines the bodyType
 			{
@@ -497,7 +497,7 @@ namespace DeltaEngine //Part
 				break;
 			}
 			m_body = world.CreateBody(&bodyDef); //Create the body.
-			m_body->CreateFixture(&fixtureDef); //Set the fixture to the body.
+			m_body->CreateFixture(&fixtureDef); //Set the fixture to the body.*/
 	}
 
 	//Getters
@@ -510,7 +510,7 @@ namespace DeltaEngine //Part
 
 	sf::Vector2f Part::get_position(bool inPx)
 	{
-		b2Vec2 pos{ m_body->GetPosition() };
+		Vector pos{ m_body->GetPosition() };
 		if (inPx)
 			return sf::Vector2f(pos.x * m_coef, pos.y * m_coef);
 		else
@@ -539,7 +539,7 @@ namespace DeltaEngine //Part
 
 namespace DeltaEngine //Object
 {
-	Object::Object(std::string jsonPath, b2World& world, sf::Vector2f position)
+	Object::Object(std::string jsonPath, World& world, sf::Vector2f position)
 	{
 		json j{ returnJson(jsonPath) };
 		m_id = j["id"];
@@ -567,7 +567,7 @@ namespace DeltaEngine //Object
 
 namespace DeltaEngine //Entity
 {
-	Entity::Entity(std::string jsonPath, b2World& world, sf::Vector2f position)
+	Entity::Entity(std::string jsonPath, World& world, sf::Vector2f position)
 		:Object::Object(jsonPath, world, position)
 	{}
 

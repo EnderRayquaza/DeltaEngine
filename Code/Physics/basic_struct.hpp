@@ -10,6 +10,8 @@ namespace DeltaEngine
 	struct Shape;
 	class Vector;
 
+	AABB findAABBfromShape(const Shape&);
+	float aera(const Shape&);
 	Vector operator+(const Vector&, const Vector&);
 	Vector operator-(const Vector&, const Vector&);
 	Vector operator*(const Vector&, const double);

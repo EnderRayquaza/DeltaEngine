@@ -128,6 +128,37 @@ namespace DeltaEngine
 		return vec / m_standard;
 	}
 
+	//Other functions
+	AABB findAABBfromShape(const Shape& shape)
+	{
+		int xmin{INFINITY}, xmax{0}, ymin{INFINITY}, ymax{0};
+		for (auto& vtx : shape.vertices)
+		{
+			if (vtx.x < xmin) xmin = vtx.x;
+			if (vtx.x > xmax) xmax = vtx.x;
+			if (vtx.y < ymin) ymin = vtx.y;
+			if (vtx.y > ymax) ymax = vtx.y;
+		}
+		return AABB(xmin, ymin, xmax, ymax);
+	}
+
+	float aera(const Shape& shape)
+	{
+		const size_t n{ shape.vertices.size() };
+		std::vector<float> DX{}, DY{};
+		float A{ 0 };
+		for (size_t i{ 0 }; i < n; i++)
+		{
+			DX.push_back((shape.vertices[(i + 1) % n].x - shape.vertices[(i + n - 1) % n].x) / 2);
+			DY.push_back((shape.vertices[(i + 1) % n].y - shape.vertices[(i + n - 1) % n].y) / 2);
+		}
+		for (size_t i{ 0 }; i < n; i++)
+		{
+			A += shape.vertices[i].x * DY[i] - shape.vertices[i].y * DX[i];
+		}
+		return fabs(A / 2.f);
+	}
+
 	//Operator
 	Vector operator+(const Vector& vec, const Vector& vec_)
 	{
