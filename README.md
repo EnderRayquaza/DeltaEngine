@@ -7,8 +7,8 @@ Todo :
 - [x] Make Vertex struct
 - [x] Make Vector struct
 - [x] Make Shape struct/class
-- [ ] Make Body class
-- [ ] Make Contact class
-- [ ] Make Colision class
+- [x] Make Body class
+- [ ] **Make Contact class**
+- [ ] **Make Collision class**
 - [ ] Make World class
 - [ ] Implement this in DeltaEngine master
