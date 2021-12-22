@@ -14,6 +14,12 @@
 //Json
 #include <nlohmann/json.hpp>
 
+//DeltaEngine
+#include "Physics/basic_struct.hpp"
+#include "Physics/Body.hpp"
+#include "Physics/collision.hpp"
+#include "Physics/World.hpp"
+
 //For conversion radians <-> degrees.
 #define RAD2DEG 57.29577951
 #define DEG2RAD 0.01745329252
