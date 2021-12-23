@@ -147,7 +147,7 @@ namespace DeltaEngine //Game
 	void Game::draw()
 	{
 		//Init
-		std::vector<Part> vPart; //Creates a vector to contain Parts.
+		std::vector<Part> vPart; //Creates a Vector to contain Parts.
 		sf::Sprite sprite; //Creates a sprite to show the Parts.
 		sf::RenderTexture debTex, lightTex; //Creates RenderTexture to draw on it debug hitboxes 
 											//and Lights.
@@ -548,7 +548,7 @@ namespace DeltaEngine //LinearLight
 		}
 		for (size_t i{ 0 }; i < 4; i++)
 		{
-			std::array<int, 4> arr_i{ 0, 0, m_verticesPosition.size() - 1, m_verticesPosition.size() - 1 };
+			std::array<int, 4> arr_i{ 0, 0, (int)m_verticesPosition.size() - 1, (int)m_verticesPosition.size() - 1 };
 			std::array<int, 4> arr_x{ -1, -1, 1, 1 };
 			std::array<int, 4> arr_y{ -1, 1, -1, 1 };
 			size_t i_{ m_vVertexArray.size() - (i + 1) };

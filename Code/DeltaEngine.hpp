@@ -250,8 +250,6 @@ namespace DeltaEngine
 
 		World& get_world();
 		float get_timeStep();
-		int get_velocityIt();
-		int get_positionIt();
 
 		//Setters
 		void set_debug(bool value); ///< Switchs between debug and release.
@@ -260,14 +258,12 @@ namespace DeltaEngine
 		void addLight(Light& light); ///< Adds an Light to the game.
 		void addLinearLight(LinearLight& light); ///< Adds an Light to the game.
 		void removeObject(int index); ///< Removes an Object of the game.
-		void removeEntity(int index); ///< Removes an Entity of the game.
 		void removeLight(int index); ///< Removes an Light of the game.
 		void removeLinearLight(int index); ///< Removes an Light of the game.
 
 		//Others
 		void init();
 		void draw(); ///< Draws Object, Entity, Light and sf::Shader.
-		Part& findPart(Body* body);
 
 	protected:
 		//Game members
@@ -277,11 +273,11 @@ namespace DeltaEngine
 		bool m_debug; ///< If the program is in debug mode.
 		bool m_textureOn; ///< If you show the textures or not.
 		std::string m_icon; ///< The path of the icon.
-		std::vector<Object> m_vObject; ///< A vector with all Objects of the game.
-		std::vector<Light> m_vLight; ///< A vector with all Light of the game.
-		std::vector<LinearLight> m_vLinLight; ///< A vector with all Light of the game.
-		std::vector<Light> m_vPartLight; ///< A vector with all Light of all the Part.
-		std::vector<LinearLight> m_vPartLinLight; ///< A vector with all Light of all the Part.
+		std::vector<Object> m_vObject; ///< A Vector with all Objects of the game.
+		std::vector<Light> m_vLight; ///< A Vector with all Light of the game.
+		std::vector<LinearLight> m_vLinLight; ///< A Vector with all Light of the game.
+		std::vector<Light> m_vPartLight; ///< A Vector with all Light of all the Part.
+		std::vector<LinearLight> m_vPartLinLight; ///< A Vector with all Light of all the Part.
 
 		//Game members (SFML)
 		TextureManager* m_textureManager;
@@ -290,7 +286,7 @@ namespace DeltaEngine
 		sf::Color m_bgColor; ///< The color of the background.
 
 		//Game members (Box2d) 
-		Vector m_gravity; ///< A vector defining the gravity.
+		Vector m_gravity; ///< A Vector defining the gravity.
 		World m_world; ///< The World where the Bodies move.
 		float m_timeStep; ///< The time step for the physics.
 	};
@@ -357,8 +353,8 @@ namespace DeltaEngine
 	protected:
 		//Part members
 		int m_priority; ///< To draw the Part in a special order.
-		std::vector<Light> m_vLight; ///< A vector with Light which follow the Part.
-		std::vector<LinearLight> m_vLinLight; ///< A vector with LinearLight which follow the Part.
+		std::vector<Light> m_vLight; ///< A Vector with Light which follow the Part.
+		std::vector<LinearLight> m_vLinLight; ///< A Vector with LinearLight which follow the Part.
 
 		double m_coef; ///< To convert px (for SFML) & meters (for Box2D).
 		int m_nb_vertices; ///< The number of vertices.
@@ -419,7 +415,7 @@ namespace DeltaEngine
 		static std::vector<int> listId;
 		int m_id; ///< The id of the Object.
 		std::string m_name; ///< The name of the Object.
-		std::vector<Part> m_vPart; ///< A vector with the Part of the Object.
+		std::vector<Part> m_vPart; ///< A Vector with the Part of the Object.
 	};
 
 	class Light
@@ -597,6 +593,6 @@ namespace DeltaEngine
 
 	protected:
 		std::string m_jsonPath;
-		std::vector<sf::Shader*> m_vShader; ///< The vector with all the Shader.
+		std::vector<sf::Shader*> m_vShader; ///< The Vector with all the Shader.
 	};
 }

@@ -23,7 +23,7 @@ namespace DeltaEngine
 	{
 		int x, y, w, h;
 
-		AABB(int, int, int, int);
+		AABB(int = 0, int = 0, int = 0, int = 0);
 		AABB(sf::Vector2i, sf::Vector2i);
 		Vertex get_vertex(int index) const;
 	};
@@ -51,7 +51,7 @@ namespace DeltaEngine
 	class Vector
 	{
 	public:
-		Vector(double, double);
+		Vector(double = 0, double = 0);
 		Vector(sf::Vector2f);
 		~Vector() = default;
 
@@ -60,7 +60,7 @@ namespace DeltaEngine
 		Vector& operator*=(const double);
 		Vector& operator/=(const double);
 
-		double get_standard() const noexcept;
+		double get_standard() const;
 
 		double calculStandard();
 		double scalarProduct(const Vector&) const;

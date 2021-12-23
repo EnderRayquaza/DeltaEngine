@@ -14,7 +14,7 @@ namespace DeltaEngine
 	}
 
 	//Contacts
-	Contact::Contact(Body& bodyA, Body& bodyB):m_bodyA(bodyA), m_bodyB(bodyB)
+	Contact::Contact(Body* bodyA, Body* bodyB):m_bodyA(bodyA), m_bodyB(bodyB)
 	{
 		do
 		{
@@ -29,12 +29,12 @@ namespace DeltaEngine
 		return m_id;
 	}
 
-	Body& Contact::get_bodyA() const 
+	Body* Contact::get_bodyA() const 
 	{
 		return m_bodyA;
 	}
 
-	Body& Contact::get_bodyB() const
+	Body* Contact::get_bodyB() const
 	{
 		return m_bodyB;
 	}
@@ -57,12 +57,12 @@ namespace DeltaEngine
 
 	bool Contact::isEgal(const Contact& c) const 
 	{
-		return (m_bodyA.m_id == c.m_bodyA.m_id && m_bodyB.m_id == c.m_bodyB.m_id);
+		return (m_bodyA->m_id == c.m_bodyA->m_id && m_bodyB->m_id == c.m_bodyB->m_id);
 	}
 
 
 	//Collisions
-	Collision::Collision(Body& bodyA, Body& bodyB) :m_bodyA(bodyA), m_bodyB(bodyB)
+	Collision::Collision(Body* bodyA, Body* bodyB) :m_bodyA(bodyA), m_bodyB(bodyB)
 	{
 		do
 		{
@@ -86,12 +86,12 @@ namespace DeltaEngine
 		return m_id;
 	}
 
-	Body& Collision::get_bodyA() const
+	Body* Collision::get_bodyA() const
 	{
 		return m_bodyA;
 	}
 
-	Body& Collision::get_bodyB() const
+	Body* Collision::get_bodyB() const
 	{
 		return m_bodyB;
 	}
@@ -119,6 +119,6 @@ namespace DeltaEngine
 
 	bool Collision::isEgal(const Collision& c) const
 	{
-		return (m_bodyA.m_id == c.m_bodyA.m_id && m_bodyB.m_id == c.m_bodyB.m_id);
+		return (m_bodyA->m_id == c.m_bodyA->m_id && m_bodyB->m_id == c.m_bodyB->m_id);
 	}
 }

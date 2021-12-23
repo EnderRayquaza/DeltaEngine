@@ -162,8 +162,8 @@ namespace DeltaEngine
 		float A{ 0 };
 		for (size_t i{ 0 }; i < n; i++)
 		{
-			DX.push_back((shape.vertices[(i + 1) % n].x - shape.vertices[(i + n - 1) % n].x) / 2);
-			DY.push_back((shape.vertices[(i + 1) % n].y - shape.vertices[(i + n - 1) % n].y) / 2);
+			DX.push_back((shape.vertices[(i + 1) % n].x - shape.vertices[(i + n - 1) % n].x) / 2.f);
+			DY.push_back((shape.vertices[(i + 1) % n].y - shape.vertices[(i + n - 1) % n].y) / 2.f);
 		}
 		for (size_t i{ 0 }; i < n; i++)
 		{

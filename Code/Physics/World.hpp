@@ -1,3 +1,4 @@
+//World.hpp
 #pragma once
 
 #include "../DeltaEngine.hpp"
@@ -20,9 +21,9 @@ namespace DeltaEngine
 		Area(bool enable = false, std::vector<Body> bodies = {});
 		~Area() = default;
 
-		bool get_enable() const noexcept;
+		bool get_enable() const;
 
-		void set_enable(bool) noexcept;
+		void set_enable(bool);
 		void add_body(Body&);
 
 		void step(double timeStep);

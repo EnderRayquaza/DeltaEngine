@@ -1,3 +1,4 @@
+//collision.hpp
 #pragma once
 
 #include "../DeltaEngine.hpp"
@@ -13,12 +14,12 @@ namespace DeltaEngine
 	class Contact
 	{
 	public:
-		Contact(Body&, Body&);
-		~Contact() = default;
+		Contact(Body*, Body*);
+		~Contact();
 
-		int get_id() const noexcept;
-		Body& get_bodyA() const noexcept;
-		Body& get_bodyB() const noexcept;
+		int get_id() const;
+		Body* get_bodyA() const;
+		Body* get_bodyB() const;
 
 		bool isThereContact();
 		void begin();
@@ -28,19 +29,19 @@ namespace DeltaEngine
 	protected:
 		static std::vector<int> listId;
 		int m_id;
-		Body& m_bodyA,& m_bodyB;
+		Bod* m_bodyA,* m_bodyB;
 	};
 
 	class Collision
 	{
 	public:
-		Collision(Body&, Body&);
+		Collision(Body*, Body*);
 		Collision(Contact&);
-		~Collision() = default;
+		~Collision();
 
-		int get_id() const noexcept;
-		Body& get_bodyA() const noexcept;
-		Body& get_bodyB() const noexcept;
+		int get_id() const;
+		Body* get_bodyA() const;
+		Body* get_bodyB() const;
 
 		bool isThereCollision();
 		void execute();
@@ -51,7 +52,7 @@ namespace DeltaEngine
 	protected:
 		static std::vector<int> listId;
 		int m_id;
-		Body& m_bodyA, & m_bodyB;
+		Body* m_bodyA, *m_bodyB;
 	};
 }
 
