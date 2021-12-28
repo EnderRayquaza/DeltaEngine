@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DeltaEngine.hpp"
+#include "config.hpp"
 
 using json = nlohmann::json;
 
