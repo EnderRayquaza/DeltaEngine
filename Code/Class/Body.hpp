@@ -5,7 +5,7 @@
 
 namespace DeltaEngine
 {
-	class Body
+	class Body : public Identificable
 	{
 	public:
 		Body();

@@ -6,7 +6,7 @@
 
 namespace DeltaEngine
 {
-	class Object
+	class Object : public Identificable
 	{
 	public:
 		Object();
@@ -15,10 +15,11 @@ namespace DeltaEngine
 
 		bool load(std::string jsonPath);
 	protected:
-		static std::vector<Id> listId;
-		Id const m_id;
-
-
+		int m_idxBody, m_idxTexture, m_idxShader;
+		//std::vector<Light> m_vLight;
+		int m_displayScreen;
+		moveType m_moveType;
+		collisionType m_collisionType;
 
 	};
 }

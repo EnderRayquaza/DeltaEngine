@@ -57,4 +57,17 @@ namespace DeltaEngine
 	sf::Vector2<T> operator*(sf::Vector2<T>& lhs, int rhs);
 	template <typename T>
 	sf::Vector2<T> operator*(int lhs, sf::Vector2<T>& rhs);
+
+	class Identificable
+	{
+	public:
+		Identificable();
+		Identificable(Identificable&&) = delete;
+		Identificable(const Identificable&) = delete;
+		~Identificable() = default;
+
+	protected:
+		static std::vector<Id> listId;
+		Id const m_id;
+	};
 }
