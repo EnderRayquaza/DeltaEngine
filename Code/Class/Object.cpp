@@ -2,6 +2,6 @@
 
 namespace DeltaEngine
 {
-	Object::Object():Identificable()
+	Object::Object():Identifiable()
 	{}
 }

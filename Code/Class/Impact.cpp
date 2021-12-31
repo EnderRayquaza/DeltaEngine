@@ -2,6 +2,6 @@
 
 namespace DeltaEngine
 {
-	Impact::Impact(Body& bodyA, Body& bodyB):Identificable(), m_bodyA(bodyA), m_bodyB(bodyB)
+	Impact::Impact(Body& bodyA, Body& bodyB):Identifiable(), m_bodyA(bodyA), m_bodyB(bodyB)
 	{}
 }

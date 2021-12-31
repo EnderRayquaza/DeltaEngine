@@ -51,6 +51,6 @@ namespace DeltaEngine
 		return rhs * lhs;
 	}
 
-	Identificable::Identificable():m_id(createId(listId))
+	Identifiable::Identifiable():m_id(createId(listId))
 	{}
 }

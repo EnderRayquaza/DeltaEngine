@@ -6,7 +6,7 @@
 
 namespace DeltaEngine
 {
-	class Impact : public Identificable
+	class Impact : public Identifiable
 	{
 	public:
 		Impact() = delete;

@@ -6,7 +6,7 @@
 
 namespace DeltaEngine
 {
-	class Object : public Identificable
+	class Object : public Identifiable
 	{
 	public:
 		Object();
