@@ -2,6 +2,7 @@
 
 #include "../config.hpp"
 #include "../basic.hpp"
+#include "Body.hpp"
 
 namespace DeltaEngine
 {
@@ -12,8 +13,12 @@ namespace DeltaEngine
 		Object(std::string jsonPath);
 		~Object() = default;
 
+		bool load(std::string jsonPath);
 	protected:
 		static std::vector<Id> listId;
 		Id const m_id;
+
+
+
 	};
 }

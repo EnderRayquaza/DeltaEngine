@@ -2,7 +2,7 @@
 
 namespace DeltaEngine
 {
-	bool Id::isEgal(Id& rhs)
+	bool Id::isEgal(Id const rhs) const noexcept
 	{
 		return intKey == rhs.intKey && strKey == rhs.strKey;
 	}
@@ -17,12 +17,12 @@ namespace DeltaEngine
 		return j; //Returns it.
 	}
 
-	bool operator==(Id lhs, Id rhs)
+	bool operator==(Id const lhs, Id const rhs)
 	{
 		return lhs.isEgal(rhs);
 	}
 
-	bool operator!=(Id lhs, Id rhs)
+	bool operator!=(Id const lhs, Id const rhs)
 	{
 		return !(lhs == rhs);
 	}

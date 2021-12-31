@@ -27,7 +27,7 @@ namespace DeltaEngine
 		int intKey{0};
 		std::string strKey{""};
 
-		bool isEgal(Id& rhs);
+		bool isEgal(Id const rhs) const noexcept;
 	};
 
 	struct Vertex
@@ -45,9 +45,9 @@ namespace DeltaEngine
 		std::vector<Vertex> vertices;
 	};
 
-	bool operator==(Id lhs, Id rhs); //Compares 2 ID.
+	bool operator==(Id const lhs, Id const rhs); //Compares 2 ID.
 
-	bool operator!=(Id lhs, Id rhs); //Compares 2 ID.
+	bool operator!=(Id const lhs, Id const rhs); //Compares 2 ID.
 
 	json returnJson(std::string jsonPath); // Returns a json array from a .json file.
 
