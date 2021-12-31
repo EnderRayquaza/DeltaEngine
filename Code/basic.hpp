@@ -6,7 +6,7 @@ using json = nlohmann::json;
 
 namespace DeltaEngine
 {
-	/*enum class moveType
+	enum class moveType
 	{
 		Static,
 		Kinematic,
@@ -20,15 +20,41 @@ namespace DeltaEngine
 		Ground,
 		ObjectA,
 		ObjectB
-	};*/
-
-	json returnJson(std::string jsonPath); // Returns a json array from a .json file.
+	};
 
 	struct Id
 	{
-		int intKey;
-		std::string strKey;
+		int intKey{0};
+		std::string strKey{""};
+
+		bool isEgal(Id& rhs);
 	};
 
-	bool operator==(Id& lhs, Id& rhs); //Compares 2 ID.
+	struct Vertex
+	{
+		int x, y;
+	};
+
+	struct AABB
+	{
+		int x, y, w, h;
+	};
+
+	struct Shape
+	{
+		std::vector<Vertex> vertices;
+	};
+
+	bool operator==(Id lhs, Id rhs); //Compares 2 ID.
+
+	bool operator!=(Id lhs, Id rhs); //Compares 2 ID.
+
+	json returnJson(std::string jsonPath); // Returns a json array from a .json file.
+
+	Id createId(std::vector<Id> staticList);
+
+	template <typename T>
+	sf::Vector2<T> operator*(sf::Vector2<T>& lhs, int rhs);
+	template <typename T>
+	sf::Vector2<T> operator*(int lhs, sf::Vector2<T>& rhs);
 }

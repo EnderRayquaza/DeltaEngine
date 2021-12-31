@@ -2,6 +2,6 @@
 
 namespace DeltaEngine
 {
-	Object::Object():m_id{0, ""s}
+	Object::Object():m_id{createId(listId)}
 	{}
 }

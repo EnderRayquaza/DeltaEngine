@@ -14,6 +14,6 @@ namespace DeltaEngine
 
 	protected:
 		static std::vector<Id> listId;
-		Id m_id;
+		Id const m_id;
 	};
 }
