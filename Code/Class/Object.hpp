@@ -13,7 +13,7 @@ namespace DeltaEngine
 		Object(std::string jsonPath);
 		~Object() = default;
 
-		bool load(std::string jsonPath);
+		void load(std::string jsonPath);
 	protected:
 		uint m_idxBody, m_idxTexture, m_idxShader;
 		//std::vector<Light> m_vLight;

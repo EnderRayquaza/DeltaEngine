@@ -5,7 +5,7 @@ Todo :
 - [x] Make AABB struct
 - [x] Make Vertex struct
 - [x] Make Shape struct/class
-- [ ] **Make Object class**
+- [x] Make Object class
 - [x] Make Body class
 - [ ] **Make Impact class** 
 - [ ] **Make Contact class**
