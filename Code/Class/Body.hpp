@@ -9,11 +9,13 @@ namespace DeltaEngine
 	{
 	public:
 		Body();
+		Body(std::string jsonPath);
 		Body(Shape shape, AABB aabb, double density = 1, double friction = 0, double restituion = 0,
 			Vertex position = {0, 0}, double angle = 0);
 		~Body();
 
 	protected:
+		bool enable;
 		Vertex m_position;
 		double m_angle;
 		Shape m_shape;

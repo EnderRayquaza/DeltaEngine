@@ -58,16 +58,15 @@ namespace DeltaEngine
 	template <typename T>
 	sf::Vector2<T> operator*(int lhs, sf::Vector2<T>& rhs);
 
-	class Identifiable
+	class Identifiable : public sf::NonCopyable
 	{
 	public:
 		Identifiable();
-		Identifiable(Identifiable&&) = delete;
-		Identifiable(const Identifiable&) = delete;
 		~Identifiable() = default;
 
 	protected:
 		static std::vector<Id> listId;
 		Id const m_id;
 	};
+
 }
