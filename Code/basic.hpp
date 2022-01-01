@@ -30,33 +30,24 @@ namespace DeltaEngine
 		bool isEgal(Id const rhs) const noexcept;
 	};
 
-	struct Vertex
+	/*struct Vertex
 	{
 		int x, y;
-	};
+	};*/
 
 	struct AABB
 	{
+		void move(Vec2i);
+
 		int x, y, w, h;
 	};
 
 	struct Shape
 	{
+		void move(Vec2i);
+
 		std::vector<Vertex> vertices;
 	};
-
-	bool operator==(Id const lhs, Id const rhs); //Compares 2 ID.
-
-	bool operator!=(Id const lhs, Id const rhs); //Compares 2 ID.
-
-	json returnJson(std::string jsonPath); // Returns a json array from a .json file.
-
-	Id createId(std::vector<Id> staticList);
-
-	template <typename T>
-	sf::Vector2<T> operator*(sf::Vector2<T>& lhs, int rhs);
-	template <typename T>
-	sf::Vector2<T> operator*(int lhs, sf::Vector2<T>& rhs);
 
 	class Identifiable : public sf::NonCopyable
 	{
@@ -68,5 +59,26 @@ namespace DeltaEngine
 		static std::vector<Id> listId;
 		Id const m_id;
 	};
+
+	bool operator==(Id const lhs, Id const rhs); //Compares 2 ID.
+
+	bool operator!=(Id const lhs, Id const rhs); //Compares 2 ID.
+
+	json returnJson(std::string const jsonPath); // Returns a json array from a .json file.
+
+	AABB findAABBfromShape(Shape& const shape);
+
+	float findSurface(Shape& const shape);
+
+	Id createId(std::vector<Id> staticList);
+
+	template <typename T>
+	sf::Vector2<T> operator*(sf::Vector2<T>& lhs, int rhs);
+	template <typename T>
+	sf::Vector2<T> operator*(int lhs, sf::Vector2<T>& rhs);
+	template <typename T>
+	sf::Vector2<T> operator/(sf::Vector2<T>& lhs, int rhs);
+	template <typename T>
+	sf::Vector2<T> operator/(int lhs, sf::Vector2<T>& rhs);
 
 }

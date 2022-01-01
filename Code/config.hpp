@@ -20,3 +20,8 @@
 
 using json = nlohmann::json;
 using namespace std::literals;
+
+typedef unsigned int uint;
+typedef sf::Vector2i Vertex;
+typedef sf::Vector2i Vec2i;
+typedef sf::Vector2f Vec2f;

@@ -15,7 +15,7 @@ namespace DeltaEngine
 
 		bool load(std::string jsonPath);
 	protected:
-		int m_idxBody, m_idxTexture, m_idxShader;
+		uint m_idxBody, m_idxTexture, m_idxShader;
 		//std::vector<Light> m_vLight;
 		int m_displayScreen;
 		moveType m_moveType;
