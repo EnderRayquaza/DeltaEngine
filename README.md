@@ -12,6 +12,8 @@ Todo :
 - [x] Make Contact class
 - [x] Make Collision class
 - [x] Make Area class
-- [ ] Make Lights classes
-- [ ] **Make Game class**
+- [ ] **Make Lights classes**
+- [x] Make Game class
+- [ ] Code Game::draw()
+- [ ] Implant DisplayScreen and Collision Type
 - [ ] Implement this in DeltaEngine master

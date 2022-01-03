@@ -55,6 +55,8 @@ namespace DeltaEngine
 		Identifiable();
 		~Identifiable() = default;
 
+		Id get_id() const noexcept;
+
 		friend bool operator==(Identifiable& const, Identifiable& const);
 
 		friend bool operator!=(Identifiable& const, Identifiable& const );

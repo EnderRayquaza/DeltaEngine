@@ -83,4 +83,9 @@ namespace DeltaEngine
 
 	Identifiable::Identifiable():m_id(createId(listId))
 	{}
+
+	Id Identifiable::get_id() const noexcept
+	{
+		return m_id;
+	}
 }
