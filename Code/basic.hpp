@@ -55,6 +55,10 @@ namespace DeltaEngine
 		Identifiable();
 		~Identifiable() = default;
 
+		friend bool operator==(Identifiable& const, Identifiable& const);
+
+		friend bool operator!=(Identifiable& const, Identifiable& const );
+
 	protected:
 		static std::vector<Id> listId;
 		Id const m_id;
@@ -63,6 +67,10 @@ namespace DeltaEngine
 	bool operator==(Id const lhs, Id const rhs); //Compares 2 ID.
 
 	bool operator!=(Id const lhs, Id const rhs); //Compares 2 ID.
+
+	bool operator==(Identifiable& const lhs, Identifiable& const rhs);
+
+	bool operator!=(Identifiable& const lhs, Identifiable& const rhs);
 
 	json returnJson(std::string const jsonPath); // Returns a json array from a .json file.
 

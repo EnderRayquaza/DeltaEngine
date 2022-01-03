@@ -7,10 +7,11 @@ Todo :
 - [x] Make Shape struct/class
 - [x] Make Object class
 - [x] Make Body class
-- [ ] **Make Impact class** 
-- [ ] **Make Contact class**
-- [ ] **Make Collision class**
-- [ ] **Make World class**
-- [ ] **Make Area class**
-- [ ] Make Lights classes.
+- [x] Make Managers class
+- [x] Make Impact class 
+- [x] Make Contact class
+- [x] Make Collision class
+- [x] Make Area class
+- [ ] Make Lights classes
+- [ ] **Make Game class**
 - [ ] Implement this in DeltaEngine master

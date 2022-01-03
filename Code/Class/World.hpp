@@ -10,24 +10,26 @@ namespace DeltaEngine
 	class Area : public Identifiable
 	{
 	public:
-		void set_enable(bool) noexcept;
-		void add_body(Body&);
+		Area() = default;
+		Area(std::vector<Body> bodies);
+		~Area() = default;
 
+		void add_body(Body& const) noexcept;
+		void remove_body(Body& const);
+		void remove_body(Id const);
 		void step(double timeStep);
-		void verifyContacts();
-		void verifyCollisions();
+		void verifyContacts(double timeStep);
+		void verifyImpacts(double timeStep);
 		bool contactAlreadyIn(const Contact&) const;
 		bool impactAlreadyIn(const Impact&) const;
 
+		bool _enable{ false };
+
 	protected:
-		bool m_enable;
 		std::vector<Body> m_bodies;
 		std::vector<Contact> m_contacts;
 		std::vector<Impact> m_impacts;
 	};
-
-	struct World
-	{
-		std::vector<Area> m_vArea;
-	};
+		
+	typedef std::vector<Area> World;
 }

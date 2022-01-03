@@ -18,10 +18,11 @@ namespace DeltaEngine
 		m_restitution = j["restitution"];
 	}
 
-	Body::Body(Shape shape, AABB aabb, double density, double friction, double restituion,
-		Vertex position, double angle) : m_shape{ shape }, m_aabb{ aabb }, m_density{ density },
-		m_friction{ friction }, m_restitution{ restituion }, m_position{ position },
-		m_angle{ angle }
+	Body::Body(Shape shape, moveType mvT, collisionType collT, double density, double friction,
+		double restituion, Vertex position, double angle) : m_shape{ shape },
+		m_aabb{ findAABBfromShape(m_shape)}, m_density{density}, m_friction{ friction },
+		m_restitution{ restituion }, m_position{ position }, m_angle{ angle },
+		m_center{ m_aabb.w/2.f, m_aabb.h/2.f}, m_moveType{mvT}, m_collisionType{collT}
 	{}
 
 	void Body::set_position(Vertex position) noexcept
@@ -35,18 +36,17 @@ namespace DeltaEngine
 	}
 
 
-	void Body::move(double time)
+	void Body::move(double timeStep)
 	{
 		Vec2f vecTotal{ m_force + m_impulse }, acc{};
 		resetImpulse();
 		//ΣF = ma <=> a = ΣF.m-1
 		acc = vecTotal / m_mass;
 		//v = da.dt-1 = a.t + v0
-		m_velocity = acc * time;
+		m_velocity = acc * timeStep;
 		m_position += (Vec2i)m_velocity;
 		m_shape.move((Vec2i)m_velocity);
 		m_aabb.move((Vec2i)m_velocity);
-
 	}
 
 	void Body::rotate(double angle) noexcept
@@ -74,4 +74,12 @@ namespace DeltaEngine
 		m_impulse = Vec2f{ 0, 0 };
 	}
 
+	Vec2f Body::moveTest(double timeStep)
+	{
+		Vec2f vecTotal{ m_force + m_impulse }, acc{};
+		//ΣF = ma <=> a = ΣF.m-1
+		acc = vecTotal / m_mass;
+		//v = da.dt-1 = a.t + v0
+		return acc * timeStep;
+	}
 }
