@@ -22,6 +22,8 @@ namespace DeltaEngine
 		ObjectB
 	};
 
+	typedef std::vector<collisionType> collisionTargets;
+
 	struct Id
 	{
 		int intKey{0};
@@ -81,6 +83,9 @@ namespace DeltaEngine
 	float findSurface(Shape& const shape);
 
 	Id createId(std::vector<Id> staticList);
+
+	template <typename T>
+	bool inVector(std::vector<T>, T&);
 
 	template <typename T>
 	sf::Vector2<T> operator*(sf::Vector2<T>& lhs, int rhs);

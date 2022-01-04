@@ -14,7 +14,10 @@ Todo :
 - [x] Make Area class
 - [x] Make Lights classes
 - [x] Make Game class
+- [ ] **Create animations**
+- [x] Implant DisplayScreen and Collision Type
+- [ ] Implant Sensor
+- [ ] Implant Fluid
 - [ ] Code Game::draw()
-- [ ] **Implant DisplayScreen and Collision Type**
 - [ ] Test it
 - [ ] Implement this in DeltaEngine master

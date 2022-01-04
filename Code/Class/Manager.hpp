@@ -5,34 +5,40 @@
 
 namespace DeltaEngine
 {
-	class BodyManager : public sf::NonCopyable
+	class ShapeSheet : public std::vector<Shape>
 	{
 	public:
-		BodyManager() = default;
-		BodyManager(std::string jsonPath);
-		~BodyManager();
+		ShapeSheet() = delete;
+		ShapeSheet(std::string jsonPath);
+		~ShapeSheet() = default;
 
-		Body* operator()(size_t i, size_t j, size_t k);
+		Shape& operator()(uint const indexX, uint const indexY);
 
-		void set_jsonPath(std::string jsonPath) noexcept;
+	protected:
+		std::vector<Shape> m_items;
+	};
 
-		void load();
-	private:
-		std::string m_jsonPath;
-		std::array<size_t, 4> m_size;
-		std::vector<Body*> m_items;
+	class ShapeManager
+	{
+	public:
+		ShapeManager() = delete;
+		ShapeManager(std::string jsonPath);
+		~ShapeManager() = default;
+
+		ShapeSheet& operator[](uint const index) noexcept;
+
+	protected:
+		std::vector<ShapeSheet> m_items;
 	};
 
 	class TextureManager : public sf::NonCopyable
 	{
 	public:
-		TextureManager() = default;
+		TextureManager() = delete;
 		TextureManager(std::string jsonPath);
 		~TextureManager();
 
 		sf::Texture* operator[](size_t index);
-
-		void set_jsonPath(std::string jsonPath) noexcept;
 
 		void load();
 
@@ -44,13 +50,11 @@ namespace DeltaEngine
 	class ShaderManager : public sf::NonCopyable
 	{
 	public:
-		ShaderManager() = default;
+		ShaderManager() = delete;
 		ShaderManager(std::string jsonPath);
 		~ShaderManager();
 
 		sf::Shader* operator[](size_t index);
-
-		void set_jsonPath(std::string jsonPath) noexcept;
 
 		void load();
 

@@ -11,9 +11,12 @@ namespace DeltaEngine
 	public:
 		Body() = delete;
 		Body(std::string jsonPath);
-		Body(Shape, moveType, collisionType, double density = 1, double friction = 0, double restituion = 0,
+		Body(uint, moveType, collisionType, collisionTargets, int displayScreen, double density = 1, double friction = 0,
+			double restituion = 0,
 			Vertex position = {0, 0}, double angle = 0);
 		~Body() = default;
+
+		Shape& get_shape() const noexcept;
 
 		void set_position(Vertex position) noexcept;
 		void set_angle(double angle) noexcept;
@@ -25,6 +28,7 @@ namespace DeltaEngine
 		void resetForce() noexcept;
 		void resetImpulse() noexcept;
 		Vec2f moveTest(double timeStep);
+		bool verifyTargeting(Body&);
 
 		bool _enable;
 
@@ -37,11 +41,15 @@ namespace DeltaEngine
 		Vertex m_position;
 		Vertex m_center;
 		double m_angle;
-		Shape m_shape;
+		uint m_shape;
 		AABB m_aabb;
 		double m_mass, m_density, m_friction, m_restitution;
 		Vec2f m_force{0, 0}, m_impulse{0, 0}, m_velocity{0, 0};
+		int m_displayScreen;
 		moveType m_moveType;
 		collisionType m_collisionType;
+		collisionTargets m_collisionTargets;
 	};
+
+	bool verifyTargeting(Body& bA, Body& bB);
 }

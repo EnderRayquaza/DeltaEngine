@@ -3,7 +3,10 @@
 namespace DeltaEngine
 {
 	Collision::Collision(Body& bodyA, Body& bodyB):Identifiable(), m_bodyA(bodyA), m_bodyB(bodyB)
-	{}
+	{
+		if (m_bodyA.m_displayScreen != m_bodyB.m_displayScreen)
+			this->~Collision();
+	}
 
 	Contact::Contact(Body& bodyA, Body& bodyB): Collision(bodyA, bodyB)
 	{}

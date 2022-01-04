@@ -70,16 +70,19 @@ namespace DeltaEngine
 		{
 			for (auto& bodyB : m_bodies)
 			{
-				Contact c(bodyA, bodyB); //It creates a contact between everybody
-				if (!c.isThereCollision(timeStep) || contactAlreadyIn(c))
-				{
-					c.~Contact(); //If there's no contact, it destroys it.
-					continue;
-				}
-				else
-				{
-					c.begin(); //Else it begins
-					m_contacts.push_back(c); //And adds to the vector.
+				if ((bodyA.m_displayScreen == bodyB.m_displayScreen) && verifyTargeting(bodyA, bodyB))
+				{//If they're on the same displayScreen
+					Contact c(bodyA, bodyB); //It creates a contact between everybody
+					if (!c.isThereCollision(timeStep) || contactAlreadyIn(c))
+					{
+						c.~Contact(); //If there's no contact, it destroys it.
+						continue;
+					}
+					else
+					{
+						c.begin(); //Else it begins
+						m_contacts.push_back(c); //And adds to the vector.
+					}
 				}
 			}
 		}

@@ -63,8 +63,14 @@ namespace DeltaEngine
 		do
 		{
 			id = Id{ rand(), std::to_string(rand()) };
-		} while (id == *find(std::begin(list), std::end(list), id));
+		} while (inVector(list, id));
 		return id;
+	}
+
+	template <typename T>
+	bool inVector(std::vector<T> vec, T& item)
+	{
+		return std::find(vec.begin(), vec.end(), item) != std::end;
 	}
 
 	template <typename T>

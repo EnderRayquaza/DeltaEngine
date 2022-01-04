@@ -30,8 +30,8 @@ namespace DeltaEngine
 		std::string m_name;
 		Vec2i m_version;
 		std::string m_ico;
-		std::vector<DeltaEngine::Object> m_vObj;
-		std::vector<DeltaEngine::Light> m_vLight;
+		std::vector<Object> m_vObj;
+		std::vector<Light> m_vLight;
 
 		BodyManager& m_bodyMng;
 		TextureManager& m_textureMng;
