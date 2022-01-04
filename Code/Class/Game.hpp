@@ -7,9 +7,6 @@
 #include "Object.hpp"
 #include "World.hpp"
 
-typedef std::vector<DeltaEngine::Object> vecObj;
-typedef std::vector<DeltaEngine::Light> vecLight;
-
 namespace DeltaEngine
 {
 	class Game
@@ -33,8 +30,8 @@ namespace DeltaEngine
 		std::string m_name;
 		Vec2i m_version;
 		std::string m_ico;
-		vecObj m_vObj;
-		vecLight m_vLight;
+		std::vector<DeltaEngine::Object> m_vObj;
+		std::vector<DeltaEngine::Light> m_vLight;
 
 		BodyManager& m_bodyMng;
 		TextureManager& m_textureMng;

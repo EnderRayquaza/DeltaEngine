@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 //STL
@@ -14,9 +14,10 @@
 //Json
 #include <nlohmann/json.hpp>
 
-//For conversion radians <-> degrees.
-#define RAD2DEG 57.29577951
-#define DEG2RAD 0.01745329252
+
+#define PI 3.141592654 //π
+#define RAD2DEG 180./PI //For conversion radians -> degrees.
+#define DEG2RAD PI/180. //For conversion degrees -> radians.
 
 using json = nlohmann::json;
 using namespace std::literals;
