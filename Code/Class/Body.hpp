@@ -3,6 +3,7 @@
 #include "../config.hpp"
 #include "../basic.hpp"
 #include "Collision.hpp"
+#include "Animation.hpp"
 
 namespace DeltaEngine
 {
@@ -11,9 +12,8 @@ namespace DeltaEngine
 	public:
 		Body() = delete;
 		Body(std::string jsonPath);
-		Body(uint, moveType, collisionType, collisionTargets, int displayScreen, double density = 1, double friction = 0,
-			double restituion = 0,
-			Vertex position = {0, 0}, double angle = 0);
+		Body(Vec2i state, moveType, collisionType, collisionTargets, int displayScreen, double density = 1, 
+			double friction = 0, double restituion = 0, Vertex position = {0, 0}, double angle = 0);
 		~Body() = default;
 
 		Shape& get_shape() const noexcept;
@@ -27,6 +27,7 @@ namespace DeltaEngine
 		void applyImpulse(Vec2f impulse) noexcept;
 		void resetForce() noexcept;
 		void resetImpulse() noexcept;
+		void playAnimation(uint index, bool force) noexcept;
 		Vec2f moveTest(double timeStep);
 		bool verifyTargeting(Body&);
 
@@ -41,8 +42,10 @@ namespace DeltaEngine
 		Vertex m_position;
 		Vertex m_center;
 		double m_angle;
-		uint m_shape;
-		AABB m_aabb;
+		uint smIndex, tmIndex; //ShapeManager - TextureManager
+		vec_uint m_animationsPlayList;
+		Vec2i m_state; //For Shapesheet/Textures
+		std::vector<Animation> m_animations;
 		double m_mass, m_density, m_friction, m_restitution;
 		Vec2f m_force{0, 0}, m_impulse{0, 0}, m_velocity{0, 0};
 		int m_displayScreen;

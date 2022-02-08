@@ -44,11 +44,15 @@ namespace DeltaEngine
 		int x, y, w, h;
 	};
 
-	struct Shape
+	class Shape
 	{
+	public:
+		Shape(std::vector<Vertex>);
 		void move(Vec2i);
 
-		std::vector<Vertex> vertices;
+	protected:
+		std::vector<Vertex> m_vertices;
+		AABB m_aabb;
 	};
 
 	class Identifiable : public sf::NonCopyable

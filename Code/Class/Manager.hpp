@@ -5,19 +5,6 @@
 
 namespace DeltaEngine
 {
-	class ShapeSheet : public std::vector<Shape>
-	{
-	public:
-		ShapeSheet() = delete;
-		ShapeSheet(std::string jsonPath);
-		~ShapeSheet() = default;
-
-		Shape& operator()(uint const indexX, uint const indexY);
-
-	protected:
-		std::vector<Shape> m_items;
-	};
-
 	class ShapeManager
 	{
 	public:
@@ -27,7 +14,10 @@ namespace DeltaEngine
 
 		ShapeSheet& operator[](uint const index) noexcept;
 
+		void load();
+
 	protected:
+		std::string m_jsonPath;
 		std::vector<ShapeSheet> m_items;
 	};
 
@@ -36,15 +26,15 @@ namespace DeltaEngine
 	public:
 		TextureManager() = delete;
 		TextureManager(std::string jsonPath);
-		~TextureManager();
+		~TextureManager() = default;
 
-		sf::Texture* operator[](size_t index);
+		sf::Texture& operator[](size_t index);
 
 		void load();
 
 	protected:
 		std::string m_jsonPath;
-		std::vector<sf::Texture*> m_items;
+		std::vector<sf::Texture> m_items;
 	};
 
 	class ShaderManager : public sf::NonCopyable
@@ -52,14 +42,14 @@ namespace DeltaEngine
 	public:
 		ShaderManager() = delete;
 		ShaderManager(std::string jsonPath);
-		~ShaderManager();
+		~ShaderManager() = default;
 
-		sf::Shader* operator[](size_t index);
+		sf::Shader& operator[](size_t index);
 
 		void load();
 
 	protected:
 		std::string m_jsonPath;
-		std::vector<sf::Shader*> m_items;
+		std::vector<sf::Shader> m_items;
 	};
 }

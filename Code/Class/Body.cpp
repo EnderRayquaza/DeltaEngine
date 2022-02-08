@@ -7,20 +7,18 @@ namespace DeltaEngine
 		json j{ returnJson(jsonPath) };
 		m_position = { (int)j["position"][0], (int)j["position"][1] };
 		m_angle = (double)j["angle"];
-		m_shape = (uint)j["shape"];
-		m_aabb = findAABBfromShape(get_shape());
 		m_density = j["density"];
 		m_mass = m_density * findSurface(get_shape());
 		m_friction = j["friction"];
 		m_restitution = j["restitution"];
 	}
 
-	Body::Body(uint shape, moveType mvT, collisionType collT, collisionTargets collTg, int displayScreen,
+	Body::Body(Vec2i state, moveType mvT, collisionType collT, collisionTargets collTg, int displayScreen,
 		double density, double friction,
-		double restituion, Vertex position, double angle) : m_shape{ shape },
-		m_aabb{ findAABBfromShape(get_shape()) }, m_density{ density }, m_friction{ friction },
+		double restituion, Vertex position, double angle) : m_state{ state }
+		, m_density{ density }, m_friction{ friction },
 		m_restitution{ restituion }, m_position{ position }, m_angle{ angle },
-		m_center{ m_aabb.w / 2.f, m_aabb.h / 2.f }, m_moveType{ mvT }, m_collisionType{ collT },
+		m_center{ NULL, NULL }, m_moveType{ mvT }, m_collisionType{ collT },
 		m_displayScreen{ displayScreen },
 		m_collisionTargets{ collTg }
 	{}
@@ -46,7 +44,6 @@ namespace DeltaEngine
 		m_velocity = acc * timeStep;
 		m_position += (Vec2i)m_velocity;
 		//m_shape.move((Vec2i)m_velocity);
-		m_aabb.move((Vec2i)m_velocity);
 	}
 
 	void Body::rotate(double angle) noexcept
@@ -72,6 +69,15 @@ namespace DeltaEngine
 	void Body::resetImpulse() noexcept
 	{
 		m_impulse = Vec2f{ 0, 0 };
+	}
+
+	void Body::playAnimation(uint index, bool force) noexcept
+	{
+		if (force)
+		{
+			m_animationsPlayList.clear();
+		}
+		m_animationsPlayList.push_back(index);
 	}
 
 	Vec2f Body::moveTest(double timeStep)

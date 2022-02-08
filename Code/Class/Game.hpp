@@ -13,7 +13,7 @@ namespace DeltaEngine
 	{
 	public:
 		Game() = delete;
-		Game(std::string name, Vec2i version, std::string ico, BodyManager&, TextureManager&, 
+		Game(std::string name, Vec2i version, std::string ico, TextureManager&, 
 			ShaderManager&,	Vec2i windowSize, uint windowFlag, sf::Color, double timeStep);
 		~Game() = default;
 		
@@ -33,7 +33,6 @@ namespace DeltaEngine
 		std::vector<Object> m_vObj;
 		std::vector<Light> m_vLight;
 
-		BodyManager& m_bodyMng;
 		TextureManager& m_textureMng;
 		ShaderManager& m_shaderMng;
 		sf::RenderWindow m_window;
