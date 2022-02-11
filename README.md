@@ -1,4 +1,5 @@
 # DeltaEngine
+## /!\ This is obsolete, see [that](https://github.com/EnderRayquaza/DeltaEngine/tree/New-DeltaEngine). /!\
 A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) and [Box2D](https://box2d.org/) (physics).
 
 Todo :
