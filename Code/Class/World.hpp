@@ -18,6 +18,7 @@ namespace DeltaEngine
 		void remove_body(Body& const);
 		void remove_body(Id const);
 		void step(double timeStep);
+		void verifySensor(double timeStep);
 		void verifyContacts(double timeStep);
 		void verifyImpacts(double timeStep);
 		bool contactAlreadyIn(const Contact&) const;
@@ -27,6 +28,7 @@ namespace DeltaEngine
 
 	protected:
 		std::vector<Body> m_bodies;
+		std::vector<Sensor> m_sensors;
 		std::vector<Contact> m_contacts;
 		std::vector<Impact> m_impacts;
 	};

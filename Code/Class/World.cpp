@@ -34,24 +34,52 @@ namespace DeltaEngine
 
 	void Area::step(double timeStep)
 	{
+		//First we verify Contacts and Impacts at time t=0s.
+		verifySensor(0);
 		verifyContacts(0);
 		verifyImpacts(0);
+		//For each impact we solve it.
 		for (auto& impact : m_impacts)
 		{
 			impact.solve();
 		}
+
+		//We do that again at time t=timeStep.
+		verifySensor(timeStep);
 		verifyContacts(timeStep);
 		verifyImpacts(timeStep);
 		for (auto& impact : m_impacts)
 		{
 			impact.solve(true);
 		}
+
+		//After we check if everything is ok, we move bodies.
 		for (auto& body : m_bodies)
 		{
 			body.move(timeStep);
 		}
 
 		
+	}
+
+	void Area::verifySensor(double timeStep)
+	{
+		for (auto& sensor : m_sensors)
+		{
+			//If the sensor is actived but it will/must be not...
+			if (!sensor.verifySense(timeStep) && sensor.m_on)
+			{
+				sensor.m_on = false; //It turning to off
+				sensor.exeFuncOff(); //And executes the off-function.
+			}
+
+			//Idem but there it's if the sensor isn't actived.
+			if (sensor.verifySense(timeStep) && !sensor.m_on)
+			{
+				sensor.m_on = true;
+				sensor.exeFuncOn();
+			}
+		}
 	}
 
 	void Area::verifyContacts(double timeStep)

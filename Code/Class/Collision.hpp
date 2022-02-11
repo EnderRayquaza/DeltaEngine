@@ -7,9 +7,33 @@
 
 namespace DeltaEngine
 {
+	class Sensor;
 	class Collision;
 	class Contact;
 	class Impact;
+
+	class Sensor : public Identifiable
+	{
+	public:
+		Sensor() = delete;
+		Sensor(Vertex pos, AABB, std::function<void()> on, std::function<void()> off);
+		~Sensor() = default;
+
+		void set_pos(Vertex pos) noexcept;
+
+		bool verifySense(double timeStep);
+		std::function<void()> exeFuncOn() const noexcept;
+		std::function<void()> exeFuncOff() const noexcept;
+
+		friend class Area;
+	protected:
+		Vertex m_pos;
+		AABB const m_aabb;
+		bool m_on{ false };
+		std::function<void()> const m_funcOn;
+		std::function<void()> const m_funcOff;
+		std::vector<Body> const m_bodies;
+	};
 
 	class Collision : public Identifiable
 	{

@@ -2,6 +2,10 @@
 
 namespace DeltaEngine
 {
+	Sensor::Sensor(Vertex pos, AABB aabb, std::function<void()> funcOn, std::function<void()> funcOff) :
+		m_pos(pos), m_aabb(aabb), m_funcOn(funcOn), m_funcOff(funcOff)
+	{}
+
 	Collision::Collision(Body& bodyA, Body& bodyB):Identifiable(), m_bodyA(bodyA), m_bodyB(bodyB)
 	{
 		if (m_bodyA.m_displayScreen != m_bodyB.m_displayScreen)

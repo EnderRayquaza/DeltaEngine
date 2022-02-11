@@ -16,9 +16,10 @@ Todo :
 - [x] Make Game class
 - [x] Create animations
 - [x] Implant DisplayScreen and Collision Type
-- [ ] **Implant Sensor**
+- [x] Implant Sensor
 - [ ] Implant Fluid
 - [x] Code Game::draw()
 - [ ] Finish details
+- [ ] Make the debug mode/app
 - [ ] Test it
 - [ ] Implement this in DeltaEngine master
