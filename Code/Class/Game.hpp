@@ -18,6 +18,8 @@ namespace DeltaEngine
 		~Game() = default;
 		
 		void init();
+		void drawBody(Body&, sf::Sprite&, sf::RenderTexture&);
+		void drawLight(Light&, sf::RenderTexture&);
 		void draw();
 
 		void addObject(Object&); ///< Adds an Object to the game.
@@ -26,6 +28,7 @@ namespace DeltaEngine
 		void removeLight(Id); ///< Removes an Light of the game.
 
 		bool _debug, _textureOn;
+
 	protected:
 		std::string m_name;
 		Vec2i m_version;
@@ -39,6 +42,8 @@ namespace DeltaEngine
 		sf::Color m_bgColor;
 		World m_world;
 		double m_timeStep;
+		uint m_nbDisplayScreen;
+		Vec2i m_sizeScreen;
 
 	};
 }

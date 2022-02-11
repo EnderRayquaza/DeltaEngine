@@ -2,6 +2,7 @@
 
 #include "../config.hpp"
 #include "../basic.hpp"
+#include "Game.hpp"
 #include "Collision.hpp"
 #include "Animation.hpp"
 
@@ -17,6 +18,7 @@ namespace DeltaEngine
 		~Body() = default;
 
 		Shape& get_shape() const noexcept;
+		sf::IntRect get_textureRect() const noexcept;
 
 		void set_position(Vertex position) noexcept;
 		void set_angle(double angle) noexcept;
@@ -33,6 +35,7 @@ namespace DeltaEngine
 
 		bool _enable;
 
+		friend class Game;
 		friend Area;
 		friend Collision;
 		friend Contact;
@@ -42,9 +45,9 @@ namespace DeltaEngine
 		Vertex m_position;
 		Vertex m_center;
 		double m_angle;
-		uint smIndex, tmIndex; //ShapeManager - TextureManager
+		uint m_smIndex, m_tmIndex; //ShapeManager - TextureManager
 		vec_uint m_animationsPlayList;
-		Vec2i m_state; //For Shapesheet/Textures
+		Vec2i m_state, m_size; //For Shapesheet/Textures
 		std::vector<Animation> m_animations;
 		double m_mass, m_density, m_friction, m_restitution;
 		Vec2f m_force{0, 0}, m_impulse{0, 0}, m_velocity{0, 0};

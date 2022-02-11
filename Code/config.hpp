@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 //STL
 #include <array>
 #include <fstream>
@@ -26,6 +25,7 @@ typedef unsigned int uint;
 typedef unsigned long ulong;
 typedef std::vector<uint> vec_uint;
 typedef std::vector<ulong> vec_ulong;
+typedef std::string jsonStr;
 typedef sf::Vector2i Vertex;
 typedef sf::Vector2i Vec2i;
 typedef sf::Vector2f Vec2f;

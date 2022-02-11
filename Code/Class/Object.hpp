@@ -3,6 +3,8 @@
 #include "../config.hpp"
 #include "../basic.hpp"
 #include "Body.hpp"
+#include "Game.hpp"
+#include "Light.hpp"
 
 namespace DeltaEngine
 {
@@ -10,16 +12,17 @@ namespace DeltaEngine
 	{
 	public:
 		Object();
-		Object(std::string jsonPath);
+		Object(jsonStr jsonPath);
 		~Object() = default;
 
-		void load(std::string jsonPath);
-	protected:
-		uint m_idxBody, m_idxTexture, m_idxShader;
-		std::vector<Light> m_vLight;
-		int m_displayScreen;
-		moveType m_moveType;
-		collisionType m_collisionType;
+		void load();
+		Body& get_body(uint index) const noexcept;
 
+		friend class Game;
+
+	protected:
+		jsonStr m_jStr;
+		std::vector<Body> m_vBody;
+		std::vector<Light> m_vLight;
 	};
 }

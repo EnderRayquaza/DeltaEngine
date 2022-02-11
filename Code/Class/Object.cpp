@@ -5,19 +5,12 @@ namespace DeltaEngine
 	Object::Object():Identifiable()
 	{}
 
-	Object::Object(std::string jsonPath)
-	{
-		load(jsonPath);
-	}
+	Object::Object(jsonStr jsonPath):m_jStr(jsonPath)
+	{}
 
-	void Object::load(std::string jsonPath)
+	void Object::load()
 	{
-		json j{ returnJson(jsonPath) };
-		m_idxBody = (uint)j["indexBody"];
-		m_idxTexture = (uint)j["indexTexture"];
-		m_idxShader = (uint)j["indexShader"];
-		m_displayScreen = (int)j["displayScreen"];
-		m_moveType = (moveType)j["moveType"];
-		m_collisionType = (collisionType)j["collisionType"];
+		json j{ returnJson(m_jStr) };
+		//Todo
 	}
 }
