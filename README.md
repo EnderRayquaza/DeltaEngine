@@ -22,4 +22,3 @@ Todo :
 - [ ] **Finish details**
 - [ ] Make the debug mode/app
 - [ ] Test it
-- [ ] Implement this in DeltaEngine master
