@@ -1,0 +1,49 @@
+#pragma once
+
+#include "../config.hpp"
+#include "../basic.hpp"
+#include "Light.hpp"
+#include "Manager.hpp"
+#include "Object.hpp"
+#include "World.hpp"
+
+namespace DeltaEngine
+{
+	class Game
+	{
+	public:
+		Game() = delete;
+		Game(std::string name, Vec2i version, std::string ico, TextureManager&, 
+			ShaderManager&,	Vec2i windowSize, uint windowFlag, sf::Color, double timeStep);
+		~Game() = default;
+		
+		void init();
+		void drawBody(Body&, sf::Sprite&, sf::RenderTexture&);
+		void drawLight(Light&, sf::RenderTexture&);
+		void draw();
+
+		void addObject(Object&); ///< Adds an Object to the game.
+		void addLight(Light&); ///< Adds an Light to the game.
+		void removeObject(Id); ///< Removes an Object of the game.
+		void removeLight(Id); ///< Removes an Light of the game.
+
+		bool _debug, _textureOn;
+
+	protected:
+		std::string m_name;
+		Vec2i m_version;
+		std::string m_ico;
+		std::vector<Object> m_vObj;
+		std::vector<Light> m_vLight;
+
+		TextureManager& m_textureMng;
+		ShaderManager& m_shaderMng;
+		sf::RenderWindow m_window;
+		sf::Color m_bgColor;
+		World m_world;
+		double m_timeStep;
+		uint m_nbDisplayScreen;
+		Vec2i m_sizeScreen;
+
+	};
+}

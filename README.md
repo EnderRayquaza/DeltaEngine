@@ -1,19 +1,24 @@
 # DeltaEngine
-## /!\ This is obsolete, see [that](https://github.com/EnderRayquaza/DeltaEngine/tree/New-DeltaEngine). /!\
-A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound) and [Box2D](https://box2d.org/) (physics).
+A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 
 Todo :
-- [x] Finish ContactListener
-- [x] Improve Movment and Entity
-- [ ] Add Priority to Light/LinearLight
-- [ ] Update DEJsonMaker
-- [ ] Add transformable shape
-- [ ] Enable/Disable function for Light/LinearLight and Part
-- [ ] Improve animation
-- [ ] *(Make an animation editor) -> 2022*
-- [ ] Complete the README
-- [ ] Make examples
-- [ ] Make a release
-- [ ] Make a package
-
-*In building...*
+- [x] Make AABB struct
+- [x] Make Vertex struct
+- [x] Make Shape struct/class
+- [x] Make Object class
+- [x] Make Body class
+- [x] Make Managers class
+- [x] Make Impact class 
+- [x] Make Contact class
+- [x] Make Collision class
+- [x] Make Area class
+- [x] Make Lights classes
+- [x] Make Game class
+- [x] Create animations
+- [x] Implant DisplayScreen and Collision Type
+- [x] Make Sensor class
+- [x] Make Fluid class
+- [x] Code Game::draw()
+- [ ] **Finish details**
+- [ ] Make the debug mode/app
+- [ ] Test it
