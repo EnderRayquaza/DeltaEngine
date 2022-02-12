@@ -17,6 +17,7 @@
 #define PI 3.141592654 //π
 #define RAD2DEG 180./PI //For conversion radians -> degrees.
 #define DEG2RAD PI/180. //For conversion degrees -> radians.
+#define DS_ALL -1 //On all displayScreens
 
 using json = nlohmann::json;
 using namespace std::literals;

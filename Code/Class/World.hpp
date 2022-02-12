@@ -4,6 +4,7 @@
 #include "../basic.hpp"
 #include "Body.hpp"
 #include "Collision.hpp"
+#include "Fluid.hpp"
 
 namespace DeltaEngine
 {
@@ -31,6 +32,7 @@ namespace DeltaEngine
 		std::vector<Sensor> m_sensors;
 		std::vector<Contact> m_contacts;
 		std::vector<Impact> m_impacts;
+		std::vector<Fluid> m_fluids;
 	};
 		
 	typedef std::vector<Area> World;

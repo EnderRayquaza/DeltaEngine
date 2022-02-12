@@ -34,7 +34,28 @@ namespace DeltaEngine
 
 	void Area::step(double timeStep)
 	{
-		//First we verify Contacts and Impacts at time t=0s.
+		//First we verify and put/remove bodies in fluids.
+		for (auto& fluid : m_fluids)
+		{
+			for (auto& body : m_bodies)
+			{
+				if (body.m_displayScreen == fluid.m_displayScreen || body.m_displayScreen == DS_ALL ||
+					fluid.m_displayScreen == DS_ALL)
+				{
+					if (fluid.BodyMustBeIn(body))
+					{
+						fluid.add_body(body);
+					}
+					else if (fluid.BodyMustBeOut(body))
+					{
+						fluid.remove_body(body);
+					}
+					
+				}
+			}
+		}
+
+		//After that, we verify Contacts and Impacts at time t=0s.
 		verifySensor(0);
 		verifyContacts(0);
 		verifyImpacts(0);

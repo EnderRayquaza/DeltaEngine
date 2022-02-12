@@ -36,6 +36,7 @@ namespace DeltaEngine
 		bool _enable;
 
 		friend class Game;
+		friend Fluid;
 		friend Area;
 		friend Collision;
 		friend Contact;

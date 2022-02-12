@@ -50,6 +50,9 @@ namespace DeltaEngine
 		Shape(std::vector<Vertex>);
 		void move(Vec2i);
 
+		friend class Contact;
+		friend class Impact;
+		friend bool pointInShape(Vertex point, Shape);
 	protected:
 		std::vector<Vertex> m_vertices;
 		AABB m_aabb;

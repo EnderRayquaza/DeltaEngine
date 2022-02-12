@@ -86,4 +86,6 @@ namespace DeltaEngine
 		std::array<Vec2i, 2> line{};
 	};
 
+	bool pointInShape(Vertex point, Shape);
+
 }

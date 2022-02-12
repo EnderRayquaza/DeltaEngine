@@ -18,7 +18,7 @@ namespace DeltaEngine
 	bool Contact::isThereCollision(double timeStep)
 	{
 		Vec2f velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
-		AABB a{ m_bodyA.m_aabb }, b{ m_bodyB.m_aabb };
+		AABB a{ m_bodyA.get_shape().m_aabb }, b{ m_bodyB.get_shape().m_aabb };
 		a.move((Vec2i)velA);
 		b.move((Vec2i)velB);
 		if (a.x >= b.x + b.w &&
@@ -46,42 +46,15 @@ namespace DeltaEngine
 	bool Impact::isThereCollision(double timeStep)
 	{
 		Vec2f velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
-		Shape a{ m_bodyA.m_shape }, b{ m_bodyB.m_shape };
-		std::vector<int> vSign;
-		double sign0{ 0 };
+		Shape a{ m_bodyA.get_shape() }, b{ m_bodyB.get_shape() };
 
 		a.move((Vec2i)velA);
 		b.move((Vec2i)velB);
 
-		for (auto& pt : b.vertices)
+		for (auto& pt : b.m_vertices)
 		{ //For all points of the shapeB
-			for (size_t i{ 0 }; i < a.vertices.size(); i++)
-			{ //For all points od the shapeA
-				Vertex vtx, vtx1;
-				if(i+1 < a.vertices.size())
-					vtx = a.vertices[i], vtx1 = a.vertices[i + 1];
-				else
-					vtx = a.vertices[i], vtx1 = a.vertices[0];
-				Vec2f aa{ vtx1.x - vtx.x, vtx1.y - vtx.y}, ab{ pt.x - vtx.x, pt.y - vtx.y }; //Calculs the vector vtx;vtx+1 ans vtx;pt.
-				double det{ aa.x - ab.y * aa.y - ab.x }; //Calculs their determinant.
-				if (det != 0)
-				{
-					vSign.push_back(det / abs(det)); //Adds the sign of the determinant
-				}
-				else
-				{
-					vSign.push_back(0);
-				}
-			}
-			sign0 = vSign[0];
-			for (auto& sign : vSign)
-			{ //Verifies if all sign are the same.
-				if (sign != sign0 && sign != 0) //If they're different...
-				{
-					break; //..the point isn't in so we break and test an other point.
-				}
-				return true; //If all sign are the same, the point is in the shape and they've collided.
-			}
+			if (pointInShape(pt, a))
+				return true;
 		}
 		return false; //If all points aren't in, the shapes aren't touching each other.
 	}
@@ -119,5 +92,24 @@ namespace DeltaEngine
 			m_bodyB.applyImpulse(RAB);
 		}
 		
+	}
+
+	bool pointInShape(Vertex pt, Shape shape)
+	{
+		for (size_t i{ 0 }; i < shape.m_vertices.size(); i++)
+		{ //For all points of the shapeA
+			Vertex vtx, vtx1;
+			if (i + 1 < shape.m_vertices.size())
+				vtx = shape.m_vertices[i], vtx1 = shape.m_vertices[i + 1];
+			else
+				vtx = shape.m_vertices[i], vtx1 = shape.m_vertices[0];
+			Vec2f aa{ vtx1.x - vtx.x, vtx1.y - vtx.y }, ab{ pt.x - vtx.x, pt.y - vtx.y }; //Calculs the vector vtx;vtx+1 and vtx;pt.
+			double det{ aa.x - ab.y * aa.y - ab.x }; //Calculs their determinant.
+			if (det >= 0) //Verifies the sign of the determinant
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
