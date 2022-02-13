@@ -32,32 +32,6 @@ namespace DeltaEngine
 		bool isEgal(Id const rhs) const noexcept;
 	};
 
-	/*struct Vertex
-	{
-		int x, y;
-	};*/
-
-	struct AABB
-	{
-		void move(Vec2i);
-
-		int x, y, w, h;
-	};
-
-	class Shape
-	{
-	public:
-		Shape(std::vector<Vertex>);
-		void move(Vec2i);
-
-		friend class Contact;
-		friend class Impact;
-		friend bool pointInShape(Vertex point, Shape);
-	protected:
-		std::vector<Vertex> m_vertices;
-		AABB m_aabb;
-	};
-
 	class Identifiable : public sf::NonCopyable
 	{
 	public:
@@ -83,11 +57,7 @@ namespace DeltaEngine
 
 	bool operator!=(Identifiable& const lhs, Identifiable& const rhs);
 
-	json returnJson(std::string const jsonPath); // Returns a json array from a .json file.
-
-	AABB findAABBfromShape(Shape& const shape);
-
-	float findSurface(Shape& const shape);
+	json returnJson(jsonStr const jsonPath); // Returns a json array from a .json file.
 
 	Id createId(std::vector<Id> staticList);
 

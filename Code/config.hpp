@@ -1,4 +1,9 @@
 ﻿#pragma once
+/*
+* Some abbreviation I use :
+* v/vec -> vector
+* vtx -> vertex
+*/
 
 //STL
 #include <array>
@@ -30,3 +35,4 @@ typedef std::string jsonStr;
 typedef sf::Vector2i Vertex;
 typedef sf::Vector2i Vec2i;
 typedef sf::Vector2f Vec2f;
+typedef sf::IntRect AABB;

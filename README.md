@@ -22,3 +22,5 @@ Todo :
 - [ ] **Finish details**
 - [ ] Make the debug mode/app
 - [ ] Test it
+- [ ] Make the doc
+- [ ] Make the release
