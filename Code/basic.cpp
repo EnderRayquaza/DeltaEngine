@@ -2,20 +2,7 @@
 
 namespace DeltaEngine
 {
-	bool Id::isEgal(Id const rhs) const noexcept
-	{
-		return intKey == rhs.intKey && strKey == rhs.strKey;
-	}
 
-	bool operator==(Id const lhs, Id const rhs)
-	{
-		return lhs.isEgal(rhs);
-	}
-
-	bool operator!=(Id const lhs, Id const rhs)
-	{
-		return !(lhs == rhs);
-	}
 
 
 
@@ -31,15 +18,7 @@ namespace DeltaEngine
 
 
 
-	Id createId(std::vector<Id> list)
-	{
-		Id id{};
-		do
-		{
-			id = Id{ rand(), std::to_string(rand()) };
-		} while (inVector(list, id));
-		return id;
-	}
+
 
 	template <typename T>
 	bool inVector(std::vector<T> vec, T& item)
@@ -61,11 +40,5 @@ namespace DeltaEngine
 		return rhs * lhs;
 	}
 
-	Identifiable::Identifiable():m_id(createId(listId))
-	{}
 
-	Id Identifiable::get_id() const noexcept
-	{
-		return m_id;
-	}
 }

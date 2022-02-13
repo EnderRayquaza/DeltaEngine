@@ -24,42 +24,11 @@ namespace DeltaEngine
 
 	typedef std::vector<collisionType> collisionTargets;
 
-	struct Id
-	{
-		int intKey{0};
-		std::string strKey{""};
 
-		bool isEgal(Id const rhs) const noexcept;
-	};
-
-	class Identifiable : public sf::NonCopyable
-	{
-	public:
-		Identifiable();
-		~Identifiable() = default;
-
-		Id get_id() const noexcept;
-
-		friend bool operator==(Identifiable& const, Identifiable& const);
-
-		friend bool operator!=(Identifiable& const, Identifiable& const );
-
-	protected:
-		static std::vector<Id> listId;
-		Id const m_id;
-	};
-
-	bool operator==(Id const lhs, Id const rhs); //Compares 2 ID.
-
-	bool operator!=(Id const lhs, Id const rhs); //Compares 2 ID.
-
-	bool operator==(Identifiable& const lhs, Identifiable& const rhs);
-
-	bool operator!=(Identifiable& const lhs, Identifiable& const rhs);
 
 	json returnJson(jsonStr const jsonPath); // Returns a json array from a .json file.
 
-	Id createId(std::vector<Id> staticList);
+	
 
 	template <typename T>
 	bool inVector(std::vector<T>, T&);

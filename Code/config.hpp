@@ -3,6 +3,7 @@
 * Some abbreviation I use :
 * v/vec -> vector
 * vtx -> vertex
+* func -> function
 */
 
 //STL
