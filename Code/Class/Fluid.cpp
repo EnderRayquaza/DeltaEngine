@@ -2,20 +2,21 @@
 
 namespace DeltaEngine
 {
-	Fluid::Fluid(Vertex pos, Shape shape, ulong viscosity, ulong density, Vec2f force):m_pos(pos), m_shape(shape),
-		m_viscosity(viscosity), m_density(density), m_force(force)
+	Fluid::Fluid(Vertex pos, Shape shape, ulong viscosity, ulong density, Vec2f force) :
+		m_pos{ pos }, m_shape{ shape }, m_viscosity{ viscosity }, m_density{ density },
+		m_force{ force }
 	{}
 
-	void Fluid::set_absForce(bool param)
+	void Fluid::set_absForce(bool absForce)
 	{
-		m_absoluteForce = param;
+		m_absoluteForce = absForce;
 	}
 
-	bool Fluid::BodyAlreadyIn(Body& param)
+	bool Fluid::BodyAlreadyIn(Body& body_)
 	{
 		for (auto& body : m_vBodies)
 		{
-			if (param.get_id() == body.get_id())
+			if (body_.get_id() == body.get_id())
 			{
 				return true;
 			}
@@ -23,32 +24,32 @@ namespace DeltaEngine
 		return false;
 	}
 
-	bool Fluid::BodyMustBeIn(Body& param)
+	bool Fluid::BodyMustBeIn(Body& body)
 	{
-		return pointInShape(param.m_center, m_shape) && !BodyAlreadyIn(param);
+		return pointInShape(body.m_center, m_shape) && !BodyAlreadyIn(body);
 	}
 
-	bool Fluid::BodyMustBeOut(Body& param)
+	bool Fluid::BodyMustBeOut(Body& body)
 	{
-		return !pointInShape(param.m_center, m_shape) && BodyAlreadyIn(param);
+		return !pointInShape(body.m_center, m_shape) && BodyAlreadyIn(body);
 	}
 
-	void Fluid::add_body(Body& param)
+	void Fluid::add_body(Body& body)
 	{
-		if (!BodyAlreadyIn(param))
+		if (!BodyAlreadyIn(body))
 		{
-			param.applyForce(m_force);
-			m_vBodies.push_back(param);
+			body.applyForce(m_force);
+			m_vBodies.push_back(body);
 		}
 	}
 
-	void Fluid::remove_body(Body& param)
+	void Fluid::remove_body(Body& body)
 	{
 		for (size_t i{0}; i < m_vBodies.size(); i++)
 		{
-			if (param.get_id() == m_vBodies[i].get_id())
+			if (body.get_id() == m_vBodies[i].get_id())
 			{
-				param.applyForce(-m_force);
+				body.applyForce(-m_force);
 				m_vBodies.erase(m_vBodies.begin() + i);
 			}
 		}

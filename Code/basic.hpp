@@ -27,7 +27,9 @@ namespace DeltaEngine
 
 	enum ErrorType
 	{
+		FILE_NOT_FOUND,
 		INDEX_OUT_OF_RANGE,
+		SWITCH_DEFAULT,
 		OTHER
 	};
 

@@ -9,6 +9,7 @@
 * obj -> object
 * mng -> manager
 * tex -> texture
+* nb -> number (of)
 */
 
 //STL

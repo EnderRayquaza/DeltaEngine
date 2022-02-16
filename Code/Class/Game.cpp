@@ -2,26 +2,71 @@
 
 namespace DeltaEngine
 {
+	Game::Game(std::string name, Vec2i version, std::string ico, uint nbDS,
+		TextureManager& tm, ShaderManager& sdm, ShapeManager& spm, Vec2i wSize, uint wFlag,
+		sf::Color color, double timeStep) : m_name{ name }, m_version{ version }, m_ico{ ico },
+		m_nbDisplayScreen{ nbDS }, m_textureMng{ tm }, m_shaderMng{ sdm }, m_shapeMng{ spm },
+		m_window{ {wSize.x, wSize.y}, "Wating Initialisation...", wFlag }, m_bgColor{ color },
+		m_timeStep{ timeStep }
+	{}
+
 	void Game::init()
 	{
 		if (_debug)
+		{
 			m_window.setTitle(m_name + " v"s + std::to_string(m_version.x) + "."s +
 				std::to_string(m_version.y) + " (_debug mode)");
+		}
 		else
+		{
 			m_window.setTitle(m_name);
+		}
 		sf::Image ico{};
 		if (!ico.loadFromFile(m_ico))
-			std::cerr << m_ico << " : File not find" << std::endl;
+		{
+			error("File not found : " + m_ico, "Game.cpp", 19, ErrorType::FILE_NOT_FOUND);
+		}
 		m_window.setIcon(ico.getSize().x, ico.getSize().y, ico.getPixelsPtr());
 		m_textureMng.load();
 		m_shaderMng.load();
+		m_shapeMng.load();
 	}
 
 	void Game::drawBody(Body& body, sf::Sprite& sprite, sf::RenderTexture& objTex)
 	{
 		sprite.setTextureRect(body.get_textureRect());
 		sprite.setTexture(m_textureMng[body.m_tmIndex]);
+		sprite.setPosition((Vec2f)body.m_position);
+		sprite.setRotation(body.m_angle);
 		objTex.draw(sprite, &m_shaderMng[0]);
+	}
+
+	void Game::drawDebugShape(Body& body, sf::RenderTexture& debugTex)
+	{
+		sf::ConvexShape cvx{ body.get_shape(m_shapeMng).m_vertices.size() };
+		for (size_t i{0}; i < cvx.getPointCount(); i++)
+		{
+			cvx.getPoint(i) = (Vec2f)body.get_shape(m_shapeMng).m_vertices[i];
+		}
+		cvx.setRotation(body.m_angle);
+		cvx.setFillColor(sf::Color::Transparent);
+		cvx.setOutlineThickness(10);
+		switch (body.m_moveType)
+		{
+		case moveType::Static:
+			cvx.setOutlineColor(sf::Color::Blue);
+			break;
+		case moveType::Kinematic:
+			cvx.setOutlineColor(sf::Color::Red);
+			break;
+		case moveType::Dynamic:
+			cvx.setOutlineColor(sf::Color::Green);
+			break;
+		default:
+			error("Unknown moveType", "Game.cpp", 66, ErrorType::SWITCH_DEFAULT);
+			break;
+		}
+		debugTex.draw(cvx);
 	}
 
 	void Game::drawLight(Light& light, sf::RenderTexture& lightTex)
@@ -29,7 +74,7 @@ namespace DeltaEngine
 		switch (light.type)
 		{
 		case DeltaEngine::LightType::Undefined:
-			std::cout << "Undefined light was called in Game::draw" << std::endl;
+			error("Undefined light was called", "Game.cpp", 77, ErrorType::OTHER);
 			break;
 		case DeltaEngine::LightType::Classic:
 			lightTex.draw(light.get_vtxArray());
@@ -44,6 +89,7 @@ namespace DeltaEngine
 			}
 			break;
 		default:
+			error("Unknown LightType", "Game.cpp", 92, ErrorType::SWITCH_DEFAULT);
 			break;
 		}
 	}
@@ -74,14 +120,36 @@ namespace DeltaEngine
 			}
 		}
 
-		for (size_t screen{0}; screen < m_nbDisplayScreen; screen++) //For every screen.
+		if (_debug)
 		{
 			for (auto& body : vBody)
 			{
-				if (body.m_displayScreen == screen) //If we are at the current screen.
+				if (body.m_displayScreen == _debugDisplayScreen) //If the body is on the debug DS.
+				{
 					drawBody(body, sprite, objTex);
+				}
 				else if (body.m_displayScreen == -1) //If the object needs to be drawn.
+				{
 					drawBody(body, sprite, objTex);
+				}
+			}
+		}
+
+		for (size_t screen{0}; screen < m_nbDisplayScreen; screen++) //For every screen.
+		{
+			if (_textureOn)
+			{
+				for (auto& body : vBody)
+				{
+					if (body.m_displayScreen == screen) //If we are at the current screen.
+					{
+						drawBody(body, sprite, objTex);
+					}
+					else if (body.m_displayScreen == -1) //If the object needs to be drawn.
+					{
+						drawBody(body, sprite, objTex);
+					}
+				}
 			}
 
 			for (auto& light : m_vLight)

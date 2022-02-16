@@ -19,6 +19,7 @@ namespace DeltaEngine
 
 		Shape moveTo(Vec2i) const noexcept;
 
+		friend class Game;
 		friend class Contact;
 		friend class Impact;
 		friend bool pointInShape(Vertex point, Shape);
