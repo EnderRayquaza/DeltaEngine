@@ -2,6 +2,7 @@
 
 #include "../config.hpp"
 #include "../basic.hpp"
+#include "Shape.hpp"
 
 namespace DeltaEngine
 {
@@ -9,22 +10,25 @@ namespace DeltaEngine
 	{
 	public:
 		ShapeSheet() = delete;
-		ShapeSheet(std::string jsonPath, uint sizeX, uint sizeY);
+		ShapeSheet(jsonStr jsonPath, uint sizeX, uint sizeY);
 		~ShapeSheet() = default;
 
 		Shape& operator()(uint const indexX, uint const indexY);
 
+		Shape& operator[](Vec2i const index);
+
 		void load();
 
 	protected:
-		std::string m_jsonPath;
+		jsonStr m_jsonPath;
 		Vec2i m_size;
-		std::vector<Shape> m_items;
+		std::vector<Shape> m_items{};
 	};
 
 	struct Animation
 	{
-		std::vector<Vec2i> var2findAName;
-		ulong time, timeStamp;
+		Animation(jsonStr jsonPath); //TODO
+		std::vector<Vec2i> vVec2i; //?
+		ulong time, timeStamp; //?
 	};
 }

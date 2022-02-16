@@ -4,10 +4,16 @@
 * v/vec -> vector
 * vtx -> vertex
 * func -> function
+* str -> string
+* pos -> position
+* obj -> object
+* mng -> manager
+* tex -> texture
 */
 
 //STL
 #include <array>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -20,10 +26,10 @@
 #include <nlohmann/json.hpp>
 
 
-#define PI 3.141592654 //π
-#define RAD2DEG 180./PI //For conversion radians -> degrees.
-#define DEG2RAD PI/180. //For conversion degrees -> radians.
-#define DS_ALL -1 //On all displayScreens
+constexpr auto PI = 3.141592654; //π
+constexpr auto RAD2DEG = 180./PI; //For conversion radians -> degrees.
+constexpr auto DEG2RAD = PI/180.; //For conversion degrees -> radians.
+constexpr auto DS_ALL = -1; //On all displayScreens
 
 using json = nlohmann::json;
 using namespace std::literals;

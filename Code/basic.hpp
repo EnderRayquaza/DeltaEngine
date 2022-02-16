@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "config.hpp"
+#include "Identifiable.hpp"
 
 using json = nlohmann::json;
 
@@ -24,11 +25,15 @@ namespace DeltaEngine
 
 	typedef std::vector<collisionType> collisionTargets;
 
+	enum ErrorType
+	{
+		INDEX_OUT_OF_RANGE,
+		OTHER
+	};
 
+	void error(std::string errText, std::string fileName, uint line, ErrorType, bool stop=false);
 
 	json returnJson(jsonStr const jsonPath); // Returns a json array from a .json file.
-
-	
 
 	template <typename T>
 	bool inVector(std::vector<T>, T&);

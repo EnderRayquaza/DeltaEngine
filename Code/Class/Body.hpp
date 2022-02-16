@@ -2,9 +2,9 @@
 
 #include "../config.hpp"
 #include "../basic.hpp"
-#include "Game.hpp"
-#include "Collision.hpp"
 #include "Animation.hpp"
+//#include "Collision.hpp"
+#include "Game.hpp"
 
 namespace DeltaEngine
 {
@@ -12,24 +12,32 @@ namespace DeltaEngine
 	{
 	public:
 		Body() = delete;
-		Body(std::string jsonPath);
-		Body(Vec2i state, moveType, collisionType, collisionTargets, int displayScreen, double density = 1, 
-			double friction = 0, double restituion = 0, Vertex position = {0, 0}, double angle = 0);
+		Body(jsonStr jsonPath);
+		Body(Vertex position, Vertex center, double angle, uint displayScreen, //Basics
+			uint shapeManagerIndex, uint textureManagerIndex, Vec2i startState, Vec2i texSize, 
+			std::vector<Animation> animations, //Render
+			ulong mass, ulong density, ulong friction, ulong restitution, moveType, collisionType,
+			collisionTargets); //Physics
 		~Body() = default;
 
-		Shape& get_shape() const noexcept;
+		Shape& get_shape(ShapeManager&) const noexcept;
 		sf::IntRect get_textureRect() const noexcept;
 
+		//Basic
 		void set_position(Vertex position) noexcept;
 		void set_angle(double angle) noexcept;
+		void load();
 
+		//Render
+		void playAnimation(uint index, bool force) noexcept;
+
+		//Physic
 		void move(double timeStep);
 		void rotate(double angle) noexcept;
 		void applyForce(Vec2f force) noexcept;
 		void applyImpulse(Vec2f impulse) noexcept;
 		void resetForce() noexcept;
 		void resetImpulse() noexcept;
-		void playAnimation(uint index, bool force) noexcept;
 		Vec2f moveTest(double timeStep);
 		bool verifyTargeting(Body&);
 
@@ -43,20 +51,26 @@ namespace DeltaEngine
 		friend Impact;
 
 	protected:
+		//Basic members
+		jsonStr m_jsonStr;
 		Vertex m_position;
 		Vertex m_center;
 		double m_angle;
+		uint m_displayScreen;
+
+		//Render members
 		uint m_smIndex, m_tmIndex; //ShapeManager - TextureManager
-		vec_uint m_animationsPlayList;
-		Vec2i m_state, m_size; //For Shapesheet/Textures
+		Vec2i m_state, m_texSize; //For Shapesheet/Textures
+		vec_uint m_animationsPlayList{};
 		std::vector<Animation> m_animations;
-		double m_mass, m_density, m_friction, m_restitution;
+
+		//Physics members
+		ulong m_mass, m_density, m_friction, m_restitution;
 		Vec2f m_force{0, 0}, m_impulse{0, 0}, m_velocity{0, 0};
-		int m_displayScreen;
 		moveType m_moveType;
 		collisionType m_collisionType;
 		collisionTargets m_collisionTargets;
 	};
 
-	bool verifyTargeting(Body& bA, Body& bB);
+	bool verifyTargeting(Body& lhs, Body& rhs);
 }
