@@ -7,6 +7,12 @@ namespace DeltaEngine
 		aabb.left += vec.x;
 		aabb.top  += vec.y;
 	}
+	
+	void moveToAABB(AABB& aabb, Vec2i& vec)
+	{
+		aabb.left += vec.x;
+		aabb.top  += vec.y;
+	}
 
 	AABB findAABBfromShape(std::vector<Vertex>& const vertices)
 	{
@@ -42,11 +48,13 @@ namespace DeltaEngine
 	Shape::Shape(std::vector<Vertex> vertices) :m_vertices{ vertices }, m_aabb{ findAABBfromShape(vertices) }
 	{}
 
-	void Shape::move(Vec2i vec)
+	Shape Shape::moveTo(Vec2i vec) const noexcept
 	{
-		for (auto& vtx : m_vertices)
+		Shape shape{ m_vertices };
+		for (auto& vtx : shape.m_vertices)
 		{
 			vtx += vec;
 		}
+		return shape;
 	}
 }

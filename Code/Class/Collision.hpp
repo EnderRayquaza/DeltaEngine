@@ -16,7 +16,7 @@ namespace DeltaEngine
 	{
 	public:
 		Sensor() = delete;
-		Sensor(Vertex pos, AABB, std::function<void()> on, std::function<void()> off);
+		Sensor(Vertex pos, Shape, std::function<void()> on, std::function<void()> off);
 		~Sensor() = default;
 
 		void set_pos(Vertex pos) noexcept;
@@ -28,18 +28,19 @@ namespace DeltaEngine
 		friend class Area;
 	protected:
 		Vertex m_pos;
-		AABB const m_aabb;
+		Shape const m_shape;
+		std::vector<Body> m_bodies;
+
 		bool m_on{ false };
 		std::function<void()> const m_funcOn;
 		std::function<void()> const m_funcOff;
-		std::vector<Body> const m_bodies;
 	};
 
 	class Collision : public Identifiable
 	{
 	public:
 		Collision() = delete;
-		Collision(Body& bodyA, Body& bodyB);
+		Collision(Body& bodyA, Body& bodyB, ShapeManager&);
 		~Collision() = default;
 
 		virtual bool isThereCollision(double timeStep) = 0;
@@ -49,13 +50,14 @@ namespace DeltaEngine
 		friend Area;
 	protected:
 		Body& m_bodyA, & m_bodyB;
+		ShapeManager& m_shapeMng;
 	};
 
 	class Contact : public Collision
 	{
 	public:
 		Contact() = delete;
-		Contact(Body& bodyA, Body& bodyB);
+		Contact(Body& bodyA, Body& bodyB, ShapeManager&);
 		~Contact() = default;
 
 		virtual bool isThereCollision(double timeStep);
@@ -72,7 +74,7 @@ namespace DeltaEngine
 	{
 	public:
 		Impact() = delete;
-		Impact(Body& bodyA, Body& bodyB);
+		Impact(Body& bodyA, Body& bodyB, ShapeManager&);
 		~Impact() = default;
 
 		virtual bool isThereCollision(double timeStep);

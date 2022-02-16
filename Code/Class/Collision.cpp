@@ -2,29 +2,28 @@
 
 namespace DeltaEngine
 {
-	Sensor::Sensor(Vertex pos, AABB aabb, std::function<void()> funcOn, std::function<void()> funcOff) :
-		m_pos(pos), m_aabb(aabb), m_funcOn(funcOn), m_funcOff(funcOff)
+	Sensor::Sensor(Vertex pos, Shape shape, std::function<void()> on, std::function<void()> off) :
+		m_pos{ pos }, m_shape{ shape }, m_funcOn{ on }, m_funcOff{ off }
 	{}
 
-	Collision::Collision(Body& bodyA, Body& bodyB):Identifiable(), m_bodyA(bodyA), m_bodyB(bodyB)
+	Collision::Collision(Body& bodyA, Body& bodyB, ShapeManager& sm) :
+		m_bodyA{ bodyA }, m_bodyB{ bodyB }, m_shapeMng{ sm }
 	{
 		if (m_bodyA.m_displayScreen != m_bodyB.m_displayScreen)
 			this->~Collision();
 	}
 
-	Contact::Contact(Body& bodyA, Body& bodyB): Collision(bodyA, bodyB)
+	Contact::Contact(Body& bodyA, Body& bodyB, ShapeManager& sm): Collision(bodyA, bodyB, sm)
 	{}
 
 	bool Contact::isThereCollision(double timeStep)
 	{
-		Vec2f velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
-		AABB a{ m_bodyA.get_shape().m_aabb }, b{ m_bodyB.get_shape().m_aabb };
-		a.move((Vec2i)velA);
-		b.move((Vec2i)velB);
-		if (a.x >= b.x + b.w &&
-			a.x + a.w <= b.x &&
-			a.y >= b.y + b.h &&
-			a.y + a.h <= b.y )
+		Vertex posA{ m_bodyA.m_position + (Vertex)m_bodyA.moveTest(timeStep) };
+		Vertex posB{ m_bodyB.m_position + (Vertex)m_bodyB.moveTest(timeStep) };
+		AABB a{ m_bodyA.get_shape(m_shapeMng).m_aabb }, b{ m_bodyB.get_shape(m_shapeMng).m_aabb };
+		moveAABB(a, posA);
+		moveAABB(b, posB);
+		if (a.intersects(b))
 			return false;
 		else
 			return true;
@@ -40,16 +39,16 @@ namespace DeltaEngine
 		std::cout << "The Contact ends..." << std::endl;
 	}
 
-	Impact::Impact(Body& bodyA, Body& bodyB) : Collision(bodyA, bodyB)
+	Impact::Impact(Body& bodyA, Body& bodyB, ShapeManager& sm) : Collision(bodyA, bodyB, sm)
 	{}
 
 	bool Impact::isThereCollision(double timeStep)
 	{
 		Vec2f velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
-		Shape a{ m_bodyA.get_shape() }, b{ m_bodyB.get_shape() };
+		Shape a{ m_bodyA.get_shape(m_shapeMng) }, b{ m_bodyB.get_shape(m_shapeMng) };
 
-		a.move((Vec2i)velA);
-		b.move((Vec2i)velB);
+		a = a.moveTo((Vec2i)velA);
+		b = b.moveTo((Vec2i)velB);
 
 		for (auto& pt : b.m_vertices)
 		{ //For all points of the shapeB

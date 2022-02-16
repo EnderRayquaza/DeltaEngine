@@ -6,6 +6,7 @@ namespace DeltaEngine
 {
 	class Shape;
 	void moveAABB(AABB&, Vec2i&);
+	void moveToAABB(AABB&, Vec2i&);
 	AABB findAABBfromShape(std::vector<Vertex>& const);
 	ulong findSurface(Shape& const);
 
@@ -16,7 +17,7 @@ namespace DeltaEngine
 		Shape(std::vector<Vertex>);
 		~Shape() = default;
 
-		void move(Vec2i);
+		Shape moveTo(Vec2i) const noexcept;
 
 		friend class Contact;
 		friend class Impact;

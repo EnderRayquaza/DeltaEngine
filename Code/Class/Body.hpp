@@ -20,7 +20,7 @@ namespace DeltaEngine
 			collisionTargets); //Physics
 		~Body() = default;
 
-		Shape& get_shape(ShapeManager&) const noexcept;
+		Shape& const get_shape(ShapeManager&) const noexcept;
 		sf::IntRect get_textureRect() const noexcept;
 
 		//Basic
