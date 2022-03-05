@@ -45,7 +45,8 @@ namespace DeltaEngine
 		return labs(S / 2.f);
 	}
 
-	Shape::Shape(std::vector<Vertex> vertices) :m_vertices{ vertices }, m_aabb{ findAABBfromShape(vertices) }
+	Shape::Shape(std::vector<Vertex> vertices) :m_vertices{ vertices },
+		m_aabb{ findAABBfromShape(vertices) }
 	{}
 
 	void Shape::setPosition(Vec2i pos) noexcept
