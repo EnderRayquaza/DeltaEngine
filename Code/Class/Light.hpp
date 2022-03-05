@@ -25,7 +25,7 @@ namespace DeltaEngine
 	{
 	public:
 		Light() = delete;
-		Light(std::string jsonPath);
+		Light(jsonStr jsonPath);
 		virtual ~Light() = default;
 
 		virtual sf::VertexArray get_vtxArray() = 0;
@@ -47,10 +47,11 @@ namespace DeltaEngine
 	class ClassicLight : public Light
 	{
 	public:
-		ClassicLight(std::string jsonPath);
+		ClassicLight(jsonStr jsonPath);
 		virtual ~ClassicLight() = default;
 
 		virtual sf::VertexArray get_vtxArray();
+		virtual std::vector<sf::VertexArray> get_vecVtxArray();//Don't use this!
 
 		virtual void generate();
 
@@ -63,10 +64,11 @@ namespace DeltaEngine
 	class DirectionalLight : public Light
 	{
 	public:
-		DirectionalLight(std::string jsonPath);
+		DirectionalLight(jsonStr jsonPath);
 		virtual ~DirectionalLight() = default;
 
 		virtual sf::VertexArray get_vtxArray();
+		virtual std::vector<sf::VertexArray> get_vecVtxArray();//Don't use this!
 
 		void generate();
 
@@ -80,9 +82,10 @@ namespace DeltaEngine
 	class LinearLight : public Light
 	{
 	public:
-		LinearLight(std::string jsonPath);
+		LinearLight(jsonStr jsonPath);
 		virtual ~LinearLight() = default;
 
+		virtual sf::VertexArray get_vtxArray();//Don't use this!
 		virtual std::vector<sf::VertexArray> get_vecVtxArray();
 
 		void generate();

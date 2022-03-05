@@ -2,7 +2,7 @@
 
 namespace DeltaEngine
 {
-	Light::Light(std::string jsonPath)
+	Light::Light(jsonStr jsonPath)
 	{
 		json j{ returnJson(jsonPath) };
 		m_radius = (double)j["radius"];
@@ -18,7 +18,7 @@ namespace DeltaEngine
 		m_position = position;
 	}
 
-	ClassicLight::ClassicLight(std::string jsonPath):Light(jsonPath)
+	ClassicLight::ClassicLight(jsonStr jsonPath):Light(jsonPath)
 	{}
 
 	sf::VertexArray ClassicLight::get_vtxArray()
@@ -43,7 +43,7 @@ namespace DeltaEngine
 		}
 	}
 
-	DirectionalLight::DirectionalLight(std::string jsonPath) :Light(jsonPath)
+	DirectionalLight::DirectionalLight(jsonStr jsonPath) :Light(jsonPath)
 	{
 		json j{ returnJson(jsonPath) };
 		m_xAxisAngle = j["xAxisAngle"];
@@ -72,7 +72,7 @@ namespace DeltaEngine
 		}
 	}
 
-	LinearLight::LinearLight(std::string jsonPath) :Light(jsonPath)
+	LinearLight::LinearLight(jsonStr jsonPath) :Light(jsonPath)
 	{
 		json j{ returnJson(jsonPath) };
 		for (auto& vtx : j["vertices"])

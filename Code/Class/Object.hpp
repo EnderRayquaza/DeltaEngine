@@ -16,7 +16,7 @@ namespace DeltaEngine
 		~Object() = default;
 
 		void load();
-		Body& get_body(uint index) const noexcept;
+		Body& get_body(uint index) noexcept;
 
 		friend class Game;
 
