@@ -27,8 +27,8 @@ namespace DeltaEngine
 
 	struct Animation
 	{
-		Animation(jsonStr jsonPath); //TODO
-		std::vector<Vec2i> vVec2i; //?
-		ulong time, timeStamp; //?
+		Animation(jsonStr jsonPath);
+		std::vector<Vec2i> vPos;
+		ulong time, currTime{0};
 	};
 }

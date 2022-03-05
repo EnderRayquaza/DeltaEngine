@@ -30,6 +30,7 @@ namespace DeltaEngine
 
 		//Render
 		void playAnimation(uint index, bool force) noexcept;
+		void setState(Vec2i state) noexcept;
 
 		//Physic
 		void move(double timeStep);

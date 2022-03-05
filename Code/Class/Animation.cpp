@@ -38,4 +38,14 @@ namespace DeltaEngine
 			m_items.push_back((Shape)vertices);
 		}
 	}
+
+	Animation::Animation(jsonStr jsonPath)
+	{
+		json j{ returnJson(jsonPath) };
+		time = (ulong)j["time"];
+		for (auto& pos : j["vPos"])
+		{
+			vPos.push_back(Vec2i(pos[0], pos[1]));
+		}
+	}
 }

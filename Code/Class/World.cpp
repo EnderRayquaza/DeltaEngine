@@ -135,6 +135,18 @@ namespace DeltaEngine
 		for (auto& body : m_bodies)
 		{
 			body.move(timeStep);
+
+			Animation& anim{ body.m_animations[0] };
+			anim.currTime += timeStep;
+			uint timeIndex{ floor(anim.currTime / anim.time) };
+			if (timeIndex < anim.vPos.size())
+			{
+				body.setState(anim.vPos[timeIndex]);
+			}
+			else
+			{
+				body.m_animations.erase(body.m_animations.begin(), body.m_animations.begin());
+			}
 		}
 
 		

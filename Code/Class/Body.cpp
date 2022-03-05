@@ -39,10 +39,8 @@ namespace DeltaEngine
 		m_angle = angle;
 	}
 
-	//                                               --> Todo NOW!!! <--                                               //
 	void Body::load()
 	{
-		
 		json j{ returnJson(m_jsonStr) };
 
 		//Basic members
