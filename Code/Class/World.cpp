@@ -2,10 +2,12 @@
 
 namespace DeltaEngine
 {
-	Area::Area(std::vector<Body> bodies):m_bodies{bodies}
+	Area::Area(std::vector<Body> bodies, std::vector<Fluid> fluids, std::vector<Sensor> sensors,
+		ShapeManager& shapeMng):m_bodies{bodies}, m_fluids{fluids}, m_sensors{sensors}, 
+		m_shapeMng{shapeMng}
 	{}
 
-	void Area::add_body(Body& body) noexcept
+	void Area::add_body(Body& const body) noexcept
 	{
 		m_bodies.push_back(body);
 	}
@@ -31,6 +33,61 @@ namespace DeltaEngine
 			m_bodies.erase(m_bodies.begin() + idx2remove);
 		}
 	}
+
+	void Area::add_fluid(Fluid& const fluid) noexcept
+	{
+		m_fluids.push_back(fluid);
+	}
+
+	void Area::remove_fluid(Fluid& const fluid)
+	{
+		remove_fluid(fluid.m_id);
+	}
+
+	void Area::remove_fluid(Id const id)
+	{
+		int idx2remove{ -1 };
+		for (size_t i{ 0 }; i < m_fluids.size(); i++)
+		{
+			if (m_fluids[i].m_id == id)
+			{
+				idx2remove = i;
+				break;
+			}
+		}
+		if (idx2remove != -1 && m_fluids.begin() + idx2remove != m_fluids.end())
+		{
+			m_fluids.erase(m_fluids.begin() + idx2remove);
+		}
+	}
+
+	void Area::add_sensor(Sensor& const sensor) noexcept
+	{
+		m_sensors.push_back(sensor);
+	}
+
+	void Area::remove_sensor(Sensor& const sensor)
+	{
+		remove_sensor(sensor.m_id);
+	}
+
+	void Area::remove_sensor(Id const id)
+	{
+		int idx2remove{ -1 };
+		for (size_t i{ 0 }; i < m_sensors.size(); i++)
+		{
+			if (m_sensors[i].m_id == id)
+			{
+				idx2remove = i;
+				break;
+			}
+		}
+		if (idx2remove != -1 && m_sensors.begin() + idx2remove != m_sensors.end())
+		{
+			m_sensors.erase(m_sensors.begin() + idx2remove);
+		}
+	}
+
 
 	void Area::step(double timeStep)
 	{
@@ -83,6 +140,7 @@ namespace DeltaEngine
 		
 	}
 
+
 	void Area::verifySensor(double timeStep)
 	{
 		for (auto& sensor : m_sensors)
@@ -121,7 +179,7 @@ namespace DeltaEngine
 			{
 				if ((bodyA.m_displayScreen == bodyB.m_displayScreen) && verifyTargeting(bodyA, bodyB))
 				{//If they're on the same displayScreen
-					Contact c(bodyA, bodyB); //It creates a contact between everybody
+					Contact c(bodyA, bodyB, m_shapeMng); //It creates a contact between everybody
 					if (!c.isThereCollision(timeStep) || contactAlreadyIn(c))
 					{
 						c.~Contact(); //If there's no contact, it destroys it.
@@ -151,7 +209,7 @@ namespace DeltaEngine
 		}
 		for (auto& c : m_contacts)
 		{
-			Impact im(c.m_bodyA, c.m_bodyB); //It creates a impact between every bodies which are in contact.
+			Impact im(c.m_bodyA, c.m_bodyB, m_shapeMng); //It creates a impact between every bodies which are in contact.
 			if (!im.isThereCollision(timeStep) || impactAlreadyIn(im))
 			{
 				im.~Impact(); //If there's no impact, it destroys it.

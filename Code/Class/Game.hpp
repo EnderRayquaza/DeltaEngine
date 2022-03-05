@@ -32,6 +32,7 @@ namespace DeltaEngine
 		bool _debug{false}, _textureOn{true};
 		uint _debugDisplayScreen{0};
 
+		friend Area;
 	protected:
 		//Basic members
 		std::string m_name;
