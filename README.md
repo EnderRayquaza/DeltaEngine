@@ -19,7 +19,8 @@ Todo :
 - [x] Make Sensor class
 - [x] Make Fluid class
 - [x] Code Game::draw()
-- [ ] **Finish details**
+- [x] Finish details
+- [ ] **Compile the project**
 - [ ] Make the debug mode/app
 - [ ] Test it
 - [ ] Make the doc

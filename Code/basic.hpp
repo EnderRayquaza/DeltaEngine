@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "config.hpp"
-#include "Identifiable.hpp"
+#include "class/Identifiable.hpp"
 
 using json = nlohmann::json;
 
