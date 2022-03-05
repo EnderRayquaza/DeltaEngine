@@ -120,6 +120,7 @@ namespace DeltaEngine
 			}
 		}
 
+		//Draws debug items.
 		if (_debug)
 		{
 			for (auto& body : vBody)
@@ -135,6 +136,7 @@ namespace DeltaEngine
 			}
 		}
 
+		//Draw items.
 		for (size_t screen{0}; screen < m_nbDisplayScreen; screen++) //For every screen.
 		{
 			if (_textureOn)

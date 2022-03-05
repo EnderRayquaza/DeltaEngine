@@ -48,13 +48,22 @@ namespace DeltaEngine
 	Shape::Shape(std::vector<Vertex> vertices) :m_vertices{ vertices }, m_aabb{ findAABBfromShape(vertices) }
 	{}
 
-	Shape Shape::moveTo(Vec2i vec) const noexcept
+	void Shape::setPosition(Vec2i pos) noexcept
 	{
 		Shape shape{ m_vertices };
 		for (auto& vtx : shape.m_vertices)
 		{
-			vtx += vec;
+			vtx += pos;
 		}
-		return shape;
+	}
+
+	void Shape::setAngle(double angle) noexcept
+	{
+		Shape shape{ m_vertices };
+		for (auto& vtx : shape.m_vertices)
+		{
+			vtx = { vtx.x * cos(angle) - vtx.y * sin(angle),
+					vtx.y * cos(angle) - vtx.x * sin(angle) };
+		}
 	}
 }

@@ -17,7 +17,8 @@ namespace DeltaEngine
 		Shape(std::vector<Vertex>);
 		~Shape() = default;
 
-		Shape moveTo(Vec2i) const noexcept;
+		void setPosition(Vec2i) noexcept;
+		void setAngle(double angle) noexcept;
 
 		friend class Game;
 		friend class Contact;

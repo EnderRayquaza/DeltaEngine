@@ -47,8 +47,10 @@ namespace DeltaEngine
 		Vec2f velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
 		Shape a{ m_bodyA.get_shape(m_shapeMng) }, b{ m_bodyB.get_shape(m_shapeMng) };
 
-		a = a.moveTo((Vec2i)velA);
-		b = b.moveTo((Vec2i)velB);
+		a.setPosition((Vec2i)velA);
+		a.setAngle(m_bodyA.m_angle);
+		b.setPosition((Vec2i)velB);
+		b.setAngle(m_bodyB.m_angle);
 
 		for (auto& pt : b.m_vertices)
 		{ //For all points of the shapeB

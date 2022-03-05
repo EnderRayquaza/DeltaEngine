@@ -21,6 +21,11 @@ namespace DeltaEngine
 	ClassicLight::ClassicLight(std::string jsonPath):Light(jsonPath)
 	{}
 
+	sf::VertexArray ClassicLight::get_vtxArray()
+	{
+		return m_vtxArray;
+	}
+
 	void ClassicLight::generate()
 	{
 		m_vtxArray[0].position = (Vec2f)m_position;
@@ -43,6 +48,11 @@ namespace DeltaEngine
 		json j{ returnJson(jsonPath) };
 		m_xAxisAngle = j["xAxisAngle"];
 		m_openingAngle = j["openingAngle"];
+	}
+
+	sf::VertexArray DirectionalLight::get_vtxArray()
+	{
+		return m_vtxArray;
 	}
 
 	void DirectionalLight::generate()
@@ -73,6 +83,11 @@ namespace DeltaEngine
 		{
 			m_vtxArrays.push_back(sf::VertexArray(sf::Quads, 4));
 		}
+	}
+
+	std::vector<sf::VertexArray> LinearLight::get_vecVtxArray()
+	{
+		return m_vtxArrays;
 	}
 
 	void LinearLight::generate()

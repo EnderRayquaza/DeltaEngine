@@ -18,7 +18,7 @@ namespace DeltaEngine
 		m_collisionType{ ct }, m_collisionTargets{ cts }
 	{}
 
-	Shape& Body::get_shape(ShapeManager& sm) const noexcept
+	Shape& const Body::get_shape(ShapeManager& sm) const noexcept
 	{
 		return sm[m_smIndex][m_state];
 	}
