@@ -9,7 +9,7 @@ namespace DeltaEngine
 	{
 	public:
 		ShapeManager() = delete;
-		ShapeManager(std::string jsonPath);
+		ShapeManager(jsonStr jsonPath);
 		~ShapeManager() = default;
 
 		ShapeSheet& operator[](uint const index) noexcept;
@@ -17,7 +17,7 @@ namespace DeltaEngine
 		void load();
 
 	protected:
-		std::string m_jsonPath;
+		jsonStr m_jsonPath;
 		std::vector<ShapeSheet> m_items;
 	};
 
@@ -25,7 +25,7 @@ namespace DeltaEngine
 	{
 	public:
 		TextureManager() = delete;
-		TextureManager(std::string jsonPath);
+		TextureManager(jsonStr jsonPath);
 		~TextureManager() = default;
 
 		sf::Texture& operator[](size_t index);
@@ -33,7 +33,7 @@ namespace DeltaEngine
 		void load();
 
 	protected:
-		std::string m_jsonPath;
+		jsonStr m_jsonPath;
 		std::vector<sf::Texture> m_items;
 	};
 
@@ -41,7 +41,7 @@ namespace DeltaEngine
 	{
 	public:
 		ShaderManager() = delete;
-		ShaderManager(std::string jsonPath);
+		ShaderManager(jsonStr jsonPath);
 		~ShaderManager() = default;
 
 		sf::Shader& operator[](size_t index);
@@ -49,7 +49,7 @@ namespace DeltaEngine
 		void load();
 
 	protected:
-		std::string m_jsonPath;
+		jsonStr m_jsonPath;
 		std::vector<sf::Shader> m_items;
 	};
 }

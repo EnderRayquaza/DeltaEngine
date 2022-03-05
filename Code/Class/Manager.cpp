@@ -2,7 +2,7 @@
 
 namespace DeltaEngine
 {
-	ShapeManager::ShapeManager(std::string jsonPath):m_jsonPath(jsonPath)
+	ShapeManager::ShapeManager(jsonStr jsonPath):m_jsonPath(jsonPath)
 	{}
 
 	ShapeSheet& ShapeManager::operator[](uint const index) noexcept
@@ -25,7 +25,7 @@ namespace DeltaEngine
 	}
 
 
-	TextureManager::TextureManager(std::string jsonPath):m_jsonPath(jsonPath)
+	TextureManager::TextureManager(jsonStr jsonPath):m_jsonPath(jsonPath)
 	{}
 
 	sf::Texture& TextureManager::operator[](size_t index)
@@ -45,14 +45,15 @@ namespace DeltaEngine
 			sf::Texture item;
 			if (!item.loadFromFile((std::string)e))
 			{
-				std::cerr << "Cannot load this : " << (std::string)e << std::endl;
+				error("Cannot load this : " + (std::string)e, "Manager.cpp", 48,
+					ErrorType::FILE_NOT_FOUND);
 			}
 			m_items.push_back(item);
 		}
 	}
 
 
-	ShaderManager::ShaderManager(std::string jsonPath) :m_jsonPath(jsonPath)
+	ShaderManager::ShaderManager(jsonStr jsonPath) :m_jsonPath(jsonPath)
 	{}
 
 	sf::Shader& ShaderManager::operator[](size_t index)
@@ -72,7 +73,8 @@ namespace DeltaEngine
 			sf::Shader item;
 			if (!item.loadFromFile((std::string)e, sf::Shader::Vertex))
 			{
-				std::cerr << "Cannot load this : " << (std::string)e << std::endl;
+				error("Cannot load this : " + (std::string)e, "Manager.cpp", 76,
+					ErrorType::FILE_NOT_FOUND);
 			}
 			m_items.push_back(item);
 		}
@@ -81,7 +83,8 @@ namespace DeltaEngine
 			sf::Shader item;
 			if (!item.loadFromFile((std::string)e, sf::Shader::Fragment))
 			{
-				std::cerr << "Cannot load this : " << (std::string)e << std::endl;
+				error("Cannot load this : " + (std::string)e, "Manager.cpp", 86,
+					ErrorType::FILE_NOT_FOUND);
 			}
 			m_items.push_back(item);
 		}
@@ -90,7 +93,8 @@ namespace DeltaEngine
 			sf::Shader item;
 			if (!item.loadFromFile((std::string)e[0], (std::string)e[1]))
 			{
-				std::cerr << "Cannot load this : " << (std::string)e << std::endl;
+				error("Cannot load this : " + (std::string)e, "Manager.cpp", 96,
+					ErrorType::FILE_NOT_FOUND);
 			}
 			m_items.push_back(item);
 		}
