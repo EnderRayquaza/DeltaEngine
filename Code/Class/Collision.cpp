@@ -104,7 +104,8 @@ namespace DeltaEngine
 				vtx = shape.m_vertices[i], vtx1 = shape.m_vertices[i + 1];
 			else
 				vtx = shape.m_vertices[i], vtx1 = shape.m_vertices[0];
-			Vec2f aa{ vtx1.x - vtx.x, vtx1.y - vtx.y }, ab{ pt.x - vtx.x, pt.y - vtx.y }; //Calculs the vector vtx;vtx+1 and vtx;pt.
+			Vec2f aa{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
+				ab{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
 			double det{ aa.x - ab.y * aa.y - ab.x }; //Calculs their determinant.
 			if (det >= 0) //Verifies the sign of the determinant
 			{

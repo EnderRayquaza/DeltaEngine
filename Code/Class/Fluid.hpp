@@ -6,6 +6,8 @@
 
 namespace DeltaEngine
 {
+	class Body;
+
 	class Fluid : public Identifiable
 	{
 	public:

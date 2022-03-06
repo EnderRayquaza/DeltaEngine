@@ -1,6 +1,6 @@
 ﻿#pragma once
 /*
-* Some abbreviation I use :
+* Some abbreviations I use :
 * v/vec -> vector
 * vtx -> vertex
 * func -> function
@@ -44,3 +44,4 @@ typedef sf::Vector2i Vertex;
 typedef sf::Vector2i Vec2i;
 typedef sf::Vector2f Vec2f;
 typedef sf::IntRect AABB;
+typedef sf::Uint8 U8;

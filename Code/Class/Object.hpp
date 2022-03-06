@@ -8,6 +8,9 @@
 
 namespace DeltaEngine
 {
+	class Body;
+	class Light;
+
 	class Object : public Identifiable
 	{
 	public:
@@ -16,7 +19,7 @@ namespace DeltaEngine
 		~Object() = default;
 
 		void load();
-		Body& get_body(uint index) noexcept;
+		Body& get_body(uint index);
 
 		friend class Game;
 

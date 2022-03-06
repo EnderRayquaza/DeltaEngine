@@ -6,8 +6,8 @@ namespace DeltaEngine
 	{
 		json j{ returnJson(jsonPath) };
 		m_radius = (double)j["radius"];
-		m_position = { (double)j["position"][0], (double)j["position"][1] };
-		m_color = { (double)j["color"][0], (double)j["color"][1],  (double)j["color"][2] };
+		m_position = Vec2i{(int)j["position"][0], (int)j["position"][1]};
+		m_color = sf::Color{ (U8)j["color"][0], (U8)j["color"][1], (U8)j["color"][2] };
 		m_brightness = (double)j["brightness"];
 		m_intensity = (double)j["intensity"];
 		m_displayScreen = (int)j["displayScreen"];

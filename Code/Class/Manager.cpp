@@ -2,14 +2,15 @@
 
 namespace DeltaEngine
 {
-	ShapeManager::ShapeManager(jsonStr jsonPath):m_jsonPath(jsonPath)
+	ShapeManager::ShapeManager(jsonStr jsonPath) :m_jsonPath{ jsonPath }
 	{}
 
-	ShapeSheet& ShapeManager::operator[](uint const index) noexcept
+	ShapeSheet& ShapeManager::operator[](uint const index)
 	{
 		if (index >= m_items.size())
 		{
-			return;
+			error("Index(arg) out of range(m_items)", "Manager.cpp", 12,
+				ErrorType::INDEX_OUT_OF_RANGE, true);
 		}
 		return m_items[index];
 	}
@@ -25,14 +26,15 @@ namespace DeltaEngine
 	}
 
 
-	TextureManager::TextureManager(jsonStr jsonPath):m_jsonPath(jsonPath)
+	TextureManager::TextureManager(jsonStr jsonPath) :m_jsonPath{ jsonPath }
 	{}
 
 	sf::Texture& TextureManager::operator[](size_t index)
 	{
 		if (index >= m_items.size())
 		{
-			return;
+			error("Index(arg) out of range(m_items)", "Manager.cpp", 36,
+				ErrorType::INDEX_OUT_OF_RANGE, true);
 		}
 		return m_items[index];
 	}
@@ -53,14 +55,15 @@ namespace DeltaEngine
 	}
 
 
-	ShaderManager::ShaderManager(jsonStr jsonPath) :m_jsonPath(jsonPath)
+	ShaderManager::ShaderManager(jsonStr jsonPath) :m_jsonPath{ jsonPath }
 	{}
 
 	sf::Shader& ShaderManager::operator[](size_t index)
 	{
 		if (index >= m_items.size())
 		{
-			return;
+			error("Index(arg) out of range(m_items)", "Manager.cpp", 65,
+				ErrorType::INDEX_OUT_OF_RANGE, true);
 		}
 		return m_items[index];
 	}

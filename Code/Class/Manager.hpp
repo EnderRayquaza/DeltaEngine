@@ -12,7 +12,7 @@ namespace DeltaEngine
 		ShapeManager(jsonStr jsonPath);
 		~ShapeManager() = default;
 
-		ShapeSheet& operator[](uint const index) noexcept;
+		ShapeSheet& operator[](uint const index);
 
 		void load();
 

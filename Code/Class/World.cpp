@@ -138,7 +138,7 @@ namespace DeltaEngine
 
 			Animation& anim{ body.m_animations[0] };
 			anim.currTime += timeStep;
-			uint timeIndex{ floor(anim.currTime / anim.time) };
+			uint timeIndex{ (uint)floor(anim.currTime / anim.time) };
 			if (timeIndex < anim.vPos.size())
 			{
 				body.setState(anim.vPos[timeIndex]);

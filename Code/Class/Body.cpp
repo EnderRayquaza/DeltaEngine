@@ -18,8 +18,17 @@ namespace DeltaEngine
 		m_collisionType{ ct }, m_collisionTargets{ cts }
 	{}
 
-	Shape& const Body::get_shape(ShapeManager& sm) const noexcept
+	Shape& const Body::get_shape(ShapeManager& sm) const
 	{
+		//Todo
+		if (m_smIndex >= 0)
+		{
+			error("Index(m_smIndex) out of range", "Body.cpp", 26, ErrorType::INDEX_OUT_OF_RANGE, true);
+		}
+		if (true)//m_state >= )
+		{
+			error("Index(m_state) out of range", "Body.cpp", 26, ErrorType::INDEX_OUT_OF_RANGE, true);
+		}
 		return sm[m_smIndex][m_state];
 	}
 

@@ -30,8 +30,12 @@ namespace DeltaEngine
 		}
 	}
 
-	Body& Object::get_body(uint index) noexcept
+	Body& Object::get_body(uint index)
 	{
+		if (index >= m_vBody.size())
+		{
+			error("Index out of range", "Object.cpp", 37, ErrorType::INDEX_OUT_OF_RANGE, true);
+		}
 		return m_vBody[index];
 	}
 }

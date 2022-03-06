@@ -3,11 +3,13 @@
 #include "../config.hpp"
 #include "../basic.hpp"
 #include "Animation.hpp"
-//#include "Collision.hpp"
 #include "Game.hpp"
+#include "Manager.hpp"
 
 namespace DeltaEngine
 {
+	class ShapeManager;
+
 	class Body : public Identifiable
 	{
 	public:
@@ -18,9 +20,10 @@ namespace DeltaEngine
 			std::vector<Animation> animations, //Render
 			ulong mass, ulong density, ulong friction, ulong restitution, moveType, collisionType,
 			collisionTargets); //Physics
+		//Body(const Body&);
 		~Body() = default;
 
-		Shape& const get_shape(ShapeManager&) const noexcept;
+		Shape& const get_shape(ShapeManager& aeugh) const;
 		sf::IntRect get_textureRect() const noexcept;
 
 		//Basic
@@ -45,11 +48,11 @@ namespace DeltaEngine
 		bool _enable;
 
 		friend class Game;
-		friend Fluid;
-		friend Area;
-		friend Collision;
-		friend Contact;
-		friend Impact;
+		friend class Fluid;
+		friend class Area;
+		friend class Collision;
+		friend class Contact;
+		friend class Impact;
 
 	protected:
 		//Basic members

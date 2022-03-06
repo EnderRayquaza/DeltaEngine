@@ -8,6 +8,9 @@
 
 namespace DeltaEngine
 {
+	class Fluid;
+	class Sensor;
+
 	class Area : public Identifiable
 	{
 	public:

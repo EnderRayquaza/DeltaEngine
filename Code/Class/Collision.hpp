@@ -7,6 +7,9 @@
 
 namespace DeltaEngine
 {
+	class Body;
+	class ShapeManager;
+
 	class Sensor;
 	class Collision;
 	class Contact;
@@ -47,7 +50,7 @@ namespace DeltaEngine
 		virtual void begin() = 0;
 		virtual void end() = 0;
 
-		friend Area;
+		friend class Area;
 	protected:
 		Body& m_bodyA, & m_bodyB;
 		ShapeManager& m_shapeMng;
@@ -64,7 +67,7 @@ namespace DeltaEngine
 		virtual void begin();
 		virtual void end();
 
-		friend Area;
+		friend class Area;
 
 	protected:
 
@@ -82,7 +85,7 @@ namespace DeltaEngine
 		virtual void end();
 		virtual void solve(bool preSolve = false);
 
-		friend Area;
+		friend class Area;
 
 	protected:
 		std::array<Vec2i, 2> line{};

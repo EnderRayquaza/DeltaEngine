@@ -6,8 +6,8 @@ namespace DeltaEngine
 		TextureManager& tm, ShaderManager& sdm, ShapeManager& spm, Vec2i wSize, uint wFlag,
 		sf::Color color, double timeStep) : m_name{ name }, m_version{ version }, m_ico{ ico },
 		m_nbDisplayScreen{ nbDS }, m_textureMng{ tm }, m_shaderMng{ sdm }, m_shapeMng{ spm },
-		m_window{ {wSize.x, wSize.y}, "Wating Initialisation...", wFlag }, m_bgColor{ color },
-		m_timeStep{ timeStep }
+		m_window{ {(uint)wSize.x, (uint)wSize.y}, "Wating Initialisation...", wFlag },
+		m_bgColor{ color },	m_timeStep{ timeStep }
 	{}
 
 	void Game::init()

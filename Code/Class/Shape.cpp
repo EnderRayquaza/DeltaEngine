@@ -16,7 +16,7 @@ namespace DeltaEngine
 
 	AABB findAABBfromShape(std::vector<Vertex>& const vertices)
 	{
-		int xmin{ INFINITY }, xmax{ 0 }, ymin{ INFINITY }, ymax{ 0 };
+		int xmin{ (int)INFINITY }, xmax{ 0 }, ymin{ (int)INFINITY }, ymax{ 0 };
 		for (auto& vtx : vertices)
 		{
 			if (vtx.x < xmin) xmin = vtx.x;
@@ -63,8 +63,8 @@ namespace DeltaEngine
 		Shape shape{ m_vertices };
 		for (auto& vtx : shape.m_vertices)
 		{
-			vtx = { vtx.x * cos(angle) - vtx.y * sin(angle),
-					vtx.y * cos(angle) - vtx.x * sin(angle) };
+			vtx = { (int)(vtx.x * cos(angle) - vtx.y * sin(angle)),
+					(int)(vtx.y * cos(angle) - vtx.x * sin(angle)) };
 		}
 	}
 }

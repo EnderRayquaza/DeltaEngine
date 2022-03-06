@@ -2,8 +2,6 @@
 
 namespace DeltaEngine
 {
-	//Id
-
 	//Identifiable
 	Identifiable::Identifiable() :m_id(createId(listId))
 	{}

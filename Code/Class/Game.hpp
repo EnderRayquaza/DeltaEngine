@@ -9,6 +9,15 @@
 
 namespace DeltaEngine
 {
+	class Area;
+	class Body;
+	class Light;
+	class Object;
+	class ShaderManager;
+	class TextureManager;
+
+	typedef std::vector<Area> World;
+
 	class Game
 	{
 	public:
@@ -32,7 +41,7 @@ namespace DeltaEngine
 		bool _debug{false}, _textureOn{true};
 		uint _debugDisplayScreen{0};
 
-		friend Area;
+		friend class Area;
 	protected:
 		//Basic members
 		std::string m_name;
