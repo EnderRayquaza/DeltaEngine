@@ -3,6 +3,7 @@
 * Some abbreviations I use :
 * v/vec -> vector
 * vtx -> vertex
+* idx -> index
 * func -> function
 * str -> string
 * pos -> position
@@ -28,9 +29,8 @@
 
 
 constexpr auto PI = 3.141592654; //π
-constexpr auto RAD2DEG = 180./PI; //For conversion radians -> degrees.
-constexpr auto DEG2RAD = PI/180.; //For conversion degrees -> radians.
-constexpr auto DS_ALL = -1; //On all displayScreens
+constexpr auto RAD2DEG = 180. / PI; //For conversion radians -> degrees.
+constexpr auto DEG2RAD = PI / 180.; //For conversion degrees -> radians.
 
 using json = nlohmann::json;
 using namespace std::literals;
