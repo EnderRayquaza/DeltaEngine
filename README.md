@@ -1,27 +1,29 @@
 # DeltaEngine
 A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 
-Todo :
-- [x] Make AABB struct
-- [x] Make Vertex struct
-- [x] Make Shape struct/class
-- [x] Make Object class
-- [x] Make Body class
-- [x] Make Managers class
-- [x] Make Impact class 
-- [x] Make Contact class
-- [x] Make Collision class
-- [x] Make Area class
-- [x] Make Lights classes
-- [x] Make Game class
-- [x] Create animations
-- [x] Implant DisplayScreen and Collision Type
-- [x] Make Sensor class
-- [x] Make Fluid class
-- [x] Code Game::draw()
-- [x] Finish details
-- [ ] **Compile the project**
-- [ ] Make the debug mode/app
-- [ ] Test it
-- [ ] Make the doc
-- [ ] Make the release
+#### Todo list :
+##### I) The bases of the project.
+- [ ] Make Game class.
+- [ ] Make Body class.
+- [ ] Make Shape & AABB class.
+- [ ] Make Texture class.
+- [ ] Make Manager class.
+- [ ] Make Area class.
+- [ ] Finish details.
+##### II) Add time to add life to the project.
+- [ ] Make Animation class.
+- [ ] Make Collision classes.
+- [ ] Code Game.step().
+- [ ] Finish details.
+##### III) Enhance the the project.
+- [ ] Make Light classes.
+- [ ] Make Fluid class.
+- [ ] Make Sensor class.
+- [ ] Include sf::Shader.
+- [ ] Finish details.
+##### IV) Conclude the project.
+- [ ] Make the debug app.
+- [ ] Test it.
+- [ ] Make the doc.
+- [ ] Make the release.
+- [ ] ~~Sleep.~~
