@@ -14,6 +14,6 @@ namespace DeltaEngine
 
 		virtual bool load() = 0;
 
-		jsonStr _path;
+		jsonStr _path{};
 	};
 }
