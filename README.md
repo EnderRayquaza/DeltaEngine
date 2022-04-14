@@ -4,8 +4,8 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 #### Todo list :
 ##### I) The bases of the project.
 - [ ] Make Game class.
-- [ ] Make Body class.
-- [ ] Make Shape & AABB class.
+- [x] Make Body class.
+- [x] Make Shape class.
 - [ ] Make Texture class.
 - [ ] Make Manager class.
 - [ ] Make Area class.

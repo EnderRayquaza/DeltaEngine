@@ -3,6 +3,7 @@
 #include "../config.hpp"
 #include "Animation.hpp"
 #include "Collision.hpp"
+#include "func.hpp"
 #include "Loadable.hpp"
 
 namespace DeltaEngine

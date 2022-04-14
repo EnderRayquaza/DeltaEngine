@@ -40,9 +40,9 @@ namespace DeltaEngine
 		Vec2f totalForces{ m_force + m_impulse }, acc{}; //It calculs the total of all the forces (and impulses) applied.
 		resetImpulse(); //Impulses are deleted.
 		//ΣF = ma <=> a = ΣF/m
-		acc = Vec2f{ totalForces.x / m_mass, totalForces.y / m_mass };
+		acc = totalForces / m_mass;
 		//a = dv/dt <=> v = a*t + v0
-		m_velocity += Vec2f{ acc.x * time, acc.y * time };
+		m_velocity += acc * time;
 		m_pos += Vec2i{ m_velocity };
 	}
 
@@ -102,9 +102,9 @@ namespace DeltaEngine
 	{
 		Vec2f totalForces{ m_force + m_impulse }, acc{}; //It calculs the total of all the forces (and impulses) applied.
 		//ΣF = ma <=> a = ΣF/m
-		acc = Vec2f{ totalForces.x / m_mass, totalForces.y / m_mass };
+		acc = totalForces / m_mass;
 		//a = dv/dt <=> v = a*t + v0
-		return Vec2f{ acc.x * time, acc.y * time };// return the velocity.
+		return acc * time;// return the velocity.
 	}
 
 	void Body::applyForce(Vec2f force)
