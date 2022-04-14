@@ -1,14 +1,17 @@
 #pragma once
 
 #include "../config.hpp"
+#include "Loadable.hpp"
 
 namespace DeltaEngine
 {
-	class Texture : public sf::Texture
+	class Texture : public sf::Texture, public Loadable
 	{
 		Texture() = default;
-		Texture(Vec2i frameSize);
+		Texture(jsonStr);
 		~Texture() = default;
+
+		bool load();
 
 		Vec2i get_frameSize() const;
 		void set_frameSize(Vec2i size);

@@ -14,8 +14,8 @@ namespace DeltaEngine
 		~Shape() = default;
 
 		std::vector<Vertex> getVertices(Vertex pos = { 0,0 }, double angle = 0) const; //Return the Shape modified by a position and a rotation.
-		bool pointIn(Vertex) const;
-		ulong getSurface() const;
+		bool pointIn(Vertex) const; //Verifies if the point is in the Shape.
+		ulong getSurface() const; //Returns the surface of the shape.
 
 	protected:
 		std::vector<Vertex> const m_vVertex;

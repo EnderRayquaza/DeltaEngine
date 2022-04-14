@@ -4,8 +4,14 @@
 
 namespace DeltaEngine
 {
-	Texture::Texture(Vec2i frameSize):sf::Texture(), m_frameSize{frameSize}
+	Texture::Texture(jsonStr path):sf::Texture(), Loadable(path)
 	{}
+
+	bool load()
+	{
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		return false;
+	}
 
 	Vec2i Texture::get_frameSize() const
 	{
