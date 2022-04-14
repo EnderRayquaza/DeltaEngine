@@ -51,7 +51,7 @@ namespace DeltaEngine
 			}
 			Vec2f aa{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
 				ab{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
-			double det{ (aa.x - ab.y) * (aa.y - ab.x) }; //Calculs their determinant.
+			float det{ (aa.x - ab.y) * (aa.y - ab.x) }; //Calculs their determinant.
 			if (det >= 0) //Verifies the sign of the determinant
 			{
 				return true;

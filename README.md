@@ -6,7 +6,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 - [ ] Make Game class.
 - [x] Make Body class.
 - [x] Make Shape class.
-- [ ] Make Texture class.
+- [x] Make Texture class.
 - [ ] Make Manager class.
 - [ ] Make Area class.
 - [ ] Finish details.
