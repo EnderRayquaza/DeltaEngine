@@ -7,7 +7,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 - [x] Make Body class.
 - [x] Make Shape class.
 - [x] Make Texture class.
-- [ ] Make Manager class.
+- [x] Make Manager class.
 - [ ] Make Area class.
 - [ ] Finish details.
 ##### II) Add time to add life to the project.
