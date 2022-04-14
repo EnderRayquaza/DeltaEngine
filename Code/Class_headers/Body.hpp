@@ -4,14 +4,15 @@
 #include "Animation.hpp"
 #include "Collision.hpp"
 #include "func.hpp"
+#include "Identifiable.hpp"
 #include "Loadable.hpp"
 
 namespace DeltaEngine
 {
-	class Body : public Loadable
+	class Body : public Identifiable, public Loadable
 	{
 	public:
-		Body() = default;
+		Body();
 		Body(jsonStr);
 		~Body() = default;
 

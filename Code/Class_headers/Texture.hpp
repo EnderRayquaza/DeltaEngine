@@ -1,13 +1,15 @@
 #pragma once
 
 #include "../config.hpp"
+#include "Identifiable.hpp"
 #include "Loadable.hpp"
+
 
 namespace DeltaEngine
 {
-	class Texture : public sf::Texture, public Loadable
+	class Texture : public sf::Texture, public Identifiable, public Loadable
 	{
-		Texture() = default;
+		Texture();
 		Texture(jsonStr);
 		~Texture() = default;
 

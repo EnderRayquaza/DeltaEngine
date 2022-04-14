@@ -2,7 +2,10 @@
 
 namespace DeltaEngine
 {
-	Body::Body(jsonStr path):Loadable(path)
+	Body::Body() :Identifiable()
+	{}
+
+	Body::Body(jsonStr path) : Identifiable(), Loadable(path)
 	{}
 
 	///Accessors.

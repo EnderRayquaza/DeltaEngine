@@ -4,7 +4,10 @@
 
 namespace DeltaEngine
 {
-	Texture::Texture(jsonStr path):sf::Texture(), Loadable(path)
+	Texture::Texture() :sf::Texture(), Identifiable()
+	{}
+
+	Texture::Texture(jsonStr path) :sf::Texture(), Identifiable(), Loadable(path)
 	{}
 
 	bool load()
