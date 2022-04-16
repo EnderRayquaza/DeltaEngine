@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../config.hpp"
+#include "../Class_headers/Identifiable.hpp"
 
 namespace DeltaEngine
 {
@@ -19,4 +20,10 @@ namespace DeltaEngine
 	protected:
 		std::vector<T> m_items{};
 	};
+
+	template <typename T>
+	bool inManager(Manager<T>&, T&);
+
+	template <class T>
+	bool inManager(Manager<T>&, Id);
 }
