@@ -1,15 +1,17 @@
 #pragma once
 
 #include "../config.hpp"
+#include "Loadable.hpp"
 
 namespace DeltaEngine
 {
 	AABB findAABBfromVertices(const std::vector<Vertex>&, uint margin=0);
 
-	class Shape
+	class Shape : public Loadable
 	{
 	public:
 		Shape() = delete;
+		Shape(jsonStr);
 		Shape(std::vector<Vertex>, uint margin = 0);
 		~Shape() = default;
 

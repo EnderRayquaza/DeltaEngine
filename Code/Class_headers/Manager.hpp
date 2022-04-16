@@ -15,6 +15,8 @@ namespace DeltaEngine
 		void addItem(T item); //Adds an Item to the manager. The item is moved in the manager so the arg will be empty.
 		T& operator[](uint index); //Returns an Item by an index.
 
+		size_t size() const;
+
 		void loadItem(); //Executes the fonction load() for all Loadable items.
 
 	protected:
