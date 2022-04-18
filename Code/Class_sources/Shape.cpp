@@ -15,9 +15,18 @@ namespace DeltaEngine
 		return AABB{ xmin - (int)margin, ymin - (int)margin, xmax + (int)margin, ymax + (int)margin };
 	}
 
+	Shape::Shape(jsonStr path):Loadable(path)
+	{}
+
 	Shape::Shape(std::vector<Vertex> vVtx, uint margin) :m_vVertex{ vVtx }, 
 		m_aabb{ findAABBfromVertices(vVtx, margin) }
 	{}
+
+	bool load()
+	{
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		return false;
+	}
 
 	std::vector<Vertex> Shape::getVertices(Vertex pos, double angle) const
 	{

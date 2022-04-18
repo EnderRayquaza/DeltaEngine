@@ -3,7 +3,7 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 
 #### Todo list :
 ##### I) The bases of the project.
-- [ ] Make Game class.
+- [x] Make Game class.
 - [x] Make Body class.
 - [x] Make Shape class.
 - [x] Make ShapeSheet class.

@@ -62,6 +62,11 @@ namespace DeltaEngine
 	}
 
 	///Render func.
+	Vec2i Body::getCoordShape()
+	{
+		return  m_vAnimationSS[m_animationPlayListSS[0]]._vCoord[m_frameSS];
+	}
+
 	void Body::playAnimationSS(uint index, bool force)
 	{
 		if(force)
@@ -74,11 +79,26 @@ namespace DeltaEngine
 	void Body::nextAnimationSS()
 	{
 		m_animationPlayListSS.erase(m_animationPlayListSS.begin()); //Delete the first element.
+		if (m_animationPlayListSS.size() == 0) //If there's any more animations...
+		{
+			m_animationPlayListSS.push_back(m_defaultFrameSS);
+		}
 	}
 
 	void Body::nextFrameSS()
 	{
-		m_frameSS++;
+		m_frameSS++; //Increases the frame to go to the next one. 
+		if (m_frameSS >= m_vAnimationSS[m_animationPlayListSS[0]].size()) //If it reaches the end of the animation...
+		{
+			m_frameSS = 0; //... it resets the counter.
+			nextAnimationSS();//... and switches to the next animation ...
+		}
+	}
+
+
+	Vec2i Body::getCoordTex()
+	{
+		return  m_vAnimationTex[m_animationPlayListTex[0]]._vCoord[m_frameTex];
 	}
 
 	void Body::playAnimationTex(uint index, bool force)
@@ -93,11 +113,20 @@ namespace DeltaEngine
 	void Body::nextAnimationTex()
 	{
 		m_animationPlayListTex.erase(m_animationPlayListTex.begin()); //Delete the first element.
+		if (m_animationPlayListTex.size() == 0) //If there's any more animations...
+		{
+			m_animationPlayListTex.push_back(m_defaultFrameTex);
+		}
 	}
 
 	void Body::nextFrameTex()
 	{
-		m_frameTex++;
+		m_frameTex++; //Increases the frame to go to the next one. 
+		if (m_frameTex >= m_vAnimationTex[m_animationPlayListTex[0]].size()) //If it reaches the end of the animation...
+		{
+			m_frameTex = 0; //... it resets the counter.
+			nextAnimationTex();//... and switches to the next animation ...
+		}
 	}
 
 	///Physic func.

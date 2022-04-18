@@ -9,6 +9,7 @@ namespace DeltaEngine
 {
 	class Texture : public sf::Texture, public Identifiable, public Loadable
 	{
+	public:
 		Texture();
 		Texture(jsonStr);
 		~Texture() = default;

@@ -27,9 +27,11 @@ namespace DeltaEngine
 		void rotate(int angle, bool inRad = true); //Rotate the body (in the anti-clockwise).
 
 		///Render func.
+		Vec2i getCoordShape();
 		void playAnimationSS(uint index, bool force = false); //Add an animation to the playlist.
 		void nextAnimationSS(); //Switch to the next animation in the playlist.
 		void nextFrameSS(); //Switch to the next frame.
+		Vec2i getCoordTex();
 		void playAnimationTex(uint index, bool force = false); //Add an animation to the playlist.
 		void nextAnimationTex(); //Switch to the next animation in the playlist.
 		void nextFrameTex(); //Switch to the next frame.
@@ -41,6 +43,8 @@ namespace DeltaEngine
 		void resetForce(); //Delete all the forces applied to the body.
 		void resetImpulse(); //Delete all the impulses before they are applied.
 
+		friend class Game;
+
 	protected:
 		///Basic Members
 		Vertex m_pos{}; //The position of the body (in px).
@@ -50,11 +54,11 @@ namespace DeltaEngine
 
 		///Render Members
 		uint m_indexSSMng{ 0 }, m_indexTexMng{ 0 }; //The index of the body for the Managers.
-		Vec2i m_posFrameSS{}, m_posFrameTex{}; //(PM) The Position of the frame in the Manager;
+		//Vec2i m_posFrameSS{}, m_posFrameTex{}; //(PM) The Position of the frame in the Manager;
 		vec_uint m_animationPlayListSS{}, m_animationPlayListTex{}; //(pl)The list with the odrer of the animations.
 		std::vector<Animation> m_vAnimationSS{}, m_vAnimationTex{}; //(vA) The containers of all Animation of the Body.
 		uint m_frameSS{ 0 }, m_frameTex{ 0 }; //(AF) The current Frame of the Animation.
-		Vertex m_defaultFrameSS{}, m_defaultFrameTex{}; //(DefF) The DEFault Frame displayed.
+		uint m_defaultFrameSS{}, m_defaultFrameTex{}; //(DefF) The DEFault Frame displayed (index of vA).
 
 		///Physic Members
 		ulong m_mass{ 0 }, m_density{ 0 }, m_friction{ 0 }, m_restitution{ 0 }; //For speed moving, evolution in fluids, tailback or bouncing.

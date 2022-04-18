@@ -24,5 +24,6 @@ namespace DeltaEngine
 		{
 			m_mngShape[i].load();
 		}
+		return true;
 	}
 }
