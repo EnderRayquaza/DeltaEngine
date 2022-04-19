@@ -15,6 +15,12 @@ namespace DeltaEngine
 	}
 
 	template <class T>
+	size_t Manager<T>::size() const
+	{
+		return m_items.size();
+	}
+
+	template <class T>
 	void Manager<T>::loadItem()
 	{
 		for (auto& item : m_items)

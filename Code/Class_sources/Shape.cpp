@@ -22,10 +22,15 @@ namespace DeltaEngine
 		m_aabb{ findAABBfromVertices(vVtx, margin) }
 	{}
 
-	bool load()
+	bool Shape::load()
 	{
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 		return false;
+	}
+
+	size_t Shape::nbVtx()
+	{
+		return m_vVertex.size();
 	}
 
 	std::vector<Vertex> Shape::getVertices(Vertex pos, double angle) const
