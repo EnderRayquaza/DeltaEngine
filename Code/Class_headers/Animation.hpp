@@ -4,9 +4,8 @@
 
 namespace DeltaEngine
 {
-	class Animation : public Loadable
+	struct Animation : public Loadable
 	{
-	public:
 		Animation() = default;
 		Animation(jsonStr);
 
@@ -14,6 +13,5 @@ namespace DeltaEngine
 		size_t size();
 
 		std::vector<Vec2i> _vCoord{};
-	protected:
 	};
 }
