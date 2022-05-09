@@ -22,8 +22,9 @@ namespace DeltaEngine
 		draw();
 
 		//Physic
-		for (size_t i{0}; i < m_mngArea.size(); i++)
+		for (size_t i{ 0 }; i < m_mngArea.size(); i++)
 		{
+			m_mngArea[i].step(0);
 			m_mngArea[i].step(time);
 		}
 	}

@@ -14,6 +14,7 @@ namespace DeltaEngine
 
 		void addItem(T item); //Adds an Item to the manager. The item is moved in the manager so the arg will be empty.
 		T& operator[](uint index); //Returns an Item by an index.
+		T& operator[](Id id); //Returns an Item by an Id. /!\ T must be a derived class of Identifiable.
 
 		size_t size() const;
 

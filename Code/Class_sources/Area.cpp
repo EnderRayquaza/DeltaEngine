@@ -2,13 +2,43 @@
 
 namespace DeltaEngine
 {
-	Area::Area(Manager<Body>& mng, sf::IntRect box) :m_mngBody{ mng }, m_box{ box }
+	Area::Area(Manager<Body>& mngB, Manager<ShapeSheet>& mngSS) :m_mngBody{ mngB }, m_mngSS{ mngSS } //, m_box{ box }
 	{}
 
 	void Area::step(double time)
 	{
-		//Physic "step()"
-		//Will be coded in the part II
+		std::vector<Contact> vContact{};
+		for (size_t i{ 0 }; i < m_bodyId.size(); i++)
+		{
+			Body& bodyA{ m_mngBody[m_bodyId[i]] };
+			for (size_t j{ 0 }; j < m_bodyId.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+				Body& bodyB{ m_mngBody[m_bodyId[j]] };
+
+				Contact c{bodyA, bodyB, m_mngSS};
+				if (c.isThereCollision(time))
+				{
+					vContact.push_back(c);
+				}
+				else
+				{
+					c.~Contact();
+				}
+
+			}
+		}
+		for (auto& c : vContact)
+		{
+			Impact i{ c };
+			if (i.isThereCollision(time))
+			{
+				i.solve(time > 0);
+			}
+		}
 	}
 
 	bool Area::addBody(Id id)

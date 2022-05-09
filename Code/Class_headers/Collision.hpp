@@ -43,6 +43,7 @@ namespace DeltaEngine
 	{
 	public:
 		Impact() = delete;
+		Impact(Contact& const);
 		Impact(Body& const, Body& const, Manager<ShapeSheet>& const);
 		~Impact() = default;
 
