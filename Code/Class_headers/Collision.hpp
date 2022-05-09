@@ -1,23 +1,58 @@
 #pragma once
 #include "../config.hpp"
+#include "Body.hpp"
+#include "Manager.hpp"
+#include "Shape.hpp"
+#include "ShapeSheet.hpp"
 
 namespace DeltaEngine
 {
-	enum class moveType
+	class Collision
 	{
-		Static,
-		Kinematic,
-		Dynamic
+	public:
+		Collision() = delete;
+		Collision(Body&, Body&, Manager<ShapeSheet>&);
+		~Collision() = default;
+
+		virtual bool isThereCollision(double time)=0;
+		virtual void begin() = 0;
+		virtual void end() = 0;
+		friend class Area;
+
+	protected:
+		Body& const m_bodyA, & m_bodyB;
+		Manager<ShapeSheet>& const m_shapeMng;
 	};
 
-	enum class collisionType
+	class Contact : public Collision
 	{
-		Nothing,
-		Decor,
-		Ground,
-		ObjectA,
-		ObjectB
+	public:
+		Contact() = delete;
+		Contact(Body& const, Body& const, Manager<ShapeSheet>& const);
+		~Contact() = default;
+
+		virtual bool isThereCollision(double time);
+		virtual void begin();
+		virtual void end();
+		friend class Area;
+
+	protected:
 	};
 
-	typedef std::vector<collisionType> collisionTargets;
+	class Impact : public Collision
+	{
+	public:
+		Impact() = delete;
+		Impact(Body& const, Body& const, Manager<ShapeSheet>& const);
+		~Impact() = default;
+
+		virtual bool isThereCollision(double time);
+		virtual void begin();
+		virtual void end();
+		virtual void solve(bool pre_solve = false);
+		friend class Area;
+
+	protected:
+		std::array<Vec2i, 2> line{};
+	};
 }

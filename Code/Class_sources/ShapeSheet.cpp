@@ -15,6 +15,10 @@ namespace DeltaEngine
 		{
 			return m_mngShape[(uint)index.x + (uint)m_size.y * index.y];
 		}
+		else
+		{
+			return m_mngShape[-1];
+		}
 	}
 
 	bool ShapeSheet::load()

@@ -91,4 +91,25 @@ namespace DeltaEngine
 		}
 		return (ulong)labs(S / 2.f);
 	}
+
+
+	bool pointInShape(Vertex const pt, std::vector<Vertex> const vVtx)
+	{
+		for (size_t i{ 0 }; i < vVtx.size(); i++)
+		{ //For all points of the shapeA
+			Vertex vtx, vtx1;
+			if (i + 1 < vVtx.size())
+				vtx = vVtx[i], vtx1 = vVtx[i + 1];
+			else
+				vtx = vVtx[i], vtx1 = vVtx[0];
+			Vec2f aa{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
+				ab{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
+			double det{ (aa.x - ab.y) * (aa.y - ab.x) }; //Calculs their determinant.
+			if (det >= 0) //Verifies the sign of the determinant
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

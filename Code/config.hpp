@@ -45,3 +45,26 @@ typedef sf::Vector2i Vec2i;
 typedef sf::Vector2f Vec2f;
 typedef sf::IntRect AABB;
 typedef sf::Uint8 U8;
+
+namespace DeltaEngine
+{
+
+	enum class moveType
+	{
+		Static,
+		Kinematic,
+		Dynamic
+	};
+
+	enum class collisionType
+	{
+		Nothing,
+		Decor,
+		Ground,
+		ObjectA,
+		ObjectB
+	};
+
+	typedef std::vector<collisionType> collisionTargets;
+
+}

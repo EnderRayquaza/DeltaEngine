@@ -19,6 +19,7 @@ namespace DeltaEngine
 
 		size_t nbVtx();
 		std::vector<Vertex> getVertices(Vertex pos = { 0,0 }, double angle = 0) const; //Return the Shape modified by a position and a rotation.
+		AABB getAABB(Vertex pos = { 0,0 }, double angle = 0) const; //Return the AABB of the Shape modified by a position and a rotation.
 		bool pointIn(Vertex) const; //Verifies if the point is in the Shape.
 		ulong getSurface() const; //Returns the surface of the shape.
 
@@ -26,4 +27,6 @@ namespace DeltaEngine
 		std::vector<Vertex> const m_vVertex;
 		AABB const m_aabb;
 	};
+
+	bool pointInShape(Vertex const point, std::vector<Vertex> const);
 }

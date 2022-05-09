@@ -2,7 +2,7 @@
 
 #include "../config.hpp"
 #include "Animation.hpp"
-#include "Collision.hpp"
+//#include "Collision.hpp"
 #include "func.hpp"
 #include "Identifiable.hpp"
 #include "Loadable.hpp"
@@ -44,6 +44,9 @@ namespace DeltaEngine
 		void resetImpulse(); //Delete all the impulses before they are applied.
 
 		friend class Game;
+		friend class Collision;
+		friend class Contact;
+		friend class Impact;
 
 	protected:
 		///Basic Members
