@@ -27,7 +27,7 @@ namespace DeltaEngine
 		json j{ returnJson(_path) };
 		for (size_t i{ 0 }; i < (size_t)j["size"]; i++)
 		{
-			m_vVertex.push_back(Vertex{(uint)j["vertex"][i][0], (uint)j["vertex"][i][1]});
+			m_vVertex.push_back(Vertex{j["vertex"][i][0], j["vertex"][i][1]});
 		}
 		m_aabbMargin = j["margin"];
 		m_aabb = findAABBfromVertices(m_vVertex, m_aabbMargin);

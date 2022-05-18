@@ -39,6 +39,7 @@
 *.vcxproj.user
 
 #Folders
+TestLibDE
 DeltaEngine
 x64
 examples
