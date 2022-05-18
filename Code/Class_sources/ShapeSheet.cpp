@@ -23,11 +23,12 @@ namespace DeltaEngine
 
 	bool ShapeSheet::load()
 	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-		for (size_t i{0}; i < m_mngShape.size(); i++)
+		json j{ returnJson(_path) };
+		for (size_t i{0}; i < (size_t)j["size"]; i++)
 		{
-			m_mngShape[i].load();
+			m_mngShape.addItem(Shape{ (jsonStr)j["shapes"][i] });
 		}
+		m_mngShape.loadItem();
 		return true;
 	}
 }

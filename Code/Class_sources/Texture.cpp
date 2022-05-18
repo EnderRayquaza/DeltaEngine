@@ -10,9 +10,11 @@ namespace DeltaEngine
 	Texture::Texture(jsonStr path) :sf::Texture(), Identifiable(), Loadable(path)
 	{}
 
-	bool load()
+	bool Texture::load()
 	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		json j{ returnJson(_path) };
+		m_frameSize = Vec2i{ (int)j["frameSize"][0], (int)j["frameSize"][1] };
+		loadFromFile((std::string)j["texturePath"]);
 		return false;
 	}
 

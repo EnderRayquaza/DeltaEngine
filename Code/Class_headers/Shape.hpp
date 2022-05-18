@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../config.hpp"
+#include "func.hpp"
 #include "Loadable.hpp"
 
 namespace DeltaEngine
@@ -24,8 +25,9 @@ namespace DeltaEngine
 		ulong getSurface() const; //Returns the surface of the shape.
 
 	protected:
-		std::vector<Vertex> const m_vVertex;
-		AABB const m_aabb;
+		std::vector<Vertex> m_vVertex{};
+		uint m_aabbMargin{0};
+		AABB m_aabb{};
 	};
 
 	bool pointInShape(Vertex const point, std::vector<Vertex> const);

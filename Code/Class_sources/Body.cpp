@@ -34,7 +34,40 @@ namespace DeltaEngine
 	///Basic func.
 	bool Body::load()
 	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		json j{ returnJson(_path) };
+
+		//Basic members
+		m_pos = Vertex{ (int)j["pos"][0], (int)j["pos"][1] };
+		m_center = Vertex{ (int)j["center"][0], (int)j["center"][1] };
+		m_angle = (double)j["angle"];
+		m_displayScreen = (uint)j["displayScreen"];
+
+		//Render members
+		m_indexSSMng = (uint)j["indexSSMng"];
+		m_indexTexMng = (uint)j["indexTexMng"];
+		for (auto& path : j["animationSS"])
+		{
+			m_vAnimationSS.push_back(Animation((jsonStr)path));
+		}
+		for (auto& path : j["animationTex"])
+		{
+			m_vAnimationTex.push_back(Animation((jsonStr)path));
+		}
+		m_defaultFrameSS = (uint)j["defaultFrameSS"];
+		m_defaultFrameTex = (uint)j["defaultFrameTex"];
+
+		//Physics members
+		m_mass = (ulong)j["mass"];
+		m_density = (ulong)j["density"];
+		m_friction = (ulong)j["friction"];
+		m_restitution = (ulong)j["restitution"];
+		m_moveType = (moveType)(int)j["moveType"];
+		m_collisionType = (collisionType)(int)j["collisionType"];
+		for (auto& cT : j["collisionTarget"])
+		{
+			m_collisionTarget.push_back((collisionType)(int)cT);
+		}
+
 		return false;
 	}
 

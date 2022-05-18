@@ -15,7 +15,8 @@ A 2d engine made with [SFML](https://www.sfml-dev.org/) (window,render,sound).
 - [x] Make Animation struct.
 - [x] Make Collision classes.
 - [x] Code Area.step().
-- [ ] Finish details.
+- [x] Finish details.
+- [ ] Do a first test.
 ##### III) Enhance the the project.
 - [ ] Make Light classes.
 - [ ] Make Fluid class.

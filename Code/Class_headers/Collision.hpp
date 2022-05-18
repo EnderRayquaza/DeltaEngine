@@ -18,6 +18,7 @@ namespace DeltaEngine
 		virtual void begin() = 0;
 		virtual void end() = 0;
 		friend class Area;
+		friend class Impact;
 
 	protected:
 		Body& const m_bodyA, & m_bodyB;
@@ -43,7 +44,7 @@ namespace DeltaEngine
 	{
 	public:
 		Impact() = delete;
-		Impact(Contact& const);
+		Impact(Collision& const);
 		Impact(Body& const, Body& const, Manager<ShapeSheet>& const);
 		~Impact() = default;
 

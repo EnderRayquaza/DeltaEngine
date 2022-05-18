@@ -41,6 +41,9 @@ namespace DeltaEngine
 	}
 
 	//Impact
+	Impact::Impact(Collision& c):Impact(c.m_bodyA, c.m_bodyB, c.m_shapeMng)
+	{}
+
 	Impact::Impact(Body& bodyA, Body& bodyB, Manager<ShapeSheet>& ssm) : Collision(bodyA, bodyB, ssm)
 	{}
 

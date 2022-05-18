@@ -1,5 +1,6 @@
 #pragma once
 #include "../config.hpp"
+#include "func.hpp"
 #include "Loadable.hpp"
 
 namespace DeltaEngine

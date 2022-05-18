@@ -15,16 +15,22 @@ namespace DeltaEngine
 		return AABB{ xmin - (int)margin, ymin - (int)margin, xmax + (int)margin, ymax + (int)margin };
 	}
 
-	Shape::Shape(jsonStr path):Loadable(path)
+	Shape::Shape(jsonStr path) :Loadable(path)
 	{}
 
-	Shape::Shape(std::vector<Vertex> vVtx, uint margin) :m_vVertex{ vVtx }, 
+	Shape::Shape(std::vector<Vertex> vVtx, uint margin): m_vVertex{ vVtx }, m_aabbMargin{ margin },
 		m_aabb{ findAABBfromVertices(vVtx, margin) }
 	{}
 
 	bool Shape::load()
 	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		json j{ returnJson(_path) };
+		for (size_t i{ 0 }; i < (size_t)j["size"]; i++)
+		{
+			m_vVertex.push_back(Vertex{(uint)j["vertex"][i][0], (uint)j["vertex"][i][1]});
+		}
+		m_aabbMargin = j["margin"];
+		m_aabb = findAABBfromVertices(m_vVertex, m_aabbMargin);
 		return false;
 	}
 
@@ -48,6 +54,11 @@ namespace DeltaEngine
 			vtx += pos;
 		}
 		return vertices;
+	}
+
+	AABB Shape::getAABB(Vertex pos, double angle) const
+	{
+		return findAABBfromVertices(getVertices(pos, angle), m_aabbMargin);
 	}
 
 	bool Shape::pointIn(Vertex pt) const

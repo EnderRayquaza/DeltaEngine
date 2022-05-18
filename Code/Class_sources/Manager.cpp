@@ -15,6 +15,18 @@ namespace DeltaEngine
 	}
 
 	template <class T>
+	T& Manager<T>::operator[](Id id)
+	{
+		for (Identifiable& item : m_items)
+		{
+			if (item._id == id)
+			{
+				return item;
+			}
+		}
+	}
+
+	template <class T>
 	size_t Manager<T>::size() const
 	{
 		return m_items.size();

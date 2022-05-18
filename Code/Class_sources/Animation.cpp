@@ -7,7 +7,11 @@ namespace DeltaEngine
 
 	bool Animation::load()
 	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TODO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+		json j{ returnJson(_path) };
+		for (auto& coord : j["coords"])
+		{
+			_vCoord.push_back(Vec2i{ (int)coord[0], (int)coord[1] });
+		}
 		return false;
 	}
 
