@@ -10,13 +10,14 @@ namespace DeltaEngine
 	bool Game::load()
 	{
 		json j{ returnJson(_path) };
-		m_name = (std::string)j["name"];
-		m_icoPath = (std::string)j["icopath"];
-		m_nbDisplayScreen = (uint)j["nbDS"];
+		m_name = std::string(j["name"]);
+		m_icoPath = std::string(j["icopath"]);
+		m_nbDisplayScreen = uint(j["nbDS"]);
 
 		m_sizeScreen = Vec2i{ j["size"][0], j["size"][1] };
 		m_window.create(sf::VideoMode(m_sizeScreen.x, m_sizeScreen.y), m_name);
-		m_bgColor = sf::Color((sf::Uint32)j["bgColor"]);
+		m_bgColor = sf::Color{ sf::Uint8(j["bgColor"][0]), sf::Uint8(j["bgColor"][0]),
+			sf::Uint8(j["bgColor"][0]) };
 		return true;
 	}
 
