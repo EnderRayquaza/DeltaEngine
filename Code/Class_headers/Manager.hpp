@@ -36,6 +36,7 @@ namespace DeltaEngine
 					return item;
 				}
 			}
+			return m_items[-1];
 		}
 
 		//template <class T>
@@ -64,9 +65,31 @@ namespace DeltaEngine
 		std::vector<T> m_items{};
 	};
 
-	template <typename T>
-	bool inManager(Manager<T>&, T&);
+	template <class T>
+	bool inManager(Manager<T>& mng, T& t)
+	{
+		for (size_t i{ 0 }; i < mng.size(); i++)
+		{
+			T& elem = mng[i];
+			if (&elem == &t)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	template <class T>
-	bool inManager(Manager<T>&, Id);
+	bool inManager(Manager<T>& mng, Id id)
+	{
+		for (size_t i{ 0 }; i < mng.size(); i++)
+		{
+			Identifiable& elem = mng[i];
+			if (elem._id == id)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

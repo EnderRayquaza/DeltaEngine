@@ -21,15 +21,15 @@ namespace DeltaEngine
 		friend class Impact;
 
 	protected:
-		Body& const m_bodyA, & m_bodyB;
-		Manager<ShapeSheet>& const m_shapeMng;
+		Body& m_bodyA, & m_bodyB;
+		Manager<ShapeSheet>& m_shapeMng;
 	};
 
 	class Contact : public Collision
 	{
 	public:
 		Contact() = delete;
-		Contact(Body& const, Body& const, Manager<ShapeSheet>& const);
+		Contact(Body&, Body&, Manager<ShapeSheet>&);
 		~Contact() = default;
 
 		virtual bool isThereCollision(double time);
@@ -44,8 +44,8 @@ namespace DeltaEngine
 	{
 	public:
 		Impact() = delete;
-		Impact(Collision& const);
-		Impact(Body& const, Body& const, Manager<ShapeSheet>& const);
+		Impact(Collision&);
+		Impact(Body&, Body&, Manager<ShapeSheet>&);
 		~Impact() = default;
 
 		virtual bool isThereCollision(double time);

@@ -50,8 +50,8 @@ namespace DeltaEngine
 	bool Impact::isThereCollision(double timeStep)
 	{
 		Vertex velA{ m_bodyA.moveTest(timeStep) }, velB{ m_bodyB.moveTest(timeStep) };
-		Shape& const a{ m_shapeMng[m_bodyA.m_indexSSMng][m_bodyA.getCoordShape()] };
-		Shape& const b{ m_shapeMng[m_bodyB.m_indexSSMng][m_bodyB.getCoordShape()] };
+		Shape& a{ m_shapeMng[m_bodyA.m_indexSSMng][m_bodyA.getCoordShape()] };
+		Shape& b{ m_shapeMng[m_bodyB.m_indexSSMng][m_bodyB.getCoordShape()] };
 
 		for (auto& pt : b.getVertices(velB, m_bodyB.m_angle))
 		{ //For all points of the shapeB

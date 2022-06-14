@@ -3,7 +3,7 @@
 namespace DeltaEngine
 {
 	Game::Game(jsonStr path, Manager<Area>& ma, Manager<Body>& mb, Manager<ShapeSheet>& mss,
-		Manager<Texture>& mt) : Loadable(path), m_mngArea{ma}, m_mngBody{mb}, m_mngSS{mss},
+		Manager<Texture>& mt) : Loadable(path), m_mngArea{ ma }, m_mngBody{ mb }, m_mngSS{ mss },
 		m_mngTex{ mt }
 	{}
 
