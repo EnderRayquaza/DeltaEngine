@@ -136,4 +136,9 @@ namespace DeltaEngine
 		rtDShape.draw(convShape); //Draws the shape on the RenderTexture.
 	}
 
+	bool Game::isWindowOpen() const
+	{
+		return m_window.isOpen();
+	}
+
 }
