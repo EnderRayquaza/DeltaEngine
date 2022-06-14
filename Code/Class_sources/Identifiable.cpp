@@ -8,7 +8,7 @@ namespace DeltaEngine
 		do
 		{
 			id = Id{ rand(), rand() };
-		} while (inVector(list, id));
+		} while (inVector<Id>(list, id));
 		return id;
 	}
 
@@ -32,6 +32,6 @@ namespace DeltaEngine
 		return !(lhs == rhs);
 	}
 
-	Identifiable::Identifiable() : _id{ createId(m_idList) }
+	Identifiable::Identifiable() : _id{ createId(s_idList) }
 	{}
 }

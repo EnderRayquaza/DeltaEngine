@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../config.hpp"
-#include "../Class_headers/Identifiable.hpp"
+#include "Identifiable.hpp"
+#include "Loadable.hpp"
 
 namespace DeltaEngine
 {
@@ -12,13 +13,52 @@ namespace DeltaEngine
 		Manager() = default;
 		~Manager() = default;
 
-		void addItem(T item); //Adds an Item to the manager. The item is moved in the manager so the arg will be empty.
-		T& operator[](uint index); //Returns an Item by an index.
-		T& operator[](Id id); //Returns an Item by an Id. /!\ T must be a derived class of Identifiable.
+		//template <class T> //Adds an Item to the manager. The item is moved in the manager so the arg will be empty.
+		void addItem(T item)
+		{
+			m_items.push_back(std::move(item));
+		}
 
-		size_t size() const;
 
-		void loadItem(); //Executes the fonction load() for all Loadable items.
+		//template <class T> //Returns an Item by an index.
+		T& operator[](uint index)
+		{
+			return m_items[index];
+		}
+
+		//template <class T2> //Returns an Item by an Id. /!\ T must be a derived class of Identifiable.
+		T& operator[](Id id)
+		{
+			for (T& item : m_items)
+			{
+				if (item._id == id)
+				{
+					return item;
+				}
+			}
+		}
+
+		//template <class T>
+		size_t size() const
+		{
+			return m_items.size();
+		}
+
+		//template <class T> //Executes the fonction load() for all Loadable items.
+		void loadItem()
+		{
+			for (T& item : m_items)
+			{
+				try
+				{
+					item.load();
+				}
+				catch (std::exception const& excp)
+				{
+					std::cout << "Error : " << excp.what() << std::endl;
+				}
+			}
+		} 
 
 	protected:
 		std::vector<T> m_items{};

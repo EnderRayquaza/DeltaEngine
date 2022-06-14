@@ -68,3 +68,10 @@ namespace DeltaEngine
 	typedef std::vector<collisionType> collisionTargets;
 
 }
+
+/*
+* glad.lib
+glfw.lib
+imgui.lib
+sajson.lib
+*/

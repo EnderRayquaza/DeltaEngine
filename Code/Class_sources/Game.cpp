@@ -2,6 +2,24 @@
 
 namespace DeltaEngine
 {
+	Game::Game(jsonStr path, Manager<Area>& ma, Manager<Body>& mb, Manager<ShapeSheet>& mss,
+		Manager<Texture>& mt) : Loadable(path), m_mngArea{ma}, m_mngBody{mb}, m_mngSS{mss},
+		m_mngTex{ mt }
+	{}
+
+	bool Game::load()
+	{
+		json j{ returnJson(_path) };
+		m_name = (std::string)j["name"];
+		m_icoPath = (std::string)j["icopath"];
+		m_nbDisplayScreen = (uint)j["nbDS"];
+
+		m_sizeScreen = Vec2i{ j["size"][0], j["size"][1] };
+		m_window.create(sf::VideoMode(m_sizeScreen.x, m_sizeScreen.y), m_name);
+		m_bgColor = sf::Color((sf::Uint32)j["bgColor"]);
+		return true;
+	}
+
 	void Game::init()
 	{
 		m_window.setTitle(m_name);
@@ -10,7 +28,6 @@ namespace DeltaEngine
 		{
 		}
 		m_window.setIcon(ico.getSize().x, ico.getSize().y, ico.getPixelsPtr());
-		m_mngArea.loadItem();
 		m_mngBody.loadItem();
 		m_mngSS.loadItem();
 		m_mngTex.loadItem();

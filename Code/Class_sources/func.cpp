@@ -12,14 +12,14 @@ namespace DeltaEngine
 		return j; //Returns it.
 	}
 
-	template <typename T>
-	bool inVector(const std::vector<T>& vec, const T& item)
+	/*template <typename T>
+	bool inVector(std::vector<T>& vec, T& item)
 	{
-		return std::find(vec.begin(), vec.end(), item) != std::end;
-	}
+		return std::find(vec.begin(), vec.end(), item) != vec.end();
+	}*/
 
 	template <typename T>
-	void eraseElem(const std::vector<T>& vec, const T& item)
+	void eraseElem(std::vector<T>& vec, T& item)
 	{
 		if (inVector(vec, item))
 		{

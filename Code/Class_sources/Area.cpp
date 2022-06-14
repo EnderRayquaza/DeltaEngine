@@ -10,7 +10,7 @@ namespace DeltaEngine
 		std::vector<Contact> vContact{};
 		for (size_t i{ 0 }; i < m_bodyId.size(); i++)
 		{
-			Body& bodyA{ m_mngBody[m_bodyId[i]] };
+			Body& bodyA{ m_mngBody[m_bodyId[i]]};
 			for (size_t j{ 0 }; j < m_bodyId.size(); j++)
 			{
 				if (i == j)

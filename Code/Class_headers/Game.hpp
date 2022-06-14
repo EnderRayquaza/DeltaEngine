@@ -9,12 +9,14 @@
 
 namespace DeltaEngine
 {
-	class Game
+	class Game : public Loadable
 	{
 	public:
-		Game() = default;
+		Game() = delete;
+		Game(jsonStr, Manager<Area>&, Manager<Body>&, Manager<ShapeSheet>&, Manager<Texture>&);
 		~Game() = default;
 
+		bool load();
 		void init(); //Inits all things in the Game.
 		void step(double time); //The main function.
 		void draw(); //Draw the element of the game on the window.
@@ -25,12 +27,12 @@ namespace DeltaEngine
 		uint _debugDisplayScreen{ 0 };
 
 	protected:
-		std::string m_name, m_icoPath;
-		uint m_nbDisplayScreen;
+		std::string m_name{}, m_icoPath{};
+		uint m_nbDisplayScreen{0};
 
-		Vec2i m_sizeScreen;
-		sf::RenderWindow m_window;
-		sf::Color bgColor;
+		Vec2i m_sizeScreen{};
+		sf::RenderWindow m_window{};
+		sf::Color m_bgColor{};
 
 		//Managers
 		Manager<Area>& m_mngArea;

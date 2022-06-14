@@ -12,7 +12,7 @@ namespace DeltaEngine
 		{}
 		~Loadable() = default;
 
-		virtual bool load() = 0;
+		virtual bool load() { return false; };
 
 		jsonStr _path{};
 	};

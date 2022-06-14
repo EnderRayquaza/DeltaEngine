@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../config.hpp"
-#include "../Class_headers/func.hpp"
+#include "func.hpp"
 
 namespace DeltaEngine
 {
@@ -31,6 +31,6 @@ namespace DeltaEngine
 
 		Id const _id;
 	protected:
-		static std::vector<Id> m_idList;
+		inline static std::vector<Id> s_idList{};
 	};
 }

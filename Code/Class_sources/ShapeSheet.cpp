@@ -26,7 +26,8 @@ namespace DeltaEngine
 		json j{ returnJson(_path) };
 		for (size_t i{0}; i < (size_t)j["size"]; i++)
 		{
-			m_mngShape.addItem(Shape{ (jsonStr)j["shapes"][i] });
+			Shape s{ (jsonStr)j["shapes"][i] };
+			m_mngShape.addItem(s);
 		}
 		m_mngShape.loadItem();
 		return true;
