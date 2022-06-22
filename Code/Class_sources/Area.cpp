@@ -10,18 +10,21 @@ namespace DeltaEngine
 		std::vector<Contact> vContact{};
 		for (size_t i{ 0 }; i < m_bodyId.size(); i++)
 		{
+			//std::cout << "Step're here !" << std::endl;
 			Body& bodyA{ m_mngBody[m_bodyId[i]]};
 			for (size_t j{ 0 }; j < m_bodyId.size(); j++)
 			{
-				if (i == j)
+				if (i == j or bodyA._id.intKey1 == 41)
 				{
 					continue;
 				}
+				//std::cout << "bodyA : " << bodyA._id.intKey1 << std::endl;
 				Body& bodyB{ m_mngBody[m_bodyId[j]] };
 
 				Contact c{bodyA, bodyB, m_mngSS};
 				if (c.isThereCollision(time))
 				{
+					//std::cout << "+1 contact" << std::endl;
 					vContact.push_back(c);
 				}
 				else
@@ -36,7 +39,7 @@ namespace DeltaEngine
 			Impact i{ c };
 			if (i.isThereCollision(time))
 			{
-				i.solve(time > 0);
+				//i.solve(time > 0);
 			}
 		}
 	}

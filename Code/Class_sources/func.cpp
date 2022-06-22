@@ -6,7 +6,7 @@ namespace DeltaEngine
 	{
 		std::ifstream file((std::string)jsonPath); //Opens the file.
 		if (!file) //Returns an error if it can't.
-			std::cout << "Error : File not open (" << jsonPath << ")" << std::endl;
+			std::cout << "DE - Error : File not open (path:" << jsonPath << ")" << std::endl;
 		json j{}; //Creates a json variable.
 		file >> j; //Puts the data from the file in the json var.
 		file.close();

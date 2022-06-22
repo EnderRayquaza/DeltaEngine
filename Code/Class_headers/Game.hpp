@@ -22,17 +22,16 @@ namespace DeltaEngine
 		void draw(); //Draw the element of the game on the window.
 		void drawBody(Body&, sf::Sprite&, sf::RenderTexture&); //Draw a body.
 		void drawDebugShape(Body&, sf::RenderTexture&); //Draw the edge of a shape.
-		bool isWindowOpen() const;
 
 		bool _debug{ false }, _textureOn{ true };
 		uint _debugDisplayScreen{ 0 };
 
+		sf::RenderWindow _window{};
 	protected:
 		std::string m_name{}, m_icoPath{};
 		uint m_nbDisplayScreen{0};
 
 		Vec2i m_sizeScreen{};
-		sf::RenderWindow m_window{};
 		sf::Color m_bgColor{};
 
 		//Managers

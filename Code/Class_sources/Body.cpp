@@ -45,16 +45,21 @@ namespace DeltaEngine
 		//Render members
 		m_indexSSMng = (uint)j["indexSSMng"];
 		m_indexTexMng = (uint)j["indexTexMng"];
-		for (auto& path : j["animationSS"])
+		jsonStr jStr{ j["animationSS"] };
+		json jSS{ returnJson("json/body1/animSS.json")};
+		for (auto& js : jSS)
 		{
-			m_vAnimationSS.push_back(Animation((jsonStr)path));
+			m_vAnimationSS.push_back(Animation(js));
+			m_vAnimationSS.back().loadByJson();
 		}
-		for (auto& path : j["animationTex"])
+		json jTex{ returnJson(j["animationTex"]) };
+		for (auto& js : jTex)
 		{
-			m_vAnimationTex.push_back(Animation((jsonStr)path));
+			m_vAnimationTex.push_back(Animation(js));
+			m_vAnimationTex.back().loadByJson();
 		}
-		m_defaultFrameSS = (uint)j["defaultFrameSS"];
-		m_defaultFrameTex = (uint)j["defaultFrameTex"];
+		m_defAnimSS = j["defAnimSS"];
+		m_defAnimTex = j["defAnimTex"];
 
 		//Physics members
 		m_mass = (ulong)j["mass"];
@@ -68,6 +73,9 @@ namespace DeltaEngine
 			m_collisionTarget.push_back((collisionType)(int)cT);
 		}
 
+		playAnimationSS(0);
+		playAnimationTex(0);
+
 		return false;
 	}
 
@@ -76,9 +84,17 @@ namespace DeltaEngine
 		Vec2f totalForces{ m_force + m_impulse }, acc{}; //It calculs the total of all the forces (and impulses) applied.
 		resetImpulse(); //Impulses are deleted.
 		//ΣF = ma <=> a = ΣF/m
-		acc = totalForces / m_mass;
+		if (m_mass != 0)
+			acc = totalForces / m_mass;
+		else
+			acc = totalForces;
 		//a = dv/dt <=> v = a*t + v0
 		m_velocity += acc * time;
+		if (acc.x != 0 or acc.y != 0)
+		{
+			std::cout << "acc : " << acc.x << "/" << acc.y << std::endl;
+			std::cout << "vel : " << m_velocity.x << "/" << m_velocity.y << std::endl << std::endl;
+		}
 		m_pos += Vec2i{ m_velocity };
 	}
 
@@ -97,6 +113,7 @@ namespace DeltaEngine
 	///Render func.
 	Vec2i Body::getCoordShape()
 	{
+		verifPlaylistEmptySS();
 		return  m_vAnimationSS[m_animationPlayListSS[0]]._vCoord[m_frameSS];
 	}
 
@@ -112,25 +129,39 @@ namespace DeltaEngine
 	void Body::nextAnimationSS()
 	{
 		m_animationPlayListSS.erase(m_animationPlayListSS.begin()); //Delete the first element.
-		if (m_animationPlayListSS.size() == 0) //If there's any more animations...
+		if (m_animationPlayListSS.size() == 0)
 		{
-			m_animationPlayListSS.push_back(m_defaultFrameSS);
+			m_animationPlayListSS.push_back(m_defAnimSS);
 		}
 	}
 
 	void Body::nextFrameSS()
 	{
-		m_frameSS++; //Increases the frame to go to the next one. 
-		if (m_frameSS >= m_vAnimationSS[m_animationPlayListSS[0]].size()) //If it reaches the end of the animation...
+		verifPlaylistEmptySS();
+		if (m_clockAnimSS.getElapsedTime() >= m_vAnimationSS[m_animationPlayListSS[0]]._time)
 		{
-			m_frameSS = 0; //... it resets the counter.
-			nextAnimationSS();//... and switches to the next animation ...
+			m_clockAnimSS.restart();
+			m_frameSS++; //Increases the frame to go to the next one. 
+			if (m_frameSS >= m_vAnimationSS[m_animationPlayListSS[0]].size()) //If it reaches the end of the animation...
+			{
+				m_frameSS = 0; //... it resets the counter.
+				nextAnimationSS();//... and switches to the next animation ...
+			}
+		}
+	}
+
+	void Body::verifPlaylistEmptySS()
+	{
+		if (m_animationPlayListSS.empty())
+		{
+			playAnimationSS(m_defAnimSS);
 		}
 	}
 
 
 	Vec2i Body::getCoordTex()
 	{
+		verifPlaylistEmptyTex();
 		return  m_vAnimationTex[m_animationPlayListTex[0]]._vCoord[m_frameTex];
 	}
 
@@ -146,19 +177,31 @@ namespace DeltaEngine
 	void Body::nextAnimationTex()
 	{
 		m_animationPlayListTex.erase(m_animationPlayListTex.begin()); //Delete the first element.
-		if (m_animationPlayListTex.size() == 0) //If there's any more animations...
+		if (m_animationPlayListTex.size() == 0)
 		{
-			m_animationPlayListTex.push_back(m_defaultFrameTex);
+			m_animationPlayListTex.push_back(m_defAnimSS);
 		}
 	}
 
 	void Body::nextFrameTex()
 	{
-		m_frameTex++; //Increases the frame to go to the next one. 
-		if (m_frameTex >= m_vAnimationTex[m_animationPlayListTex[0]].size()) //If it reaches the end of the animation...
+		verifPlaylistEmptyTex();
+		if (m_clockAnimTex.getElapsedTime() >= m_vAnimationTex[m_animationPlayListTex[0]]._time)
 		{
-			m_frameTex = 0; //... it resets the counter.
-			nextAnimationTex();//... and switches to the next animation ...
+			m_frameTex++; //Increases the frame to go to the next one. 
+			if (m_frameTex >= m_vAnimationTex[m_animationPlayListTex[0]].size()) //If it reaches the end of the animation...
+			{
+				m_frameTex = 0; //... it resets the counter.
+				nextAnimationTex();//... and switches to the next animation ...
+			}
+		}
+	}
+
+	void Body::verifPlaylistEmptyTex()
+	{
+		if (m_animationPlayListTex.empty())
+		{
+			playAnimationTex(m_defAnimTex);
 		}
 	}
 

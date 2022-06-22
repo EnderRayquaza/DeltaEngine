@@ -27,7 +27,6 @@ namespace DeltaEngine
 	protected:
 		std::vector<Vertex> m_vVertex{};
 		uint m_aabbMargin{0};
-		AABB m_aabb{};
 	};
 
 	bool pointInShape(Vertex const point, std::vector<Vertex> const);

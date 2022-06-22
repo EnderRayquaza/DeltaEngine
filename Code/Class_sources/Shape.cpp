@@ -4,34 +4,36 @@ namespace DeltaEngine
 {
 	AABB findAABBfromVertices(const std::vector<Vertex>& vVtx, uint margin)
 	{
-		int xmin{ (int)INFINITY }, xmax{ 0 }, ymin{ (int)INFINITY }, ymax{ 0 };
+		int xmin{ (int)vVtx[0].x }, xmax{ 0 }, ymin{ (int)vVtx[0].y }, ymax{ 0 };
 		for (auto& vtx : vVtx)
 		{
+			//std::cout << "\"vtx\" : " << vtx.x << "/" << vtx.y << std::endl;
 			if (vtx.x < xmin) xmin = vtx.x;
 			if (vtx.x > xmax) xmax = vtx.x;
 			if (vtx.y < ymin) ymin = vtx.y;
 			if (vtx.y > ymax) ymax = vtx.y;
 		}
-		return AABB{ xmin - (int)margin, ymin - (int)margin, xmax + (int)margin, ymax + (int)margin };
+		//std::cout << std::endl;
+		return AABB{ xmin - (int)margin, ymin - (int)margin,
+			(xmax - xmin) + (int)margin, (ymax - ymin) + (int)margin };
 	}
 
 	Shape::Shape(jsonStr path) :Loadable(path)
 	{}
 
-	Shape::Shape(std::vector<Vertex> vVtx, uint margin): m_vVertex{ vVtx }, m_aabbMargin{ margin },
-		m_aabb{ findAABBfromVertices(vVtx, margin) }
+	Shape::Shape(std::vector<Vertex> vVtx, uint margin): m_vVertex{ vVtx }, m_aabbMargin{ margin }
 	{}
 
 	bool Shape::load()
 	{
 		json j{ returnJson(_path) };
-		for (size_t i{ 0 }; i < (size_t)j["size"]; i++)
+		for (auto& vtx : j["vertex"])
 		{
-			m_vVertex.push_back(Vertex{j["vertex"][i][0], j["vertex"][i][1]});
+			m_vVertex.push_back(Vertex{ vtx[0], vtx[1] });
 		}
 		m_aabbMargin = j["margin"];
-		m_aabb = findAABBfromVertices(m_vVertex, m_aabbMargin);
-		return false;
+		std::cout << std::endl;
+		return true;
 	}
 
 	size_t Shape::nbVtx()
@@ -52,7 +54,9 @@ namespace DeltaEngine
 		for (auto& vtx : vertices)
 		{
 			vtx += pos;
+			//std::cout << "vtx : " << vtx.x << "/" << vtx.y << std::endl;
 		}
+		//std::cout << std::endl;
 		return vertices;
 	}
 
@@ -113,14 +117,23 @@ namespace DeltaEngine
 				vtx = vVtx[i], vtx1 = vVtx[i + 1];
 			else
 				vtx = vVtx[i], vtx1 = vVtx[0];
-			Vec2f aa{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
-				ab{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
-			double det{ (aa.x - ab.y) * (aa.y - ab.x) }; //Calculs their determinant.
-			if (det >= 0) //Verifies the sign of the determinant
+			/*if (500 < pt.x and pt.x < 550 and 50 < pt.y and pt.y < 250)
 			{
-				return true;
+			std::cout << "point pt : " << pt.x << "/" << pt.y << std::endl;
+			std::cout << "point vtx : " << vtx.x << "/" << vtx.y << std::endl;
+			std::cout << "point vtx1 : " << vtx1.x << "/" << vtx1.y << std::endl;
+			}*/
+
+			Vec2f side{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
+				vPt{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
+			double det{ (side.x * -vPt.y) - (-side.y * vPt.x) }; //Calculs their determinant.
+			if (det > 0) //Verifies the sign of the determinant
+			{
+				//std::cout << "det > 0" << std::endl;
+				return false;
 			}
+			//std::cout << "next point " << std::endl << std::endl;
 		}
-		return false;
+		return true;
 	}
 }

@@ -9,10 +9,14 @@ namespace DeltaEngine
 	{
 		Animation() = default;
 		Animation(jsonStr);
+		Animation(json);
 
 		bool load();
+		bool loadByJson();
 		size_t size();
 
+		json _j{};
+		sf::Time _time{};
 		std::vector<Vec2i> _vCoord{};
 	};
 }

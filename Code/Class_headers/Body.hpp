@@ -31,10 +31,12 @@ namespace DeltaEngine
 		void playAnimationSS(uint index, bool force = false); //Add an animation to the playlist.
 		void nextAnimationSS(); //Switch to the next animation in the playlist.
 		void nextFrameSS(); //Switch to the next frame.
+		void verifPlaylistEmptySS(); //Verifies if the playlist is empty or not and put the default animation if.
 		Vec2i getCoordTex();
 		void playAnimationTex(uint index, bool force = false); //Add an animation to the playlist.
 		void nextAnimationTex(); //Switch to the next animation in the playlist.
 		void nextFrameTex(); //Switch to the next frame.
+		void verifPlaylistEmptyTex(); //Verifies if the playlist is empty or not and put the default animation if.
 
 		///Physic func.
 		Vec2f moveTest(float time) const; //Return the future velocity without modifying the body stats.
@@ -61,11 +63,13 @@ namespace DeltaEngine
 		vec_uint m_animationPlayListSS{}, m_animationPlayListTex{}; //(pl)The list with the odrer of the animations.
 		std::vector<Animation> m_vAnimationSS{}, m_vAnimationTex{}; //(vA) The containers of all Animation of the Body.
 		uint m_frameSS{ 0 }, m_frameTex{ 0 }; //(AF) The current Frame of the Animation.
-		uint m_defaultFrameSS{}, m_defaultFrameTex{}; //(DefF) The DEFault Frame displayed (index of vA).
+		uint m_defAnimSS{}, m_defAnimTex{}; //(DefA) The DEFault Animation displayed.
+		sf::Clock m_clockAnimSS{}, m_clockAnimTex{};
 
 		///Physic Members
 		ulong m_mass{ 0 }, m_density{ 0 }, m_friction{ 0 }, m_restitution{ 0 }; //For speed moving, evolution in fluids, tailback or bouncing.
 		Vec2f m_force{ 0, 0 }, m_impulse{ 0, 0 }, m_velocity{ 0, 0 }; //Forces stay after implementation, impulses disappear. Both increase the velocity of the body.
+	public:
 		moveType m_moveType{ moveType::Static }; //Define if the body can move, and how it can.
 		collisionType m_collisionType{ collisionType::Nothing }; //To define which collides with it.
 		collisionTargets m_collisionTarget{}; //To define with which it collides.

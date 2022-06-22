@@ -42,12 +42,26 @@ namespace DeltaEngine
 	template <typename T, typename U>
 	sf::Vector2<T> operator/(const sf::Vector2<T>& lhs, const U rhs)
 	{
-		return lhs * (double)(1 / rhs);
+		if(rhs != 0)
+			return lhs * (double)(1 / rhs);
+		else
+		{
+			//std::cerr << "Error division by 0" << std::endl;
+			return lhs;
+		}
 	}
 
 	template <typename T, typename U>
 	sf::Vector2<T> operator/(const U lhs, const sf::Vector2<T>& rhs)
 	{
-		return rhs / lhs;
+		if (lhs != 0)
+		{
+			return rhs / lhs;
+		}
+		else
+		{
+			//std::cerr << "Error division by 0" << std::endl;
+			return rhs;
+		}
 	}
 }

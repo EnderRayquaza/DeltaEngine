@@ -15,23 +15,25 @@ namespace DeltaEngine
 		m_nbDisplayScreen = uint(j["nbDS"]);
 
 		m_sizeScreen = Vec2i{ j["size"][0], j["size"][1] };
-		m_window.create(sf::VideoMode(m_sizeScreen.x, m_sizeScreen.y), m_name);
-		m_bgColor = sf::Color{ sf::Uint8(j["bgColor"][0]), sf::Uint8(j["bgColor"][0]),
-			sf::Uint8(j["bgColor"][0]) };
+		_window.create(sf::VideoMode(m_sizeScreen.x, m_sizeScreen.y), m_name);
+		m_bgColor = sf::Color{ sf::Uint8(j["bgColor"][0]), sf::Uint8(j["bgColor"][1]),
+			sf::Uint8(j["bgColor"][2]) };
 		return true;
 	}
 
 	void Game::init()
 	{
-		m_window.setTitle(m_name);
+		_window.setTitle(m_name);
 		sf::Image ico{};
 		if (!ico.loadFromFile(m_icoPath))
 		{
+			std::cout << "Ico not loaded" << std::endl;
 		}
-		m_window.setIcon(ico.getSize().x, ico.getSize().y, ico.getPixelsPtr());
+		_window.setIcon(ico.getSize().x, ico.getSize().y, ico.getPixelsPtr());
+
 		m_mngBody.loadItem();
 		m_mngSS.loadItem();
-		m_mngTex.loadItem();
+		//m_mngTex.loadItem();
 	}
 
 	void Game::step(double time)
@@ -40,10 +42,14 @@ namespace DeltaEngine
 		draw();
 
 		//Physic
-		for (size_t i{ 0 }; i < m_mngArea.size(); i++)
+		for (size_t i{0}; i < m_mngArea.size(); i++)
 		{
 			m_mngArea[i].step(0);
 			m_mngArea[i].step(time);
+		}
+		for (size_t i{ 0 }; i < m_mngBody.size(); i++)
+		{
+			m_mngBody[i].move(time);
 		}
 	}
 
@@ -53,19 +59,23 @@ namespace DeltaEngine
 		sf::Sprite spr{};
 		rtTex.create(m_sizeScreen.x, m_sizeScreen.y);
 		rtDShape.create(m_sizeScreen.x, m_sizeScreen.y);
+		rtTamp.create(m_sizeScreen.x, m_sizeScreen.y);
 
-		m_window.clear();
-		rtTex.clear(sf::Color::Transparent);
-		rtDShape.clear(sf::Color::Transparent);
-		rtTamp.clear(sf::Color::Transparent);
+		_window.clear(m_bgColor);
 
 		for (size_t i{ 0 }; i < m_nbDisplayScreen; i++)
 		{
+			rtTex.clear(sf::Color::Transparent);
+			rtDShape.clear(sf::Color::Transparent);
+			rtTamp.clear(sf::Color::Transparent);
+
+			//std::cout << "current ds :" << i << std::endl;
 			for (size_t j{ 0 }; j < m_mngBody.size(); j++)
 			{
 				Body& body{ m_mngBody[j] };
 				if (body.m_displayScreen == i)
 				{
+					//std::cout << "current body :" << body._id.intKey1 << "-" << body._id.intKey2 << std::endl;
 					if (_textureOn)
 					{
 						drawBody(body, spr, rtTex);
@@ -83,18 +93,18 @@ namespace DeltaEngine
 
 			rtTex.display(); //Updates the RenderTexture.
 			spr.setTexture(rtTex.getTexture(), true); //Puts it on the sprite.
-			rtTamp.draw(spr, sf::BlendAdd); //And draws it on the tampon texture.
+			rtTamp.draw(spr); //And draws it on the tampon texture.
 
 			rtDShape.display(); //Updates it.
 			spr.setTexture(rtDShape.getTexture(), true); //Puts it on the sprite.
-			rtTamp.draw(spr, sf::BlendAdd); //And draws it on the tampon texture.
+			rtTamp.draw(spr); //And draws it on the tampon texture.
 
 			rtTamp.display(); //Updates it.
 			spr.setTexture(rtTamp.getTexture(), true); //Puts it on the sprite.
-			m_window.draw(spr, sf::BlendAdd); //And draws it on the window.
+			_window.draw(spr); //And draws it on the window.
 		}
 
-		m_window.display(); //Updates the window.
+		_window.display(); //Updates the window.
 	}
 
 	void Game::drawBody(Body& body, sf::Sprite& spr, sf::RenderTexture& rtTex)
@@ -135,10 +145,4 @@ namespace DeltaEngine
 
 		rtDShape.draw(convShape); //Draws the shape on the RenderTexture.
 	}
-
-	bool Game::isWindowOpen() const
-	{
-		return m_window.isOpen();
-	}
-
 }

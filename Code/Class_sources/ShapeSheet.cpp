@@ -17,6 +17,7 @@ namespace DeltaEngine
 		}
 		else
 		{
+			std::cerr << "Error no shape found" << std::endl;
 			return m_mngShape[-1];
 		}
 	}
@@ -24,9 +25,10 @@ namespace DeltaEngine
 	bool ShapeSheet::load()
 	{
 		json j{ returnJson(_path) };
-		for (size_t i{0}; i < (size_t)j["size"]; i++)
+		m_size = Vec2i{ j["size"][0], j["size"][1] };
+		for (auto& shape : j["shapes"])
 		{
-			Shape s{ (jsonStr)j["shapes"][i] };
+			Shape s{ (jsonStr)shape };
 			m_mngShape.addItem(s);
 		}
 		m_mngShape.loadItem();
