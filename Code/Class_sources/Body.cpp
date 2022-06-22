@@ -37,8 +37,8 @@ namespace DeltaEngine
 		json j{ returnJson(_path) };
 
 		//Basic members
-		m_pos = Vertex{ (int)j["pos"][0], (int)j["pos"][1] };
-		m_center = Vertex{ (int)j["center"][0], (int)j["center"][1] };
+		m_pos = Vertex{ (float)j["pos"][0], (float)j["pos"][1] };
+		m_center = Vertex{ (float)j["center"][0], (float)j["center"][1] };
 		m_angle = (double)j["angle"];
 		m_displayScreen = (uint)j["displayScreen"];
 
@@ -95,7 +95,7 @@ namespace DeltaEngine
 			std::cout << "acc : " << acc.x << "/" << acc.y << std::endl;
 			std::cout << "vel : " << m_velocity.x << "/" << m_velocity.y << std::endl << std::endl;
 		}
-		m_pos += Vec2i{ m_velocity };
+		m_pos += m_velocity;
 	}
 
 	void Body::rotate(int angle, bool inRad)

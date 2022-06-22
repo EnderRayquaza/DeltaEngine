@@ -47,8 +47,8 @@ namespace DeltaEngine
 		//Rotation
 		for (auto& vtx : vertices)
 		{
-			vtx = { (int)(vtx.x * cos(angle) - vtx.y * sin(angle)),
-					(int)(vtx.y * cos(angle) - vtx.x * sin(angle)) };
+			vtx = { (float)(vtx.x * cos(angle) - vtx.y * sin(angle)),
+					(float)(vtx.y * cos(angle) - vtx.x * sin(angle)) };
 		}
 		//Moving
 		for (auto& vtx : vertices)
