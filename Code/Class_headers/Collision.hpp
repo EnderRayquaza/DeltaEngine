@@ -15,8 +15,6 @@ namespace DeltaEngine
 		~Collision() = default;
 
 		virtual bool isThereCollision(double time)=0;
-		virtual void begin() = 0;
-		virtual void end() = 0;
 		friend class Area;
 		friend class Impact;
 
@@ -33,8 +31,6 @@ namespace DeltaEngine
 		~Contact() = default;
 
 		virtual bool isThereCollision(double time);
-		virtual void begin();
-		virtual void end();
 		friend class Area;
 
 	protected:
@@ -49,8 +45,6 @@ namespace DeltaEngine
 		~Impact() = default;
 
 		virtual bool isThereCollision(double time);
-		virtual void begin();
-		virtual void end();
 		virtual void solve(bool pre_solve = false);
 		friend class Area;
 

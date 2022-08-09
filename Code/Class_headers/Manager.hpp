@@ -36,6 +36,7 @@ namespace DeltaEngine
 					return item;
 				}
 			}
+			std::cerr << "Error : object not in the manager !" << std::endl;
 			return m_items[-1];
 		}
 

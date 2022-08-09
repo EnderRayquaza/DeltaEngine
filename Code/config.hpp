@@ -66,7 +66,6 @@ namespace DeltaEngine
 	};
 
 	typedef std::vector<collisionType> collisionTargets;
-
 }
 
 /*

@@ -6,6 +6,10 @@ namespace DeltaEngine
 {
 	json returnJson(jsonStr const jsonPath); // Returns a json array from a .json file.
 
+	double det(Vec2f const v, Vec2f const u);
+
+	bool segmentCut(Vertex, Vertex, Vertex, Vertex);
+
 	template <typename T>
 	bool inVector(std::vector<T>& vec, T& item)
 	{
@@ -23,6 +27,16 @@ namespace DeltaEngine
 		}
 	}
 
+}
+
+	template <typename T, typename U>
+	sf::Vector2<T> operator*(const sf::Vector2<T>& lhs, const sf::Vector2<U>& rhs)
+{
+	sf::Vector2<T> vec{};
+	vec.x = lhs.x * rhs.x;
+	vec.y = lhs.y * rhs.y;
+	return vec;
+}
 
 	template <typename T, typename U>
 	sf::Vector2<T> operator*(const sf::Vector2<T>& lhs, const U rhs)
@@ -37,6 +51,15 @@ namespace DeltaEngine
 	sf::Vector2<T> operator*(const U lhs, const sf::Vector2<T>& rhs)
 	{
 		return rhs * lhs;
+	}
+
+	template <typename T, typename U>
+	sf::Vector2<T> operator/(const sf::Vector2<T>& lhs, const sf::Vector2<U>& rhs)
+	{
+		sf::Vector2<T> vec{};
+		vec.x = lhs.x / rhs.x;
+		vec.y = lhs.y / rhs.y;
+		return vec;
 	}
 
 	template <typename T, typename U>
@@ -64,4 +87,3 @@ namespace DeltaEngine
 			return rhs;
 		}
 	}
-}

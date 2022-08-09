@@ -18,6 +18,26 @@ namespace DeltaEngine
 			(xmax - xmin) + (int)margin, (ymax - ymin) + (int)margin };
 	}
 
+	Vec2f whichSideCutted(const Shape shape, Vertex pos, double angle, Vertex centerA, Vertex centerB)
+	{
+		std::vector<Vertex> vVertex{ shape.getVertices(pos, centerA-pos, angle) };
+		for (size_t i{ 0 }; i < vVertex.size(); i++)
+		{
+			Vertex vtx, vtx1;
+			if (i + 1 < vVertex.size())
+				vtx = vVertex[i], vtx1 = vVertex[i + 1];
+			else
+				vtx = vVertex[i], vtx1 = vVertex[0];
+
+			if (segmentCut(vtx, vtx1, centerA, centerB)) //Verifies the sign of the determinant
+			{
+				return { vtx1 - vtx };
+			}
+		}
+		std::cout << "no segment was cutted..." << std::endl;
+		return { 0, 0 };
+	}
+
 	Shape::Shape(jsonStr path) :Loadable(path)
 	{}
 
@@ -29,6 +49,7 @@ namespace DeltaEngine
 		json j{ returnJson(_path) };
 		for (auto& vtx : j["vertex"])
 		{
+			//std::cout << "vtx : " << vtx[0] << "/" << vtx[1] << std::endl;
 			m_vVertex.push_back(Vertex{ vtx[0], vtx[1] });
 		}
 		m_aabbMargin = j["margin"];
@@ -36,33 +57,31 @@ namespace DeltaEngine
 		return true;
 	}
 
-	size_t Shape::nbVtx()
+	size_t Shape::nbVtx() const
 	{
 		return m_vVertex.size();
 	}
 
-	std::vector<Vertex> Shape::getVertices(Vertex pos, double angle) const
+	std::vector<Vertex> Shape::getVertices(Vertex pos, Vertex center, double angle) const
 	{
 		std::vector<Vertex> vertices{ m_vVertex };
 		//Rotation
 		for (auto& vtx : vertices)
 		{
-			vtx = { (float)(vtx.x * cos(angle) - vtx.y * sin(angle)),
-					(float)(vtx.y * cos(angle) - vtx.x * sin(angle)) };
+			vtx = { (float)((vtx.x - center.x) * cos(angle) - (vtx.y - center.y) * sin(angle) + center.x),
+					(float)((vtx.y - center.y) * cos(angle) + (vtx.x - center.x) * sin(angle) + center.y) };
 		}
 		//Moving
 		for (auto& vtx : vertices)
 		{
 			vtx += pos;
-			//std::cout << "vtx : " << vtx.x << "/" << vtx.y << std::endl;
 		}
-		//std::cout << std::endl;
 		return vertices;
 	}
 
-	AABB Shape::getAABB(Vertex pos, double angle) const
+	AABB Shape::getAABB(Vertex pos, Vertex center, double angle) const
 	{
-		return findAABBfromVertices(getVertices(pos, angle), m_aabbMargin);
+		return findAABBfromVertices(getVertices(pos, center, angle), m_aabbMargin);
 	}
 
 	bool Shape::pointIn(Vertex pt) const
@@ -124,8 +143,7 @@ namespace DeltaEngine
 			std::cout << "point vtx1 : " << vtx1.x << "/" << vtx1.y << std::endl;
 			}*/
 
-			Vec2f side{ float(vtx1.x - vtx.x), float(vtx1.y - vtx.y) },
-				vPt{ float(pt.x - vtx.x), float(pt.y - vtx.y) }; //Calculs the vector vtx;vtx+1 and vtx;pt.
+			Vec2f side{ vtx1 - vtx }, vPt{ pt - vtx }; //Calculs the vector vtx;vtx+1 and vtx;pt.
 			double det{ (side.x * -vPt.y) - (-side.y * vPt.x) }; //Calculs their determinant.
 			if (det > 0) //Verifies the sign of the determinant
 			{

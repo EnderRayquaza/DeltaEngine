@@ -17,14 +17,17 @@ namespace DeltaEngine
 		~Body() = default;
 
 		///Accessors.
+		Vec2f get_velocity() const;
 		void set_pos(Vertex position);
 		void set_angle(double angle, bool inRad = true);
 		void set_displayScreen(uint ds);
+		void set_defAnimSS(uint id);
+		void set_defAnimTex(uint id);
 
 		///Basic func.
 		bool load(); //Load the stats of the body by a file. Return the success.
 		void move(float time); //Move the body with its velocity and its forces/impulses.
-		void rotate(int angle, bool inRad = true); //Rotate the body (in the anti-clockwise).
+		void rotate(double angle, bool inRad = true); //Rotate the body (in the anti-clockwise).
 
 		///Render func.
 		Vec2i getCoordShape();
@@ -39,6 +42,7 @@ namespace DeltaEngine
 		void verifPlaylistEmptyTex(); //Verifies if the playlist is empty or not and put the default animation if.
 
 		///Physic func.
+		Vertex get_center(bool relative = false);
 		Vec2f moveTest(float time) const; //Return the future velocity without modifying the body stats.
 		void applyForce(Vec2f force); //Apply a force to the body.
 		void applyImpulse(Vec2f impulse); //Apply an impulse to the body.
@@ -53,7 +57,7 @@ namespace DeltaEngine
 	protected:
 		///Basic Members
 		Vertex m_pos{}; //The position of the body (in px).
-		Vertex /*Not sure about useness.*/ m_center{}; //The center of the body.
+		Vertex m_center{}; //The center of the body.
 		double m_angle{ 0 }; //The angle of the body (in rad).
 		uint m_displayScreen{ 0 }; //The DS where the body is.
 
@@ -67,7 +71,7 @@ namespace DeltaEngine
 		sf::Clock m_clockAnimSS{}, m_clockAnimTex{};
 
 		///Physic Members
-		ulong m_mass{ 0 }, m_density{ 0 }, m_friction{ 0 }, m_restitution{ 0 }; //For speed moving, evolution in fluids, tailback or bouncing.
+		double m_mass{ 0 }, m_density{ 0 }, m_friction{ 0 }, m_restitution{ 0 }; //For speed moving, evolution in fluids, tailback or bouncing.
 		Vec2f m_force{ 0, 0 }, m_impulse{ 0, 0 }, m_velocity{ 0, 0 }; //Forces stay after implementation, impulses disappear. Both increase the velocity of the body.
 	public:
 		moveType m_moveType{ moveType::Static }; //Define if the body can move, and how it can.

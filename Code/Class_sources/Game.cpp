@@ -33,7 +33,7 @@ namespace DeltaEngine
 
 		m_mngBody.loadItem();
 		m_mngSS.loadItem();
-		//m_mngTex.loadItem();
+		m_mngTex.loadItem();
 	}
 
 	void Game::step(double time)
@@ -84,9 +84,8 @@ namespace DeltaEngine
 					{
 						drawDebugShape(body, rtDShape);
 					}
-
-					body.nextFrameTex();
 					body.nextFrameSS();
+					body.nextFrameTex();
 				}
 
 			}
@@ -110,11 +109,20 @@ namespace DeltaEngine
 	void Game::drawBody(Body& body, sf::Sprite& spr, sf::RenderTexture& rtTex)
 	{
 		spr.setTexture(m_mngTex[body.m_indexTexMng], true); //Sets the Texture to the Sprite.
-		sf::IntRect iR{ body.getCoordTex(),	m_mngTex[body.m_indexTexMng].get_frameSize() }; //Defines the TextureRect.
+		sf::IntRect iR{ body.getCoordTex() * m_mngTex[body.m_indexTexMng].get_frameSize(),
+			m_mngTex[body.m_indexTexMng].get_frameSize() }; //Defines the TextureRect.
 		spr.setTextureRect(iR); //Applies it.
-		spr.setPosition((Vec2f)body.m_pos); //Sets the pos of the body.
-		spr.setRotation(body.m_angle); //Same for angle.
+		spr.setOrigin(body.m_center);
+		spr.setPosition(body.m_pos); //Sets the pos of the body.
+		spr.setRotation(body.m_angle*RAD2DEG); //Same for angle.
+		spr.setScale(m_mngTex[body.m_indexTexMng].get_scale());
+
 		rtTex.draw(spr); //Draws the sprite on the RenderTexture.
+
+		spr.setOrigin(0, 0);
+		spr.setPosition({ 0, 0 });
+		spr.setRotation(0);
+		spr.setScale(1, 1);
 	}
 
 	void Game::drawDebugShape(Body& body, sf::RenderTexture& rtDShape)
@@ -123,7 +131,7 @@ namespace DeltaEngine
 		sf::ConvexShape convShape{ shape.nbVtx() }; //Defines the shape for SFML.
 		for (size_t i{ 0 }; i < shape.nbVtx(); i++) //Sets the points at their pos.
 		{
-			convShape.setPoint(i, (Vec2f)shape.getVertices(body.m_pos, body.m_angle)[i]);
+			convShape.setPoint(i, (Vec2f)shape.getVertices(body.m_pos, body.get_center(true), body.m_angle)[i]);
 		}
 		convShape.setFillColor(sf::Color::Transparent); //Colors the shape.
 		convShape.setOutlineThickness(2.f); //Idem
